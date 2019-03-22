@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css?version=1">
+        <script src="jquery.min.js?version=1"></script>
+        <script src="seedrandom.min.js?version=1"></script>
+        <script src="base.js?version=1"></script>
+        <script src="utils.js?version=1"></script>
+        <script src="pieces.js?version=1"></script>
+        <script src="grid.js?version=1"></script>
+        <script src="keyboard.js?version=1"></script>
+
+        <script>
+            $(function()
+            {
+                Tetris.init()
+            })
+        </script>
+    </head>
+    
+    <body>
+        <div id='main'>
+            <div id='main_container'>
+                <div id="topbar">
+                    <div id='level'>
+                        <div id='level_text'>Level: 0</div>
+                    </div>
+                    <div id='score'>
+                        <div id='score_text'>Score: 0</div>
+                    </div>
+                </div>
+                <div id='game' width=800 height=600></div>
+                <div id='sidebar'>
+                    <div id='next_pieces'>
+                        <div class='next_piece'><div class='next_piece_element'></div></div>
+                        <div class='next_piece'><div class='next_piece_element'></div></div>
+                        <div class='next_piece'><div class='next_piece_element'></div></div>
+                        <div class='next_piece'><div class='next_piece_element'></div></div>
+                        <div class='next_piece'><div class='next_piece_element'></div></div>
+                        <div class='next_piece'><div class='next_piece_element'></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,166 @@
+body, html
+{
+    color: white;
+    background-color: #1e1e1e;
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    max-height: 100%;
+    max-width: 100%;
+    font-family: monospace;
+}
+
+#main
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#main_container
+{
+    display: grid;
+    width: fit-content;
+    height: fit-content;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 0fr 0fr 0fr;
+    grid-template-areas:
+        "... topbar ... ..."
+        "main main main sidebar"
+            "main main main ..."
+            "main main main ...";
+    margin-top: 100px;
+}
+
+#game
+{
+    position: relative;
+    background-color: #2f3237;
+    width: 360px;
+    height: 720px;
+    overflow: hidden;
+
+    grid-area: main;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+}
+
+#sidebar
+{
+    margin-left: 1rem;
+    grid-area: sidebar;
+}
+
+#topbar
+{
+    margin-bottom: 1.4rem;
+    grid-area: topbar;
+    text-align: center;
+}
+
+.block
+{
+    position: absolute;
+    background-color: transparent;
+    box-shadow: inset 0 0 1px #1d1d1d;
+}
+
+.piece_container
+{
+    position: absolute;
+    z-index: 999;
+    transform-origin: center
+}
+
+.piece
+{
+    position: relative;
+}
+
+.piece_block
+{
+    position: absolute;
+    box-shadow: inset 0 0 2px rgb(15, 41, 102);
+    border-radius: 25%;
+}
+
+.ghost .piece_block
+{
+    background-color: rgb(0, 0, 0);
+    opacity: 0.3;
+}
+
+.piece_type_stick
+{
+    background: linear-gradient(rgb(53, 243, 243), #286b77);
+}
+
+.piece_type_periscope_right
+{
+    background: linear-gradient(rgb(255, 189, 66), #705e20);
+}
+
+.piece_type_periscope_left
+{
+    background: linear-gradient(rgb(69, 69, 255), #1e2468);
+}
+
+.piece_type_dog_right
+{
+    background: linear-gradient(rgb(0, 255, 0), #1a522a);
+}
+
+.piece_type_dog_left
+{
+    background: linear-gradient(rgb(255, 62, 62), #421111);
+}
+
+.piece_type_square
+{
+    background: linear-gradient(rgb(255, 255, 101), #5a591c);
+}
+
+.piece_type_tee
+{
+    background: linear-gradient(rgb(139, 24, 139), #41132c);
+}
+
+#score_text
+{
+    font-size: 1.2rem;
+}
+
+#level
+{
+    margin-bottom: 0.5rem;
+}
+
+#level_text
+{
+    font-size: 1.2rem;
+}
+
+.cleared_block
+{
+    background: linear-gradient(rgb(255, 255, 255), #264c55);
+    box-shadow: 0 0 4px rgb(212, 218, 233); 
+    transition: opacity 500ms;
+    opacity: 0;
+}
+
+.next_piece
+{
+    width: 100px;
+    height: 100px;
+    box-shadow: inset 0 0 2px rgb(204, 204, 204);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.next_piece_element
+{
+    max-width: 80%;
+    max-height: 80%;
+}
