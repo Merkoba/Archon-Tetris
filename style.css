@@ -141,12 +141,11 @@ body, html
     font-size: 1.2rem;
 }
 
-.cleared_block
+.cleared_piece
 {
     background: linear-gradient(rgb(255, 255, 255), #264c55);
     box-shadow: 0 0 4px rgb(212, 218, 233); 
-    transition: opacity 500ms;
-    opacity: 0;
+    animation: fade_out 10ms linear forwards;
 }
 
 .next_piece
@@ -163,4 +162,21 @@ body, html
 {
     max-width: 80%;
     max-height: 80%;
+}
+
+.placed_main
+{
+    transition: top 500ms;
+}
+
+@keyframes fade_out 
+{
+    0% 
+    {
+        opacity: 1;
+    }
+    100% 
+    {
+        opacity: 0;
+    }
 }

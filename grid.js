@@ -51,5 +51,4 @@ Tetris.create_empty_grid_node = function()
 Tetris.set_grid_node_to_defaults = function(node)
 {
     node.used = false
-    node.element = undefined
 }

@@ -486,6 +486,8 @@ Tetris.on_piece_placed = async function()
             Tetris.ghost_piece.remove()
         }
 
+        Tetris.prepare_placed_piece(Tetris.current_element, Tetris.current_mode)
+
         for(let node of Tetris.current_nodes)
         {
             if(node[1] > Tetris.grid.length - 1)
@@ -496,7 +498,6 @@ Tetris.on_piece_placed = async function()
         }
         
         Tetris.stop_descent_timeout()
-        Tetris.separate_blocks(Tetris.current_element)
 
         for(let node of Tetris.current_nodes)
         {
@@ -505,7 +506,6 @@ Tetris.on_piece_placed = async function()
 
             let node2 = Tetris.grid[y][x]
             node2.used = true
-            node2.element = Tetris.get_block_at_position(x, y)
         }
 
         await Tetris.check_lines_cleared()
@@ -525,7 +525,7 @@ Tetris.move_down = function(from="generic")
 {
     Tetris.stop_descent_timeout()
 
-    let exposed_nodes = Tetris.get_exposed_nodes(Tetris.current_element, Tetris.current_nodes)
+    let exposed_nodes = Tetris.get_exposed_nodes(Tetris.current_nodes)
     let finish_after_move = false
     let move = true
     let all_above = true
@@ -718,15 +718,15 @@ Tetris.do_drop_piece = function()
 
 Tetris.update_piece_nodes = function()
 {
-    Tetris.current_nodes = Tetris.do_update_nodes(Tetris.current_piece, Tetris.current_element, Tetris.current_mode)
+    Tetris.current_nodes = Tetris.do_update_nodes(Tetris.current_element, Tetris.current_mode)
 }
 
 Tetris.update_ghost_nodes = function()
 {
-    Tetris.ghost_nodes = Tetris.do_update_nodes(Tetris.current_piece, Tetris.ghost_piece, Tetris.current_mode)
+    Tetris.ghost_nodes = Tetris.do_update_nodes(Tetris.ghost_piece, Tetris.current_mode)
 }
 
-Tetris.do_update_nodes = function(piece, element, mode)
+Tetris.do_update_nodes = function(element, mode)
 {
     let nodes = []
     let container_position = element.position()
@@ -776,7 +776,7 @@ Tetris.update_ghost_piece = function()
     
     for(let i=0; i<Tetris.num_vertical_blocks * 2; i++)
     {
-        let exposed_nodes = Tetris.get_exposed_nodes(Tetris.ghost_piece, Tetris.ghost_nodes)
+        let exposed_nodes = Tetris.get_exposed_nodes(Tetris.ghost_nodes)
 
         for(let node of exposed_nodes)
         {
@@ -818,8 +818,10 @@ Tetris.check_lines_cleared = async function()
 {
     let num_lines_cleared = 0
 
-    for(let row of Tetris.grid)
+    for(let i=0; i<Tetris.grid.length; i++)
     {
+        let row = Tetris.grid[i]
+
         let cleared = true
 
         for(let node of row)
@@ -834,14 +836,14 @@ Tetris.check_lines_cleared = async function()
         if(cleared)
         {
             num_lines_cleared += 1
-            await Tetris.clear_line(row)
+            await Tetris.clear_line(i)
             console.info("Line cleared")
         }
     }
 
     if(num_lines_cleared > 0)
     {
-        Tetris.check_empty_lines()
+        Tetris.make_placed_pieces_fall()
 
         let multiplier
 
@@ -876,30 +878,60 @@ Tetris.check_lines_cleared = async function()
     })
 }
 
-Tetris.clear_line = async function(row)
+Tetris.clear_line = async function(row_index)
 {
     return new Promise(async (resolve, reject) =>
     {
-        for(let node of row)
+        let row = Tetris.grid[row_index]
+
+        for(let x=0; x<row.length; x++)
         {
-            $(node.element).addClass("cleared_block")
+            let block = Tetris.get_block_at_position(x, row_index)
+
+            if(!block)
+            {
+                continue
+            }
+            
+            let container = $(block).closest(".piece_container")
+
+            if(container.length > 0)
+            {
+                Tetris.separate_blocks(container)
+                block = Tetris.get_block_at_position(x, row_index)
+            }
+            
+            $(block).addClass("cleared_piece")
             
             await async_timeout(function()
             {
-                $(node.element).remove()
-            }, 25)
+                $(block).remove()
+            }, 10)
             
-            node.used = false
-            node.element = undefined
+            Tetris.grid[row_index][x].used = false
         }
 
         resolve()
     })
 }
 
+Tetris.prepare_placed_piece = function(element, mode)
+{
+    element.addClass("placed_piece")
+    element.addClass("placed_main")
+    element.data("mode", mode)
+    element.data("top", element.position().top)
+    element.data("left", element.position().left)
+
+    element.find(".piece_block").each(function()
+    {
+        $(this).addClass("placed_block")
+    })
+}
+
 Tetris.separate_blocks = function(element)
 {
-    element.find(".piece_block").each(function()
+    $(element).find(".piece_block").each(function()
     {
         let position = $(this).position()
         let container = $(this).closest(".piece_container")
@@ -909,15 +941,17 @@ Tetris.separate_blocks = function(element)
         let left2 = piece_container_position.left + piece_element_position.left + position.left
 
         let block = $(this).clone()
+        block.addClass("placed_main")
         block.css('transform', `rotate(${0}deg)`)
         block.css("top", `${top2}px`)
         block.css("left", `${left2}px`)
-        block.addClass("placed_block")
+        block.data("top", top2)
+        block.data("left", left2)
 
         Tetris.game.append(block)
     })
 
-    element.remove()
+    $(element).remove()
 }
 
 Tetris.get_block_at_position = function(x, y)
@@ -927,20 +961,18 @@ Tetris.get_block_at_position = function(x, y)
     let left = 0 + ((1 + x) * Tetris.block_size) - half_block
     let found = false
 
-    $(".piece_block.placed_block").each(function()
+    $(".placed_block").each(function()
     {
         if($(this).hasClass("cleared_block"))
         {
             return true
         }
 
-        let position = $(this).position()
-        let top2 = Math.round(position.top)
-        let left2 = Math.round(position.left)
+        let position = Tetris.get_placed_block_position(this)
 
-        if(top2 < top && ((top2 + Tetris.block_size) > top))
+        if(position.top < top && ((position.top + Tetris.block_size) > top))
         {
-            if(left2 < left && ((left2 + Tetris.block_size) > left))
+            if(position.left < left && ((position.left + Tetris.block_size) > left))
             {
                 found = this
                 return false
@@ -951,58 +983,7 @@ Tetris.get_block_at_position = function(x, y)
     return found
 }
 
-Tetris.check_empty_lines = function(row)
-{
-    let blocks_above = false
-
-    for(let i=Tetris.grid.length-1; i>=0; i--)
-    {
-        let row = Tetris.grid[i]
-        let empty = true
-
-        for(let i2=0; i2<row.length; i2++)
-        {
-            let node = row[i2]
-
-            if(node.used)
-            {
-                empty = false
-                break
-            }
-        }
-
-        if(!empty)
-        {
-            blocks_above = true
-        }
-    }
-
-    if(blocks_above)
-    {
-        Tetris.make_blocks_fall()
-    }
-
-    return true
-}
-
-Tetris.make_blocks_fall = function()
-{
-    console.info("Making blocks fall")
-    for(let row of Tetris.grid)
-    {
-        for(let node of row)
-        {
-            if(node.element)
-            {
-                Tetris.drop_placed_block($(node.element))
-            }
-        }
-    }
-
-    Tetris.refresh_grid_nodes()
-}
-
-Tetris.refresh_grid_nodes = function()
+Tetris.make_placed_pieces_fall = function()
 {
     for(let y=0; y<Tetris.grid.length; y++)
     {
@@ -1010,56 +991,107 @@ Tetris.refresh_grid_nodes = function()
 
         for(let x=0; x<row.length; x++)
         {
-            let node = row[x]
-            Tetris.set_grid_node_to_defaults(node)
-            let element = Tetris.get_block_at_position(x, y)
-
-            if(element)
+            if(!row[x].used)
             {
-                node.used = true
-                node.element = element
+                continue
+            }
+
+            let block = Tetris.get_block_at_position(x, y)
+
+            if(!block)
+            {
+                continue
+            }
+
+            let element
+            let container = $(block).closest(".placed_piece")
+            
+            if(container.length > 0)
+            {
+                element = container
+            }
+            
+            else
+            {
+                element = block
+            }
+
+            for(let i=0; i<Tetris.grid.length; i++)
+            {
+                let nodes = Tetris.get_placed_piece_nodes(element)
+                let exposed_nodes = Tetris.get_exposed_nodes(nodes)
+                let move = true
+
+                for(let node of exposed_nodes)
+                {
+                    let x = node[0]
+                    let y = node[1]
+                    let y2 = y - 1
+                
+                    if(y === 0)
+                    {
+                        move = false
+                        break
+                    }
+                
+                    let node2 = Tetris.grid[y2][x]
+    
+                    if(node2.used)
+                    {
+                        move = false
+                        break
+                    }
+                }
+
+                if(move)
+                {
+                    let new_top = Tetris.get_position_data(element).top + Tetris.block_size
+                    $(element).css("top", `${new_top}px`)
+                    $(element).data("top", new_top)
+
+                    let new_nodes = []
+
+                    for(let node of nodes)
+                    {
+                        new_nodes.push([node[0], node[1] - 1])
+                        Tetris.grid[node[1]][node[0]].used = false
+                    }
+
+                    for(let node of new_nodes)
+                    {
+                        Tetris.grid[node[1]][node[0]].used = true
+                    }
+                }
+
+                else
+                {
+                    break
+                }
             }
         }
     }
 }
 
-Tetris.get_placed_block_node = function(element)
+Tetris.get_placed_piece_nodes = function(element)
 {
-    let position = element.position()
-    let top = Math.round(position.top)
-    let left = Math.round(position.left)
-    let x = Math.round(left / Tetris.block_size)
-    let y = Tetris.num_vertical_blocks - Math.round(top / Tetris.block_size) - 1
+    let nodes = []
 
-    return [x, y]
-}
-
-Tetris.drop_placed_block = function(element)
-{
-    for(let i=0; i<Tetris.grid.length; i++)
+    if($(element).hasClass("placed_piece"))
     {
-        let position = element.position()
-        let top = position.top
-        let left = position.left
-        let x = Math.round(Math.round(left) / Tetris.block_size)
-        let y = Tetris.num_vertical_blocks - Math.round(Math.round(top) / Tetris.block_size) - 1
-        let y2 = y - 1
-
-        if(y === 0)
+        $(element).find(".placed_block").each(function()
         {
-            break
-        }
-
-        let block = Tetris.get_block_at_position(x, y2)
-
-        if(block)
-        {
-            break
-        }
-        
-        let new_top = top + Tetris.block_size
-        element.css("top", new_top)
+            let position = Tetris.get_placed_block_position(this)
+            nodes.push(Tetris.get_node_by_positions(position))
+        })
     }
+
+    else
+    {
+        let position = Tetris.get_placed_block_position(element)
+        nodes.push(Tetris.get_node_by_positions(position))
+    }
+
+    return nodes
 }
 
 Tetris.update_next_pieces = function()
@@ -1073,4 +1105,36 @@ Tetris.update_next_pieces = function()
         $(this).html(element)
         i += 1
     })
+}
+
+Tetris.get_placed_block_position = function(block)
+{
+    let position = {}
+    let container = $(block).closest(".piece_container")
+        
+    if(container.length > 0)
+    {
+        let container_position = Tetris.get_position_data(container)
+        let piece = container.find(".piece").eq(0)
+        let piece_position = piece.position()
+        let block_position = $(block).position()
+        position.top = Math.round(container_position.top + piece_position.top + block_position.top)
+        position.left = Math.round(container_position.left + piece_position.left + block_position.left)
+    }
+        
+    else
+    {
+        let pos = Tetris.get_position_data(block)
+        position.top = Math.round(pos.top)
+        position.left = Math.round(pos.left)
+    }
+
+    return position
+}
+
+Tetris.get_node_by_positions = function(position)
+{
+    let y = Tetris.num_vertical_blocks - (position.top / Tetris.block_size) - 1
+    let x = position.left / Tetris.block_size
+    return [x, y]
 }

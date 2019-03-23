@@ -84,7 +84,7 @@ Tetris.rotate_piece_object = function(obj, mode)
     return new_obj
 }
 
-Tetris.get_exposed_nodes = function(piece_container, nodes)
+Tetris.get_exposed_nodes = function(nodes)
 {
     let exposed = []
 
@@ -132,3 +132,8 @@ const async_timeout = (cb, timeout = 0) => new Promise(resolve =>
         resolve()
     }, timeout)
 })
+
+Tetris.get_position_data = function(element)
+{
+    return {top: $(element).data("top"), left: $(element).data("left")}
+}
