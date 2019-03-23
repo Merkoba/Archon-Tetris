@@ -378,11 +378,11 @@ Tetris.get_random_piece = function()
 
 Tetris.place_next_piece = function()
 {
-    // let piece = Tetris.next_pieces.shift()
+    let piece = Tetris.next_pieces.shift()
     // let piece = Tetris.pieces["square"]
     // let piece = Tetris.pieces["tee"]
     // let piece = Tetris.pieces["dog_right"]
-    let piece = Tetris.pieces["stick"]
+    // let piece = Tetris.pieces["stick"]
     let element = piece.element.clone(true, true)
     
     let top = (0 - (piece.modes[0].height * Tetris.block_size))
@@ -611,6 +611,14 @@ Tetris.move_down = function(from="generic")
                 Tetris.on_piece_placed()
                 return true
             }
+        }
+    }
+
+    else
+    {
+        if(!Tetris.piece_getting_locked)
+        {
+            Tetris.on_piece_placed()
         }
     }
 
