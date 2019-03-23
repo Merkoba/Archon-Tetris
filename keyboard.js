@@ -18,7 +18,7 @@ Tetris.start_key_detection = function()
 
         else if(e.key === "ArrowDown")
         {
-            Tetris.move_down(true)
+            Tetris.move_down("keyboard")
             e.preventDefault()
             return false
         }

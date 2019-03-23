@@ -26,7 +26,6 @@ Tetris.init_variables = function()
 Tetris.start_game = function()
 {
     Tetris.piece_active = false
-    Tetris.descent_loop_active = false
     Tetris.game_paused = false
     Tetris.game_started = true
     Tetris.level = 1
@@ -43,44 +42,26 @@ Tetris.on_game_over = function()
 {
     Tetris.game_started = false
     Tetris.piece_active = false
-    Tetris.stop_descent_loop()
+    Tetris.stop_descent_timeout()
+    clearTimeout(Tetris.drop_piece_timeout)
     alert("Game Over")
 }
 
-Tetris.start_descent_loop = function()
+Tetris.start_descent_timeout = function()
 {
-    clearTimeout(Tetris.descent_loop_timeout)
-    clearTimeout(Tetris.initial_descent_loop_timeout)
+    clearTimeout(Tetris.descent_timeout)
 
     Tetris.piece_descent_delay = 800 - ((Tetris.level - 1) * 10)
-    Tetris.descent_loop_active = true
 
-    Tetris.initial_descent_loop_timeout = setTimeout(function()
+    Tetris.descent_timeout = setTimeout(function()
     {
-        Tetris.do_descent()
+        Tetris.move_down("descent_timeout")
     }, Tetris.piece_descent_delay)
 }
 
-Tetris.stop_descent_loop = function()
+Tetris.stop_descent_timeout = function()
 {
-    clearTimeout(Tetris.descent_loop_timeout)
-    clearTimeout(Tetris.initial_descent_loop_timeout)
-    Tetris.descent_loop_active = false
-}
-
-Tetris.do_descent = function()
-{
-    if(!Tetris.descent_loop_active)
-    {
-        return false
-    }
-
-    Tetris.move_down()
-    
-    Tetris.descent_loop_timeout = setTimeout(function()
-    {
-        Tetris.do_descent()
-    }, Tetris.piece_descent_delay)
+    clearTimeout(Tetris.descent_timeout)
 }
 
 Tetris.pause_game = function()
@@ -92,7 +73,7 @@ Tetris.pause_game = function()
 
     Tetris.game_paused = true
     Tetris.piece_active = false
-    Tetris.stop_descent_loop()
+    Tetris.stop_descent_timeout()
 }
 
 Tetris.unpause_game = function()
@@ -104,7 +85,7 @@ Tetris.unpause_game = function()
 
     Tetris.game_paused = false
     Tetris.piece_active = true
-    Tetris.start_descent_loop()
+    Tetris.start_descent_timeout()
 }
 
 Tetris.toggle_pause_game = function()
@@ -122,7 +103,7 @@ Tetris.toggle_pause_game = function()
 
 Tetris.set_score_text = function()
 {
-    let s = `Score: ${Tetris.score}`
+    let s = `${Tetris.score}`
     $("#score_text").text(s)   
 }
 

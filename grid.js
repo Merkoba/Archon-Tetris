@@ -35,10 +35,21 @@ Tetris.create_empty_grid_row = function()
 
     for(let i=0; i<Tetris.num_horizontal_blocks; i++)
     {
-        let obj = {}
-        obj.used = false
-        row.push(obj)    
+        row.push(Tetris.create_empty_grid_node())
     }
 
     return row
+}
+
+Tetris.create_empty_grid_node = function()
+{
+    let node = {}
+    Tetris.set_grid_node_to_defaults(node)
+    return node
+}
+
+Tetris.set_grid_node_to_defaults = function(node)
+{
+    node.used = false
+    node.element = undefined
 }
