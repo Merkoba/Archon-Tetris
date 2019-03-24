@@ -434,8 +434,6 @@ Tetris.rotate_piece = function(direction="right")
         {
             Tetris.current_mode = 0
         }
-
-        Tetris.current_degrees += 90
     }
     
     else if(direction === "left")
