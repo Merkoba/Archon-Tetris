@@ -1,5 +1,7 @@
 Tetris.create_grid = function()
 {
+    Tetris.game.html("")
+    
     let x = 0
     let y = 0
 

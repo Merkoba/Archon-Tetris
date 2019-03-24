@@ -5,11 +5,16 @@
         <link rel="stylesheet" type="text/css" href="style.css?version=1">
         <script src="jquery.min.js?version=1"></script>
         <script src="seedrandom.min.js?version=1"></script>
+        <script src="handlebars.js?version=1"></script>
+        <script src="msg.min.js?version=1"></script>
+        <script src="separator.js?version=1"></script>
         <script src="base.js?version=1"></script>
         <script src="utils.js?version=1"></script>
         <script src="pieces.js?version=1"></script>
         <script src="grid.js?version=1"></script>
         <script src="keyboard.js?version=1"></script>
+        <script src="local_storage.js?version=1"></script>
+        <script src="options.js?version=1"></script>
 
         <script>
             $(function()
@@ -26,22 +31,92 @@
                     <div id='score'>
                         <div id='score_text'>0</div>
                     </div>
-                    <div id='level'>
+                    <div id='info'>
                         <div id='level_text'>Level: 0</div>
+                        <div id='combo_text'>Combo: 0</div>
+                        <div id='menu' class='action'>Menu</div>
                     </div>
                 </div>
                 <div id='game' width=800 height=600></div>
                 <div id='sidebar'>
-                    <div id='next_pieces'>
-                        <div class='next_piece'><div class='next_piece_element'></div></div>
-                        <div class='next_piece'><div class='next_piece_element'></div></div>
-                        <div class='next_piece'><div class='next_piece_element'></div></div>
-                        <div class='next_piece'><div class='next_piece_element'></div></div>
-                        <div class='next_piece'><div class='next_piece_element'></div></div>
-                        <div class='next_piece'><div class='next_piece_element'></div></div>
-                    </div>
+                    <div id='active_piece'></div>
+                    <div id='next_pieces'></div>
                 </div>
             </div>
         </div>
+        <div id='intro' class='unselectable'>
+            <div id='intro_info'>Press Enter To Start</div>
+            <img id='intro_image' src='intro.jpg'>
+            <div id='intro_credits'>
+                Tetris © 1985 Tetris Holding.
+                Tetris logos, Tetris theme song and Tetriminos are trademarks of Tetris Holding.
+                The Tetris trade dress is owned by Tetris Holding.
+                Licensed to The Tetris Company.
+                Tetris Game Design by Alexey Pajitnov.
+                Tetris Logo Design by Roger Dean.
+                All Rights Reserved.
+            </div>
+        </div>
+        <audio id='music' src='music.mp3'></audio>
     </body>
+
+    <script id='template_menu' type='text/x-handlebars-template' class='template'>
+        <div id='menu_container' class='unselectable'>
+            <div id='menu_restart' class='menu_item action'>Restart</div>
+            <div id='menu_options' class='menu_item action'>Options</div>
+            <div id='menu_help' class='menu_item action'>Help</div>
+        </div>
+    </script>
+
+    <script id='template_options' type='text/x-handlebars-template' class='template'>
+        <div id='options_container' class='unselectable'>
+            <div class='options_item'>
+                <div class='options_label'>Ghost</div>
+                <input type='checkbox' id='option_enable_ghost' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+            </div>
+            <div class='options_item'>
+                <div class='options_label'>Music</div>
+                <input type='checkbox' id='option_enable_music' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+            </div>
+            <div class='options_item'>
+                <div class='options_label'>SFX</div>
+                <input type='checkbox' id='option_enable_sound_effects' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+            </div>
+            <div class='options_item'>
+                    <div class='options_label'>Rows</div>
+                    <input type='number' id='option_number_of_rows' class='options_widget options_number' data-options-widget-type='number'>
+                </div>
+                <div class='options_item'>
+                    <div class='options_label'>Columns</div>
+                    <input type='number' id='option_number_of_columns' class='options_widget options_number' data-options-widget-type='number'>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script id='template_help' type='text/x-handlebars-template' class='template'>
+        <div id='help_container' class='unselectable'>
+            <div class='help_item'>
+                Up Arrow or C: Rotate piece clockwise
+            </div>
+            <div class='help_item'>
+                Control or Z: Rotate piece anti-clockwise
+            </div>
+            <div class='help_item'>
+                Left Arrow: Move piece to the left
+            </div>
+            <div class='help_item'>
+                Down Arrow: Move piece to the right
+            </div>
+            <div class='help_item'>
+                Down Arrow: Move piece down by 1 step (Soft Drop)
+            </div>
+            <div class='help_item'>
+                Space: Drop the piece to the bottom instantly (Hard Drop)
+            </div>
+            <div class='help_item'>
+                Escape: Pause the game and open the menu
+            </div>
+        </div>
+    </script>
 </html>

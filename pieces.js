@@ -1,3 +1,4 @@
+Tetris.num_next_pieces = 4
 Tetris.element_preview_block_size = 15
 
 Tetris.create_pieces = function()
@@ -321,7 +322,7 @@ Tetris.create_pieces = function()
 
 Tetris.generate_initial_pieces = function()
 {
-    for(let i=0; i<6; i++)
+    for(let i=0; i<Tetris.num_next_pieces; i++)
     {
         Tetris.add_next_piece()
     }
@@ -334,7 +335,7 @@ Tetris.add_next_piece = function()
 
 Tetris.get_random_piece = function()
 {
-    const n = Tetris.get_random_int(1, 7)
+    const n = Tetris.get_random_int(1, Object.keys(Tetris.pieces).length)
 
     let name
 
@@ -379,12 +380,14 @@ Tetris.get_random_piece = function()
 Tetris.place_next_piece = function()
 {
     let piece = Tetris.next_pieces.shift()
+    // let piece = Tetris.pieces["stick"]
+    // let piece = Tetris.pieces["periscope_right"]
+    // let piece = Tetris.pieces["periscope_left"]
+    // let piece = Tetris.pieces["dog_right"]
+    // let piece = Tetris.pieces["dog_left"]
     // let piece = Tetris.pieces["square"]
     // let piece = Tetris.pieces["tee"]
-    // let piece = Tetris.pieces["dog_right"]
-    // let piece = Tetris.pieces["stick"]
     let element = piece.element.clone(true, true)
-    
     let top = (0 - (piece.modes[0].height * Tetris.block_size))
     let left = Tetris.block_size * (parseInt((Tetris.num_horizontal_blocks / 2) - (piece.modes[0].width / 2) - (piece.space.left)))
     
@@ -415,7 +418,7 @@ Tetris.place_next_piece = function()
 
 Tetris.rotate_piece = function(direction="right")
 {
-    if(!Tetris.piece_active)
+    if(!Tetris.piece_active && !Tetris.piece_getting_locked)
     {
         return false
     }
@@ -425,41 +428,80 @@ Tetris.rotate_piece = function(direction="right")
 
     if(direction === "right")
     {
+        Tetris.current_mode += 1
+
+        if(Tetris.current_mode >= Tetris.current_piece.modes.length)
+        {
+            Tetris.current_mode = 0
+        }
+
         Tetris.current_degrees += 90
     }
     
     else if(direction === "left")
     {
-        Tetris.current_degrees -= 90
-    }
+        Tetris.current_mode -= 1
 
-    if(Math.abs(Tetris.current_degrees) >= (90 * Tetris.current_piece.modes.length))
+        if(Tetris.current_mode < 0)
+        {
+            Tetris.current_mode = Tetris.current_piece.modes.length - 1
+        }
+    }
+    
+    Tetris.current_degrees = Tetris.current_mode * 90
+
+    if(Tetris.current_degrees >= (90 * Tetris.current_piece.modes.length))
     {
         Tetris.current_degrees = 0
+        Tetris.current_mode = 0
     }
 
     let reversed_degrees = 0 - Tetris.current_degrees
     
     Tetris.current_element.css('transform', `rotate(${Tetris.current_degrees}deg)`)
 
-    Tetris.current_mode += 1
+    Tetris.update_piece_nodes()
 
-    if(Tetris.current_mode > Tetris.current_piece.modes.length - 1)
-    {
-        Tetris.current_mode = 0
-    }
+    let rollback = false
 
     // Check for collisions
-    let padding = Tetris.rotate_piece_object(Tetris.get_padding(Tetris.current_element[0]), Tetris.current_mode)
-    let left = Math.round(Tetris.current_element.position().left) + padding.left
-    let width = Tetris.current_piece.modes[Tetris.current_mode].width * Tetris.block_size
-    
-    // There's a collision, go back to previous state
-    if(left < 0 || ((left + width) > Tetris.game_width))
+    for(let node of Tetris.current_nodes)
     {
-        Tetris.current_mode = original_mode
+        let x = node[0]
+        let y = node[1]
+
+        if(y >= Tetris.num_vertical_blocks)
+        {
+            continue
+        }
+
+        if(x < 0 || y < 0)
+        {
+            rollback = true
+            break
+        }
+
+        if(x >= Tetris.num_horizontal_blocks)
+        {
+            rollback = true
+            break
+        }
+
+        let node2 = Tetris.grid[y][x]
+
+        if(node2.used)
+        {
+            rollback = true
+            break
+        }
+    }
+
+    if(rollback)
+    {
         Tetris.current_degrees = original_degrees
+        Tetris.current_mode = original_mode
         Tetris.current_element.css('transform', `rotate(${Tetris.current_degrees}deg)`)
+        Tetris.update_piece_nodes()
         return false
     }
 
@@ -472,6 +514,11 @@ Tetris.rotate_piece = function(direction="right")
 
     Tetris.update_piece_nodes()
     Tetris.update_ghost_piece()
+
+    if(Tetris.piece_getting_locked)
+    {
+        Tetris.move_down("rotate")
+    }
 }
 
 Tetris.on_piece_placed = async function()
@@ -481,6 +528,8 @@ Tetris.on_piece_placed = async function()
     
     Tetris.lock_timeout = setTimeout(async function()
     {
+        Tetris.piece_getting_locked = false
+
         if(Tetris.ghost_piece)
         {
             Tetris.ghost_piece.remove()
@@ -508,7 +557,24 @@ Tetris.on_piece_placed = async function()
             node2.used = true
         }
 
-        await Tetris.check_lines_cleared()
+        let num_cleared = await Tetris.check_lines_cleared()
+
+        if(num_cleared > 0)
+        {
+            Tetris.charge_combo()
+            Tetris.calculate_clear_score(num_cleared)
+        }
+
+        else
+        {
+            Tetris.reset_combo()
+        }
+
+        if(Tetris.combo > 0)
+        {
+            let score = 50 * Tetris.combo * Tetris.level
+            Tetris.add_score(score)
+        }
 
         Tetris.place_next_piece()
     }, 500)
@@ -523,6 +589,11 @@ Tetris.cancel_piece_placed = function()
 
 Tetris.move_down = function(from="generic")
 {
+    if(!Tetris.piece_active && !Tetris.piece_getting_locked)
+    {
+        return false
+    }
+
     Tetris.stop_descent_timeout()
 
     let exposed_nodes = Tetris.get_exposed_nodes(Tetris.current_nodes)
@@ -592,6 +663,16 @@ Tetris.move_down = function(from="generic")
 
     if(move)
     {
+        if(from === "drop")
+        {
+            Tetris.add_score(2)
+        }
+        
+        else
+        {
+            Tetris.add_score(1)
+        }
+
         Tetris.start_descent_timeout()
 
         if(Tetris.piece_getting_locked)
@@ -627,6 +708,11 @@ Tetris.move_down = function(from="generic")
 
 Tetris.move_sideways = function(direction)
 {
+    if(!Tetris.piece_active && !Tetris.piece_getting_locked)
+    {
+        return false
+    }
+
     let position = Tetris.current_element.position()
     let top = position.top
     let left = position.left
@@ -669,13 +755,15 @@ Tetris.move_sideways = function(direction)
 
     Tetris.update_piece_nodes()
 
+    let rollback = false
+
     // Check for collisions
     for(let node of Tetris.current_nodes)
     {
         let x = node[0]
         let y = node[1]
 
-        if(y > (Tetris.grid.length - 1))
+        if(y >= Tetris.num_vertical_blocks)
         {
             continue
         }
@@ -684,10 +772,17 @@ Tetris.move_sideways = function(direction)
 
         if(node2.used)
         {
-            Tetris.current_element.css("top", `${top}px`)
-            Tetris.current_element.css("left", `${left}px`)
-            Tetris.update_piece_nodes()
+            rollback = true
+            break
         }
+    }
+
+    if(rollback)
+    {
+        Tetris.current_element.css("top", `${top}px`)
+        Tetris.current_element.css("left", `${left}px`)
+        Tetris.update_piece_nodes()
+        return false
     }
 
     Tetris.update_ghost_piece()
@@ -770,6 +865,11 @@ Tetris.do_update_nodes = function(element, mode)
 
 Tetris.update_ghost_piece = function()
 {
+    if(!Tetris.options.enable_ghost)
+    {
+        return false
+    }
+
     if(Tetris.ghost_piece)
     {
         Tetris.ghost_piece.remove()
@@ -822,7 +922,7 @@ Tetris.update_ghost_piece = function()
     }
 }
 
-Tetris.check_lines_cleared = async function()
+Tetris.check_lines_cleared = async function(num_cleared=0)
 {
     let num_lines_cleared = 0
 
@@ -851,38 +951,16 @@ Tetris.check_lines_cleared = async function()
 
     if(num_lines_cleared > 0)
     {
-        Tetris.make_placed_pieces_fall()
-
-        let multiplier
-
-        if(num_lines_cleared === 1)
+        
+        if(Tetris.make_placed_pieces_fall())
         {
-            multiplier = 100
+            return Tetris.check_lines_cleared(num_cleared + num_lines_cleared)
         }
-
-        if(num_lines_cleared === 2)
-        {
-            multiplier = 300
-        }
-
-        if(num_lines_cleared === 3)
-        {
-            multiplier = 300
-        }
-
-        if(num_lines_cleared >= 4)
-        {
-            multiplier = 800
-        }
-
-        let score = multiplier * Tetris.level
-
-        Tetris.add_score(score)
     }
-
+    
     return new Promise(async (resolve, reject) =>
     {
-        resolve()
+        resolve(num_cleared + num_lines_cleared)
     })
 }
 
@@ -993,6 +1071,8 @@ Tetris.get_block_at_position = function(x, y)
 
 Tetris.make_placed_pieces_fall = function()
 {
+    let any_moved = false
+
     for(let y=0; y<Tetris.grid.length; y++)
     {
         let row = Tetris.grid[y]
@@ -1024,9 +1104,18 @@ Tetris.make_placed_pieces_fall = function()
                 element = block
             }
 
+            let original_nodes = false
+            let moved = false
+
             for(let i=0; i<Tetris.grid.length; i++)
             {
                 let nodes = Tetris.get_placed_piece_nodes(element)
+
+                if(!original_nodes)
+                {
+                    original_nodes = nodes
+                }
+
                 let exposed_nodes = Tetris.get_exposed_nodes(nodes)
                 let move = true
 
@@ -1057,27 +1146,38 @@ Tetris.make_placed_pieces_fall = function()
                     $(element).css("top", `${new_top}px`)
                     $(element).data("top", new_top)
 
-                    let new_nodes = []
-
-                    for(let node of nodes)
-                    {
-                        new_nodes.push([node[0], node[1] - 1])
-                        Tetris.grid[node[1]][node[0]].used = false
-                    }
-
-                    for(let node of new_nodes)
-                    {
-                        Tetris.grid[node[1]][node[0]].used = true
-                    }
+                    moved = true
+                    any_moved = true
                 }
 
                 else
                 {
+                    if(moved)
+                    {
+                        for(let node of original_nodes)
+                        {
+                            let x = node[0]
+                            let y = node[1]
+                            
+                            Tetris.grid[y][x].used = false
+                        }
+                        
+                        for(let node of nodes)
+                        {
+                            let x = node[0]
+                            let y = node[1]
+
+                            Tetris.grid[y][x].used = true
+                        }
+                    }
+
                     break
                 }
             }
         }
     }
+
+    return any_moved
 }
 
 Tetris.get_placed_piece_nodes = function(element)
@@ -1113,6 +1213,9 @@ Tetris.update_next_pieces = function()
         $(this).html(element)
         i += 1
     })
+
+    let element = Tetris.current_piece.element_preview.clone()
+    $("#active_piece").html(element)
 }
 
 Tetris.get_placed_block_position = function(block)
@@ -1145,4 +1248,33 @@ Tetris.get_node_by_positions = function(position)
     let y = Tetris.num_vertical_blocks - (position.top / Tetris.block_size) - 1
     let x = position.left / Tetris.block_size
     return [x, y]
+}
+
+Tetris.calculate_clear_score = function(num_cleared)
+{
+    let multiplier
+
+    if(num_cleared === 1)
+    {
+        multiplier = 100
+    }
+
+    if(num_cleared === 2)
+    {
+        multiplier = 300
+    }
+
+    if(num_cleared === 3)
+    {
+        multiplier = 300
+    }
+
+    if(num_cleared >= 4)
+    {
+        multiplier = 800
+    }
+
+    let score = multiplier * Tetris.level
+
+    Tetris.add_score(score)
 }
