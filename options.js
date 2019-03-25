@@ -9,20 +9,54 @@ Tetris.setup_options = function()
 {
     Tetris.options = Tetris.get_local_storage(Tetris.ls_options)
 
+    let changed = false
+
     if(Tetris.options === null)
     {
-        Tetris.options = 
-        {
-            enable_ghost: true,
-            enable_music: true,
-            enable_sound_effects: true,
-            number_of_rows: 20,
-            number_of_columns: 10
-        }
-
-        Tetris.save_options()
+        Tetris.options = {}
     }
 
+    if(Tetris.options.enable_ghost === undefined)
+    {
+        Tetris.options.enable_ghost = true
+        changed = true
+    }
+
+    if(Tetris.options.enable_music === undefined)
+    {
+        Tetris.options.enable_music = true
+        changed = true
+    }
+
+    if(Tetris.options.enable_sound_effects === undefined)
+    {
+        Tetris.options.enable_sound_effects = true
+        changed = true
+    }
+
+    if(Tetris.options.number_of_rows === undefined)
+    {
+        Tetris.options.number_of_rows = 20
+        changed = true
+    }
+
+    if(Tetris.options.number_of_columns === undefined)
+    {
+        Tetris.options.number_of_columns = 10
+        changed = true
+    }
+
+    if(Tetris.options.seed === undefined)
+    {
+        Tetris.options.seed = ""
+        changed = true
+    }
+
+    if(changed)
+    {
+        Tetris.save_options()
+    }
+    
     Tetris.prepare_options_widgets()
     Tetris.start_options_widget_listeners()
 }
@@ -40,7 +74,7 @@ Tetris.prepare_options_widgets = function()
             $(this).prop("checked", option)
         }
 
-        else if(type === "number")
+        else if(type === "number" || type === "text")
         {
             $(this).val(option)
         }
@@ -69,7 +103,7 @@ Tetris.start_options_widget_listeners = function()
             })
         }
         
-        else if(type === "number")
+        else if(type === "number" || type === "text")
         {
             $(this).blur(function()
             {
@@ -123,12 +157,18 @@ Tetris.option_enable_sound_effects_action = function()
 
 Tetris.option_number_of_rows_action = function()
 {
-    Tetris.options.number_of_rows = $("#option_number_of_rows").val()
+    Tetris.options.number_of_rows = parseInt($("#option_number_of_rows").val())
     Tetris.restart_required = true
 }
 
 Tetris.option_number_of_columns_action = function()
 {
-    Tetris.options.number_of_columns = $("#option_number_of_columns").val()
+    Tetris.options.number_of_columns = parseInt($("#option_number_of_columns").val())
+    Tetris.restart_required = true
+}
+
+Tetris.option_seed_action = function()
+{
+    Tetris.options.seed = $("#option_seed").val().trim()
     Tetris.restart_required = true
 }

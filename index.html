@@ -36,8 +36,14 @@
                         <div id='combo_text'>Combo: 0</div>
                         <div id='menu' class='action'>Menu</div>
                     </div>
+                    <div id='info2'>
+                        <div id='seed_text' class='action'>Seed: None</div>
+                    </div>
                 </div>
-                <div id='game' width=800 height=600></div>
+                <div id='game_container'>
+                    <div id='game' width=800 height=600></div>
+                    <div id='countdown'>3</div>
+                </div>
                 <div id='sidebar'>
                     <div id='active_piece'></div>
                     <div id='next_pieces'></div>
@@ -45,23 +51,30 @@
             </div>
         </div>
         <div id='intro' class='unselectable'>
-            <div id='intro_info'>Press Enter To Start</div>
             <img id='intro_image' src='intro.jpg'>
             <div id='intro_credits'>
-                Tetris © 1985 Tetris Holding.
-                Tetris logos, Tetris theme song and Tetriminos are trademarks of Tetris Holding.
-                The Tetris trade dress is owned by Tetris Holding.
-                Licensed to The Tetris Company.
-                Tetris Game Design by Alexey Pajitnov.
-                Tetris Logo Design by Roger Dean.
+                Tetris © 1985 Tetris Holding.<br>
+                Tetris logos, Tetris theme song and Tetriminos are trademarks of Tetris Holding.<br>
+                The Tetris trade dress is owned by Tetris Holding.<br>
+                Licensed to The Tetris Company.<br>
+                Tetris Game Design by Alexey Pajitnov.<br>
+                Tetris Logo Design by Roger Dean.<br>
                 All Rights Reserved.
             </div>
         </div>
-        <audio id='music' src='music.mp3'></audio>
+        <audio preload id='music' src='music.mp3?version=1'></audio>
+        <audio preload id='sound_tone_1' src='tone1.mp3?version=1'></audio>
+        <audio preload id='sound_move' src='move.mp3?version=1'></audio>
+        <audio preload id='sound_countdown' src='countdown.mp3?version=1'></audio>
+        <audio preload id='sound_game_started' src='game_started.mp3?version=1'></audio>
+        <audio preload id='sound_placed' src='placed.mp3?version=1'></audio>
+        <audio preload id='sound_intro' src='intro.mp3?version=1'></audio>
+        <audio preload id='sound_rotate' src='rotate.mp3?version=1'></audio>
+        <audio preload id='sound_clear' src='clear.mp3?version=2'></audio>
     </body>
 
     <script id='template_menu' type='text/x-handlebars-template' class='template'>
-        <div id='menu_container' class='unselectable'>
+        <div id='menu_container'>
             <div id='menu_restart' class='menu_item action'>Restart</div>
             <div id='menu_options' class='menu_item action'>Options</div>
             <div id='menu_help' class='menu_item action'>Help</div>
@@ -69,7 +82,7 @@
     </script>
 
     <script id='template_options' type='text/x-handlebars-template' class='template'>
-        <div id='options_container' class='unselectable'>
+        <div id='options_container'>
             <div class='options_item'>
                 <div class='options_label'>Ghost</div>
                 <input type='checkbox' id='option_enable_ghost' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
@@ -83,19 +96,22 @@
                 <input type='checkbox' id='option_enable_sound_effects' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
             </div>
             <div class='options_item'>
-                    <div class='options_label'>Rows</div>
-                    <input type='number' id='option_number_of_rows' class='options_widget options_number' data-options-widget-type='number'>
-                </div>
-                <div class='options_item'>
-                    <div class='options_label'>Columns</div>
-                    <input type='number' id='option_number_of_columns' class='options_widget options_number' data-options-widget-type='number'>
-                </div>
+                <div class='options_label'>Rows</div>
+                <input type='number' id='option_number_of_rows' class='options_widget options_number' data-options-widget-type='number'>
+            </div>
+            <div class='options_item'>
+                <div class='options_label'>Columns</div>
+                <input type='number' id='option_number_of_columns' class='options_widget options_number' data-options-widget-type='number'>
+            </div>
+            <div class='options_item'>
+                <div class='options_label'>Seed</div>
+                <input type='text' id='option_seed' class='options_widget options_text' data-options-widget-type='text' placeholder="Empty == Random">
             </div>
         </div>
     </script>
 
     <script id='template_help' type='text/x-handlebars-template' class='template'>
-        <div id='help_container' class='unselectable'>
+        <div id='help_container'>
             <div class='help_item'>
                 Up Arrow or C: Rotate piece clockwise
             </div>
@@ -116,6 +132,15 @@
             </div>
             <div class='help_item'>
                 Escape: Pause the game and open the menu
+            </div>
+        </div>
+    </script>
+
+    <script id='template_game_over' type='text/x-handlebars-template' class='template'>
+        <div id='game_over_container'>
+            <div id='game_over_score'></div>
+            <div id='game_over_buttons' class='unselectable'>
+                <div id='game_over_play_again' class='game_over_button action'>Play Again</div>
             </div>
         </div>
     </script>

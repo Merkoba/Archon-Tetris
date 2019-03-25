@@ -1,4 +1,4 @@
-Tetris.num_next_pieces = 4
+Tetris.num_next_pieces = 3
 Tetris.element_preview_block_size = 15
 
 Tetris.create_pieces = function()
@@ -379,6 +379,11 @@ Tetris.get_random_piece = function()
 
 Tetris.place_next_piece = function()
 {
+    if(!Tetris.game_started)
+    {
+        return false
+    }
+
     let piece = Tetris.next_pieces.shift()
     // let piece = Tetris.pieces["stick"]
     // let piece = Tetris.pieces["periscope_right"]
@@ -399,8 +404,6 @@ Tetris.place_next_piece = function()
     Tetris.current_mode = 0
     Tetris.current_piece = piece
     Tetris.piece_active = true
-    Tetris.pieces_delivered += 1
-    Tetris.level_charge += 1
     Tetris.piece_getting_locked = false
     Tetris.doing_drop = false
 
@@ -409,11 +412,6 @@ Tetris.place_next_piece = function()
     Tetris.update_ghost_piece()
     Tetris.start_descent_timeout()
     Tetris.update_next_pieces()
-
-    if(Tetris.level_charge >= 10)
-    {
-        Tetris.increase_level()
-    }
 }
 
 Tetris.rotate_piece = function(direction="right")
@@ -468,11 +466,6 @@ Tetris.rotate_piece = function(direction="right")
         let x = node[0]
         let y = node[1]
 
-        if(y >= Tetris.num_vertical_blocks)
-        {
-            continue
-        }
-
         if(x < 0 || y < 0)
         {
             rollback = true
@@ -485,12 +478,15 @@ Tetris.rotate_piece = function(direction="right")
             break
         }
 
-        let node2 = Tetris.grid[y][x]
-
-        if(node2.used)
+        if(Tetris.grid[y] && Tetris.grid[y][x])
         {
-            rollback = true
-            break
+            let node2 = Tetris.grid[y][x]
+    
+            if(node2.used)
+            {
+                rollback = true
+                break
+            }
         }
     }
 
@@ -500,6 +496,7 @@ Tetris.rotate_piece = function(direction="right")
         Tetris.current_mode = original_mode
         Tetris.current_element.css('transform', `rotate(${Tetris.current_degrees}deg)`)
         Tetris.update_piece_nodes()
+        Tetris.play_sound("tone_1")
         return false
     }
 
@@ -512,6 +509,8 @@ Tetris.rotate_piece = function(direction="right")
 
     Tetris.update_piece_nodes()
     Tetris.update_ghost_piece()
+
+    Tetris.play_sound("rotate")
 
     if(Tetris.piece_getting_locked)
     {
@@ -559,6 +558,7 @@ Tetris.on_piece_placed = async function()
 
         if(num_cleared > 0)
         {
+            Tetris.charge_level(num_cleared)
             Tetris.charge_combo()
             Tetris.calculate_clear_score(num_cleared)
         }
@@ -587,7 +587,7 @@ Tetris.cancel_piece_placed = function()
 
 Tetris.move_down = function(from="generic")
 {
-    if(!Tetris.piece_active && !Tetris.piece_getting_locked)
+    if((!Tetris.piece_active && !Tetris.piece_getting_locked) || Tetris.game_paused)
     {
         return false
     }
@@ -687,8 +687,17 @@ Tetris.move_down = function(from="generic")
     
             if(finish_after_move)
             {
+                Tetris.play_sound("placed")
                 Tetris.on_piece_placed()
                 return true
+            }
+
+            else
+            {
+                if(from === "keyboard")
+                {
+                    Tetris.play_sound("move")
+                }
             }
         }
     }
@@ -716,41 +725,45 @@ Tetris.move_sideways = function(direction)
     let left = position.left
     let padding = Tetris.rotate_piece_object(Tetris.get_padding(Tetris.current_element[0]), Tetris.current_mode)
     let width = Tetris.current_piece.modes[Tetris.current_mode].width * Tetris.block_size
+    let move = true
+    let new_left
+
+    if(!Tetris.piece_active && !Tetris.piece_getting_locked)
+    {
+        return false
+    }
 
     if(direction === "left")
     {
-        if(!Tetris.piece_active && !Tetris.piece_getting_locked)
-        {
-            return false
-        }
-
-        let new_left = Math.round(left - Tetris.block_size)
+        new_left = Math.round(left - Tetris.block_size)
 
         if(new_left + padding.left < 0)
         {
-            return false
+            move = false
         }
-
-        Tetris.current_element.css("left", `${new_left}px`)
     }
 
     else if(direction === "right")
     {
-        if(!Tetris.piece_active && !Tetris.piece_getting_locked)
-        {
-            return false
-        }
-
-        let new_left = Math.round(left + Tetris.block_size)
+        new_left = Math.round(left + Tetris.block_size)
 
         if(new_left + padding.left + width > Tetris.game_width)
         {
-            return false
+            move = false
         }
+    }
 
+    if(move)
+    {
         Tetris.current_element.css("left", `${new_left}px`)
     }
 
+    else
+    {
+        Tetris.play_sound("tone_1")
+        return false
+    }
+    
     Tetris.update_piece_nodes()
 
     let rollback = false
@@ -780,10 +793,12 @@ Tetris.move_sideways = function(direction)
         Tetris.current_element.css("top", `${top}px`)
         Tetris.current_element.css("left", `${left}px`)
         Tetris.update_piece_nodes()
+        Tetris.play_sound("tone_1")
         return false
     }
 
     Tetris.update_ghost_piece()
+    Tetris.play_sound("move")
 
     if(Tetris.piece_getting_locked)
     {
@@ -815,6 +830,11 @@ Tetris.do_drop_piece = function()
     {
         Tetris.do_drop_piece()
     }, 10)
+}
+
+Tetris.stop_drop_piece_timeout = function()
+{
+    clearTimeout(Tetris.drop_piece_timeout)
 }
 
 Tetris.update_piece_nodes = function()
@@ -943,6 +963,7 @@ Tetris.check_lines_cleared = async function(num_cleared=0)
         {
             num_lines_cleared += 1
             await Tetris.clear_line(i)
+            Tetris.play_sound("clear")
             console.info("Line cleared")
         }
     }

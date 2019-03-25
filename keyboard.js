@@ -2,7 +2,7 @@ Tetris.start_key_detection = function()
 {
     document.addEventListener('keydown', (e) =>
     {
-        if(Tetris.game_started)
+        if(Tetris.game_started && !Tetris.modal_open)
         {
             if(e.key === "ArrowUp" || e.key === "x")
             {
@@ -46,6 +46,13 @@ Tetris.start_key_detection = function()
                 return false
             }
 
+            else if(e.key === "Enter")
+            {
+                Tetris.start_game()
+                e.preventDefault()
+                return false
+            }
+
             if(!e.repeat)
             {
                 if(e.key === " ")
@@ -59,10 +66,7 @@ Tetris.start_key_detection = function()
 
         if(Tetris.on_intro)
         {
-            if(e.key === "Enter")
-            {
-                Tetris.hide_intro()
-            }
+            Tetris.hide_intro()
         }
     })
 }

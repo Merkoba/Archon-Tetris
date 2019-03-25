@@ -1,12 +1,15 @@
 Tetris.create_grid = function()
 {
     Tetris.game.html("")
+    Tetris.grid = []
     
     let x = 0
     let y = 0
 
     for(let i=0; i<Tetris.num_vertical_blocks; i++)
     {
+        Tetris.grid.push(Tetris.create_empty_grid_row())
+
         for(let i=0; i<Tetris.num_horizontal_blocks; i++)
         {
             let block = $("<div class='block'></div>")
@@ -21,13 +24,6 @@ Tetris.create_grid = function()
 
         x = 0
         y += Tetris.block_size
-    }
-
-    Tetris.grid = []
-    
-    for(let i=0; i<Tetris.num_vertical_blocks; i++)
-    {
-        Tetris.grid.push(Tetris.create_empty_grid_row())
     }
 }
 
