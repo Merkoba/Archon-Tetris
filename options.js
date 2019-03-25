@@ -46,6 +46,12 @@ Tetris.setup_options = function()
         changed = true
     }
 
+    if(Tetris.options.number_of_previews === undefined)
+    {
+        Tetris.options.number_of_previews = 3
+        changed = true
+    }
+
     if(Tetris.options.seed === undefined)
     {
         Tetris.options.seed = ""
@@ -165,6 +171,13 @@ Tetris.option_number_of_columns_action = function()
 {
     Tetris.options.number_of_columns = parseInt($("#option_number_of_columns").val())
     Tetris.restart_required = true
+}
+
+Tetris.option_number_of_previews_action = function()
+{
+    Tetris.options.number_of_previews = parseInt($("#option_number_of_previews").val())
+    Tetris.num_previews = Tetris.options.number_of_previews
+    Tetris.setup_previews()
 }
 
 Tetris.option_seed_action = function()

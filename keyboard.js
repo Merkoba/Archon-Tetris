@@ -39,16 +39,9 @@ Tetris.start_key_detection = function()
                 return false
             }
 
-            else if(e.key === "Escape" || e.key === "F1")
-            {
-                Tetris.show_menu()
-                e.preventDefault()
-                return false
-            }
-
             else if(e.key === "Enter")
             {
-                Tetris.start_game()
+                // Do POW
                 e.preventDefault()
                 return false
             }
@@ -61,6 +54,23 @@ Tetris.start_key_detection = function()
                     e.preventDefault()
                     return false
                 }
+            }
+        }
+
+        if((Tetris.game_started || Tetris.on_countdown) && !Tetris.modal_open)
+        {
+            if(e.key === "Escape")
+            {
+                Tetris.show_menu()
+                e.preventDefault()
+                return false
+            }
+            
+            else if(e.key === "F1")
+            {
+                Tetris.toggle_pause_game()
+                e.preventDefault()
+                return false
             }
         }
 

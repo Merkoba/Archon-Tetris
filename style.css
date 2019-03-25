@@ -180,12 +180,12 @@ body, html
     animation: fade_out 10ms linear forwards;
 }
 
-#next_pieces
+#previews
 {
     margin-bottom: 0.8rem;
 }
 
-.next_piece, #active_piece
+.preview, #active_piece
 {
     width: 100px;
     height: 100px;
@@ -196,7 +196,7 @@ body, html
     margin-bottom: 0.5rem;
 }
 
-.next_piece:last-child
+.preview:last-child
 {
     margin-bottom: 0;
 }
@@ -206,7 +206,7 @@ body, html
     box-shadow: inset 0 0 30px rgb(204, 204, 204); 
 }
 
-.next_piece_element
+.preview_element
 {
     max-width: 80%;
     max-height: 80%;
@@ -423,7 +423,7 @@ body *
 
 #game_over_score
 {
-    font-size: 2rem;
+    font-size: 1.6rem;
 }
 
 #game_over_buttons

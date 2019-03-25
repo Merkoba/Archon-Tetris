@@ -33,7 +33,7 @@ Tetris.init_variables = function()
     Tetris.game.css("width", `${Tetris.game_width}px`)
     Tetris.game.css("height", `${Tetris.game_height}px`)
     
-    Tetris.seed = Tetris.options.seed || Date.now().toString()
+    Tetris.seed = Tetris.options.seed || Date.now().toString().slice(-3)
     Tetris.random = new Math.seedrandom(Tetris.seed)
     console.info(`Using seed: ${Tetris.seed}`)
 }
@@ -50,7 +50,6 @@ Tetris.start_game = function()
     Tetris.init_variables()
     Tetris.create_grid()
     Tetris.create_pieces()
-    Tetris.setup_next_pieces()
     
     Tetris.score = 0
     Tetris.level = 1
@@ -58,13 +57,13 @@ Tetris.start_game = function()
     Tetris.combo_charged = false
     Tetris.pieces_delivered = 0
     Tetris.level_charge = 0
-    Tetris.next_pieces = []
+    Tetris.previews = []
     
+    Tetris.setup_previews()
     Tetris.set_score_text()
     Tetris.set_level_text()
     Tetris.set_combo_text()
     Tetris.set_seed_text()
-    Tetris.generate_initial_pieces()
     Tetris.close_all_windows()
 
     Tetris.start_countdown()
@@ -172,8 +171,12 @@ Tetris.pause_game = function()
 
     Tetris.game_paused = true
     Tetris.piece_active = false
-    Tetris.stop_descent_timeout()
-    Tetris.stop_music()
+
+    if(Tetris.game_started)
+    {
+        Tetris.stop_descent_timeout()
+        Tetris.stop_music()
+    }
 }
 
 Tetris.unpause_game = function()
@@ -185,8 +188,12 @@ Tetris.unpause_game = function()
     
     Tetris.game_paused = false
     Tetris.piece_active = true
-    Tetris.start_descent_timeout()
-    Tetris.start_music()
+
+    if(Tetris.game_started)
+    {
+        Tetris.start_descent_timeout()
+        Tetris.start_music()
+    }
 }
 
 Tetris.toggle_pause_game = function()
@@ -291,9 +298,12 @@ Tetris.start_windows = function()
 {
     let common = 
     {
-        after_show: function()
+        before_show: function()
         {
             Tetris.pause_game()
+        },
+        after_show: function()
+        {
             Tetris.modal_open = true
         },
         after_close: function()
@@ -472,19 +482,6 @@ Tetris.hide_ghost = function()
 Tetris.close_all_windows = function()
 {
     Tetris.msg_menu.close_all()
-}
-
-Tetris.setup_next_pieces = function()
-{
-    $("#next_pieces").html("")
-
-    let s = "<div class='next_piece'><div class='next_piece_element'></div></div>"
-
-    for(let i=0; i<Tetris.num_next_pieces; i++)
-    {
-        let html = $(s)
-        $("#next_pieces").append(html)
-    }
 }
 
 Tetris.format_number = function(n)

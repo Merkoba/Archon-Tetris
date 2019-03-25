@@ -46,11 +46,11 @@
                 </div>
                 <div id='sidebar'>
                     <div id='active_piece'></div>
-                    <div id='next_pieces'></div>
+                    <div id='previews'></div>
                 </div>
             </div>
         </div>
-        <div id='intro' class='unselectable'>
+        <div id='intro'>
             <img id='intro_image' src='intro.jpg'>
             <div id='intro_credits'>
                 Tetris © 1985 Tetris Holding.<br>
@@ -104,6 +104,10 @@
                 <input type='number' id='option_number_of_columns' class='options_widget options_number' data-options-widget-type='number'>
             </div>
             <div class='options_item'>
+                <div class='options_label'>Previews</div>
+                <input type='number' id='option_number_of_previews' class='options_widget options_number' data-options-widget-type='number'>
+            </div>
+            <div class='options_item'>
                 <div class='options_label'>Seed</div>
                 <input type='text' id='option_seed' class='options_widget options_text' data-options-widget-type='text' placeholder="Empty == Random">
             </div>
@@ -139,7 +143,7 @@
     <script id='template_game_over' type='text/x-handlebars-template' class='template'>
         <div id='game_over_container'>
             <div id='game_over_score'></div>
-            <div id='game_over_buttons' class='unselectable'>
+            <div id='game_over_buttons'>
                 <div id='game_over_play_again' class='game_over_button action'>Play Again</div>
             </div>
         </div>

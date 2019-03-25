@@ -1,4 +1,3 @@
-Tetris.num_next_pieces = 3
 Tetris.element_preview_block_size = 15
 
 Tetris.create_pieces = function()
@@ -320,19 +319,6 @@ Tetris.create_pieces = function()
     }
 }
 
-Tetris.generate_initial_pieces = function()
-{
-    for(let i=0; i<Tetris.num_next_pieces; i++)
-    {
-        Tetris.add_next_piece()
-    }
-}
-
-Tetris.add_next_piece = function()
-{
-    Tetris.next_pieces.push(Tetris.get_random_piece())
-}
-
 Tetris.get_random_piece = function()
 {
     const n = Tetris.get_random_int(1, Object.keys(Tetris.pieces).length)
@@ -384,7 +370,18 @@ Tetris.place_next_piece = function()
         return false
     }
 
-    let piece = Tetris.next_pieces.shift()
+    let piece
+
+    if(Tetris.previews.length > 0)
+    {
+        piece = Tetris.previews.shift()
+    }
+
+    else
+    {
+        piece = Tetris.get_random_piece()
+    }
+
     // let piece = Tetris.pieces["stick"]
     // let piece = Tetris.pieces["periscope_right"]
     // let piece = Tetris.pieces["periscope_left"]
@@ -408,10 +405,10 @@ Tetris.place_next_piece = function()
     Tetris.doing_drop = false
 
     Tetris.update_piece_nodes()
-    Tetris.add_next_piece()
+    Tetris.add_preview()
     Tetris.update_ghost_piece()
     Tetris.start_descent_timeout()
-    Tetris.update_next_pieces()
+    Tetris.update_previews()
 }
 
 Tetris.rotate_piece = function(direction="right")
@@ -1221,22 +1218,6 @@ Tetris.get_placed_piece_nodes = function(element)
     return nodes
 }
 
-Tetris.update_next_pieces = function()
-{
-    let i = 0
-    
-    $("#next_pieces .next_piece_element").each(function()
-    {
-        let piece = Tetris.next_pieces[i]
-        let element = piece.element_preview.clone()
-        $(this).html(element)
-        i += 1
-    })
-
-    let element = Tetris.current_piece.element_preview.clone()
-    $("#active_piece").html(element)
-}
-
 Tetris.get_placed_block_position = function(block)
 {
     let position = {}
@@ -1296,4 +1277,63 @@ Tetris.calculate_clear_score = function(num_cleared)
     let score = multiplier * Tetris.level
 
     Tetris.add_score(score)
+}
+
+Tetris.add_preview = function()
+{
+    if(Tetris.options.number_of_previews > 0)
+    {
+        Tetris.previews.push(Tetris.get_random_piece())
+    }
+}
+
+Tetris.setup_previews = function()
+{
+    let length = Tetris.previews.length
+
+    if(length < Tetris.options.number_of_previews)
+    {
+        let n = Tetris.options.number_of_previews - length
+    
+        for(let i=0; i<n; i++)
+        {
+            Tetris.add_preview()
+        }
+    }
+
+    else if(length > Tetris.options.number_of_previews)
+    {
+        Tetris.previews = Tetris.previews.slice(0, Tetris.options.number_of_previews)
+    }
+
+    $("#previews").html("")
+
+    let s = "<div class='preview'><div class='preview_element'></div></div>"
+
+    for(let i=0; i<Tetris.options.number_of_previews; i++)
+    {
+        let html = $(s)
+        $("#previews").append(html)
+    }
+
+    Tetris.update_previews()
+}
+
+Tetris.update_previews = function()
+{
+    let i = 0
+    
+    $("#previews .preview_element").each(function()
+    {
+        let piece = Tetris.previews[i]
+        let element = piece.element_preview.clone()
+        $(this).html(element)
+        i += 1
+    })
+
+    if(Tetris.current_piece)
+    {
+        let element = Tetris.current_piece.element_preview.clone()
+        $("#active_piece").html(element)
+    }
 }
