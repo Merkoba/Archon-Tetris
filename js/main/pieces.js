@@ -549,7 +549,12 @@ Tetris.on_piece_placed = async function()
 
         Tetris.prepare_placed_piece(Tetris.current_element, Tetris.current_mode)
 
-        await Tetris.check_lines_cleared()
+        let num_cleared = await Tetris.check_lines_cleared()
+
+        if(num_cleared === 0)
+        {
+            Tetris.play_sound("locked")
+        }
 
         if(Tetris.combo > 0)
         {
