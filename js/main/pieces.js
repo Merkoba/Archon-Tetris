@@ -549,20 +549,7 @@ Tetris.on_piece_placed = async function()
 
         Tetris.prepare_placed_piece(Tetris.current_element, Tetris.current_mode)
 
-        let num_cleared = await Tetris.check_lines_cleared()
-
-        if(num_cleared > 0)
-        {
-            Tetris.charge_level(num_cleared)
-            Tetris.charge_combo()
-            Tetris.calculate_clear_score(num_cleared)
-            Tetris.lines_cleared += num_cleared
-        }
-
-        else
-        {
-            Tetris.reset_combo()
-        }
+        await Tetris.check_lines_cleared()
 
         if(Tetris.combo > 0)
         {
@@ -964,8 +951,26 @@ Tetris.check_lines_cleared = async function(num_cleared=0)
     
     return new Promise(async (resolve, reject) =>
     {
-        resolve(num_cleared + num_lines_cleared)
+        let total = num_cleared + num_lines_cleared
+        Tetris.on_lines_cleared(total)
+        resolve(total)
     })
+}
+
+Tetris.on_lines_cleared = function(num_cleared)
+{
+    if(num_cleared > 0)
+    {
+        Tetris.charge_level(num_cleared)
+        Tetris.charge_combo()
+        Tetris.calculate_clear_score(num_cleared)
+        Tetris.lines_cleared += num_cleared
+    }
+
+    else
+    {
+        Tetris.reset_combo()
+    }
 }
 
 Tetris.clear_line = async function(y)
@@ -1065,6 +1070,17 @@ Tetris.separate_blocks = function(element)
     })
 
     $(element).remove()
+}
+
+Tetris.separate_all_blocks = function()
+{
+    $(".placed_piece").each(function()
+    {
+        Tetris.separate_blocks(this)
+    })
+
+    Tetris.make_placed_pieces_fall()
+    Tetris.check_lines_cleared()
 }
 
 Tetris.get_block_at_position = function(x, y)

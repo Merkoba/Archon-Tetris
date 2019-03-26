@@ -36,6 +36,7 @@
                     <div id='info'>
                         <div id='level_text'>Level: 0</div>
                         <div id='combo_text'>Combo: 0</div>
+                        <div id='pow_text'>POW: 0</div>
                     </div>
                     <div id='info2'>
                         <div id='seed_text'>Seed: None</div>
@@ -74,6 +75,7 @@
         <audio preload id='sound_rotate' src='audio/rotate.mp3?version=2'></audio>
         <audio preload id='sound_clear' src='audio/clear.mp3?version=2'></audio>
         <audio preload id='sound_game_over' src='audio/game_over.mp3?version=2'></audio>
+        <audio preload id='sound_pow' src='audio/pow.mp3?version=2'></audio>
     </body>
 
     <script id='template_menu' type='text/x-handlebars-template' class='template'>
@@ -146,6 +148,9 @@
             </div>
             <div class='help_item'>
                 Escape: Pause the game and open the menu
+            </div>
+            <div class='help_item'>
+                Enter: Activates a POW. This separates all Tetromino blocks into their own block, causing them to fall
             </div>
             <div class='help_item'>
                 Clearing a line separates all blocks from the Tetromino into their own block

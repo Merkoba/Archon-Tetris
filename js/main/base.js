@@ -66,12 +66,15 @@ Tetris.start_game = function()
     Tetris.previews = []
     Tetris.max_combo = 0
     Tetris.lines_cleared = 0
+    Tetris.pow = 3
+    Tetris.pow_charge = 0
     
     Tetris.setup_previews()
     Tetris.set_score_text()
     Tetris.set_level_text()
     Tetris.set_combo_text()
     Tetris.set_seed_text()
+    Tetris.set_pow_text()
     Tetris.close_all_windows()
     
     Tetris.start_countdown()
@@ -565,5 +568,34 @@ Tetris.charge_level = function(num_cleared)
         {
             Tetris.level_charge = 0
         }
+
+        Tetris.pow_charge += whole
+
+        if(Tetris.pow_charge >= 10)
+        {
+            Tetris.pow += 1
+            Tetris.pow_charge = 0
+            Tetris.set_pow_text()
+        }
     }
+}
+
+Tetris.set_pow_text = function()
+{
+    let s = `POW: ${Tetris.pow}`
+    $("#pow_text").text(s)
+}
+
+Tetris.activate_pow = function()
+{
+    if(Tetris.pow === 0)
+    {
+        Tetris.play_sound("tone_1")
+        return false
+    }
+
+    Tetris.separate_all_blocks()
+    Tetris.play_sound("pow")
+    Tetris.pow -= 1
+    Tetris.set_pow_text()
 }

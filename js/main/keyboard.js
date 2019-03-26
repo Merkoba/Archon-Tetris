@@ -41,7 +41,7 @@ Tetris.start_key_detection = function()
 
             else if(e.key === "Enter")
             {
-                // Do POW
+                Tetris.activate_pow()
                 e.preventDefault()
                 return false
             }
