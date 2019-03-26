@@ -1200,11 +1200,9 @@ Tetris.make_placed_pieces_fall = function()
                             original_node.element = undefined
                         }
 
-                        let new_nodes = Tetris.descend_nodes(original_nodes, move_count)
-
-                        for(let i=0; i<new_nodes.length; i++)
+                        for(let i=0; i<nodes.length; i++)
                         {
-                            let node = new_nodes[i]
+                            let node = nodes[i]
                             let x = node[0]
                             let y = node[1]
                             let new_node = Tetris.grid[y][x]
