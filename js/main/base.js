@@ -48,7 +48,6 @@ Tetris.start_game = function()
     Tetris.game_started = false
     Tetris.piece_active = false
 
-    Tetris.stop_music()
     Tetris.stop_descent_timeout()
     Tetris.stop_drop_piece_timeout()
     Tetris.stop_countdown()
@@ -70,6 +69,7 @@ Tetris.start_game = function()
     Tetris.set_combo_text()
     Tetris.set_seed_text()
     Tetris.close_all_windows()
+    Tetris.start_music(true, true)
 
     Tetris.start_countdown()
 }
@@ -81,7 +81,6 @@ Tetris.do_start_game = function()
     Tetris.game_started = true
 
     Tetris.stop_countdown()
-    Tetris.start_music(true)
     Tetris.place_next_piece()
 }
 
@@ -279,9 +278,9 @@ Tetris.hide_intro = function()
     }, 1000)
 }
 
-Tetris.start_music = function(reset=false)
+Tetris.start_music = function(reset=false, force=false)
 {
-    if(!Tetris.game_started || !Tetris.options.enable_music)
+    if(!force && (!Tetris.game_started || !Tetris.options.enable_music))
     {
         return false
     }
@@ -407,6 +406,14 @@ Tetris.compile_templates = function()
 
 Tetris.setup_click_events = function()
 {
+    $("body").click(function()
+    {
+        if(Tetris.on_intro)
+        {
+            Tetris.hide_intro()
+        }
+    })
+
     $("#menu").click(function()
     {
         Tetris.show_menu()
@@ -425,14 +432,6 @@ Tetris.setup_click_events = function()
     $("#menu_help").click(function()
     {
         Tetris.show_help()
-    })
-
-    $("body").click(function()
-    {
-        if(Tetris.on_intro)
-        {
-            Tetris.hide_intro()
-        }
     })
 
     $("#game_over_play_again").click(function()

@@ -1187,16 +1187,30 @@ Tetris.make_placed_pieces_fall = function()
                 {
                     if(moved)
                     {
+                        let elements = []
+
                         for(let node of original_nodes)
                         {
                             let x = node[0]
                             let y = node[1]
-                            
-                            Tetris.grid[y - move_count][x].used = true
-                            Tetris.grid[y - move_count][x].element = Tetris.grid[y][x].element
+                            let original_node = Tetris.grid[y][x]
 
-                            Tetris.grid[y][x].used = false
-                            Tetris.grid[y][x].element = undefined
+                            elements.push(original_node.element)
+                            original_node.used = false
+                            original_node.element = undefined
+                        }
+
+                        let new_nodes = Tetris.descend_nodes(original_nodes, move_count)
+
+                        for(let i=0; i<new_nodes.length; i++)
+                        {
+                            let node = new_nodes[i]
+                            let x = node[0]
+                            let y = node[1]
+                            let new_node = Tetris.grid[y][x]
+
+                            new_node.used = true
+                            new_node.element = elements[i]
                         }
                     }
 
@@ -1351,13 +1365,13 @@ Tetris.update_previews = function()
     }
 }
 
-Tetris.descend_nodes = function(nodes)
+Tetris.descend_nodes = function(nodes, amount=1)
 {
     let new_nodes = []
 
     for(let node of nodes)
     {
-        new_nodes.push([node[0], node[1] - 1])
+        new_nodes.push([node[0], node[1] - amount])
     }
 
     return new_nodes
