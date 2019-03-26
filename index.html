@@ -69,8 +69,9 @@
         <audio preload id='sound_game_started' src='game_started.mp3?version=1'></audio>
         <audio preload id='sound_placed' src='placed.mp3?version=1'></audio>
         <audio preload id='sound_intro' src='intro.mp3?version=1'></audio>
-        <audio preload id='sound_rotate' src='rotate.mp3?version=1'></audio>
+        <audio preload id='sound_rotate' src='rotate.mp3?version=2'></audio>
         <audio preload id='sound_clear' src='clear.mp3?version=2'></audio>
+        <audio preload id='sound_game_over' src='game_over.mp3?version=2'></audio>
     </body>
 
     <script id='template_menu' type='text/x-handlebars-template' class='template'>
@@ -108,8 +109,15 @@
                 <input type='number' id='option_number_of_previews' class='options_widget options_number' data-options-widget-type='number'>
             </div>
             <div class='options_item'>
+                <div class='options_label'>Block Size</div>
+                <input type='number' id='option_block_size' class='options_widget options_number' data-options-widget-type='number'>
+            </div>
+            <div class='options_item'>
                 <div class='options_label'>Seed</div>
                 <input type='text' id='option_seed' class='options_widget options_text' data-options-widget-type='text' placeholder="Empty == Random">
+            </div>
+            <div class='options_item'>
+                <div id="options_reset_button" class='action'>Reset To Defaults</div>
             </div>
         </div>
     </script>

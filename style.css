@@ -357,6 +357,11 @@ body, html
     margin-bottom: 0.5rem;
 }
 
+#options_reset_button
+{
+    cursor: pointer;
+}
+
 .horizontal_separator
 {
     margin-left: 0.5rem;
@@ -418,12 +423,12 @@ body *
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 24rem;
 }
 
 #game_over_score
 {
     font-size: 1.6rem;
+    white-space: nowrap;
 }
 
 #game_over_buttons

@@ -23,7 +23,7 @@ Tetris.init_variables = function()
 {
     Tetris.game = $("#game")
     
-    Tetris.block_size = 36
+    Tetris.block_size = Tetris.options.block_size
     Tetris.num_horizontal_blocks = Tetris.options.number_of_columns
     Tetris.num_vertical_blocks = Tetris.options.number_of_rows
     
@@ -36,6 +36,11 @@ Tetris.init_variables = function()
     Tetris.seed = Tetris.options.seed || Date.now().toString().slice(-3)
     Tetris.random = new Math.seedrandom(Tetris.seed)
     console.info(`Using seed: ${Tetris.seed}`)
+
+    Tetris.original_number_of_rows = Tetris.options.number_of_rows
+    Tetris.original_number_of_columns = Tetris.options.number_of_columns
+    Tetris.original_block_size = Tetris.options.block_size
+    Tetris.original_seed = Tetris.options.seed
 }
 
 Tetris.start_game = function()
@@ -131,6 +136,8 @@ Tetris.on_game_over = function()
     
     $("#game_over_score").text(`Score: ${Tetris.format_number(Tetris.score)}`)
     Tetris.msg_game_over.show()
+
+    Tetris.play_sound("game_over")
 }
 
 Tetris.get_descent_delay = function()
@@ -338,16 +345,7 @@ Tetris.start_windows = function()
             {
                 after_close: function()
                 {
-                    if(Tetris.restart_required)
-                    {
-                        if(confirm("To apply these settings the game must be restarted. Restart now?"))
-                        {
-                            Tetris.start_game()
-                        }
-                    }
-                    
-                    Tetris.restart_required = false
-
+                    Tetris.on_options_close()
                     common.after_close()
                 }
             }
@@ -391,11 +389,6 @@ Tetris.start_windows = function()
     Tetris.msg_help.set_title("Help")
     Tetris.msg_game_over.set(Tetris.template_game_over())
     Tetris.msg_game_over.set_title("Game Over")
-}
-
-Tetris.show_options = function()
-{
-    Tetris.msg_options.show()
 }
 
 Tetris.compile_templates = function()
@@ -445,6 +438,11 @@ Tetris.setup_click_events = function()
     $("#game_over_play_again").click(function()
     {
         Tetris.start_game()
+    })
+
+    $("#options_reset_button").click(function()
+    {
+        Tetris.reset_options()
     })
 }
 
@@ -502,9 +500,12 @@ Tetris.set_seed_text = function()
 
 Tetris.play_sound = function(name)
 {
-    $(`#sound_${name}`)[0].pause()
-    $(`#sound_${name}`)[0].currentTime = 0
-    $(`#sound_${name}`)[0].play()
+    if(Tetris.options.enable_sound_effects)
+    {
+        $(`#sound_${name}`)[0].pause()
+        $(`#sound_${name}`)[0].currentTime = 0
+        $(`#sound_${name}`)[0].play()
+    }
 }
 
 Tetris.charge_level = function(num_cleared)
