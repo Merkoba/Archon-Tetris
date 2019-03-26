@@ -268,10 +268,15 @@ Tetris.set_combo_text = function()
 
 Tetris.hide_intro = function()
 {
-    $("#intro").css("display", "none")
-    $("#main").css("display", "flex")
     Tetris.on_intro = false
     Tetris.start_game(true)
+
+    $("#intro").css("opacity", 0)
+    
+    setTimeout(function()
+    {
+        $("#intro").css("display", "none")
+    }, 1000)
 }
 
 Tetris.start_music = function(reset=false)
@@ -422,11 +427,6 @@ Tetris.setup_click_events = function()
         Tetris.show_help()
     })
 
-    $("#seed_text").click(function()
-    {
-        Tetris.show_options()
-    })
-
     $("body").click(function()
     {
         if(Tetris.on_intro)
@@ -450,6 +450,7 @@ Tetris.setup_separators = function()
 {
     Tetris.horizontal_separator = Separator.factory({type:"horizontal"})
     Tetris.horizontal_separator.separate("info")
+    Tetris.horizontal_separator.separate("info2")
 }
 
 Tetris.show_menu = function()
