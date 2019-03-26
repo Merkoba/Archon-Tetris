@@ -39,7 +39,7 @@
                     </div>
                     <div id='info2'>
                         <div id='seed_text'>Seed: None</div>
-                        <div id='menu' class='action'>Menu</div>
+                        <div id='menu' class='action unselectable'>Menu</div>
                     </div>
                 </div>
                 <div id='game_container'>
@@ -147,12 +147,18 @@
             <div class='help_item'>
                 Escape: Pause the game and open the menu
             </div>
+            <div class='help_item'>
+                Clearing a line separates all blocks from the Tetromino into their own block
+            </div>
         </div>
     </script>
 
     <script id='template_game_over' type='text/x-handlebars-template' class='template'>
         <div id='game_over_container'>
-            <div id='game_over_score'></div>
+            <div id='game_over_score' class='game_over_big'></div>
+            <div id='game_over_time' class='game_over_big'></div>
+            <div id='game_over_lines_cleared' class='game_over_big'></div>
+            <div id='game_over_max_combo' class='game_over_big'></div>
             <div id='game_over_buttons'>
                 <div id='game_over_play_again' class='game_over_button action'>Play Again</div>
             </div>

@@ -124,7 +124,7 @@ Tetris.get_exposed_nodes = function(nodes)
     return exposed
 }
 
-const async_timeout = (cb, timeout = 0) => new Promise(resolve => 
+Tetris.async_timeout = (cb, timeout = 0) => new Promise(resolve => 
 {
     setTimeout(() => 
     {
@@ -136,4 +136,66 @@ const async_timeout = (cb, timeout = 0) => new Promise(resolve =>
 Tetris.get_position_data = function(element)
 {
     return {top: $(element).data("top"), left: $(element).data("left")}
+}
+
+Tetris.nice_time = function(date1, date2)
+{
+    let d
+
+    if(date1 > date2)
+    {
+        d = (date1 - date2)
+    }
+
+    else
+    {
+        d = (date2 - date1)
+    }
+
+    let nt
+
+    if(d >= 1000 * 60)
+    {
+        let dm = Tetris.round(d / 1000 / 60, 3)
+
+        if(dm === 1)
+        {
+            nt = `${dm} minute`
+        }
+
+        else
+        {
+            nt = `${dm} minutes`
+        }
+    }
+
+    else if(d >= 1000)
+    {
+        let dm = Tetris.round(d / 1000, 3)
+
+        if(dm === 1)
+        {
+            nt = `${dm} second`
+        }
+
+        else
+        {
+            nt = `${dm} seconds`
+        }
+    }
+
+    else
+    {
+        if(d === 1)
+        {
+            nt = `${d} millisecond`
+        }
+
+        else
+        {
+            nt = `${d} milliseconds`
+        }
+    }
+
+    return nt
 }

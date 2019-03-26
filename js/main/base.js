@@ -1,5 +1,7 @@
 const Tetris = {}
 
+Tetris.debug = false
+
 Tetris.init = function()
 {
     Tetris.game_started = false
@@ -62,6 +64,8 @@ Tetris.start_game = function()
     Tetris.pieces_delivered = 0
     Tetris.level_charge = 0
     Tetris.previews = []
+    Tetris.max_combo = 0
+    Tetris.lines_cleared = 0
     
     Tetris.setup_previews()
     Tetris.set_score_text()
@@ -69,9 +73,9 @@ Tetris.start_game = function()
     Tetris.set_combo_text()
     Tetris.set_seed_text()
     Tetris.close_all_windows()
-    Tetris.start_music(true, true)
-
+    
     Tetris.start_countdown()
+    Tetris.start_music(true)
 }
 
 Tetris.do_start_game = function()
@@ -79,9 +83,14 @@ Tetris.do_start_game = function()
     Tetris.on_countdown = false
     Tetris.game_paused = false
     Tetris.game_started = true
+    Tetris.game_started_date = Date.now()
 
     Tetris.stop_countdown()
-    Tetris.place_next_piece()
+
+    if(!Tetris.debug)
+    {
+        Tetris.place_next_piece()
+    }
 }
 
 Tetris.stop_countdown = function()
@@ -126,14 +135,20 @@ Tetris.start_countdown = function()
 
 Tetris.on_game_over = function()
 {
+    Tetris.game_over_date = Date.now()
     Tetris.game_started = false
     Tetris.piece_active = false
     Tetris.on_countdown = false
     Tetris.stop_descent_timeout()
     Tetris.stop_drop_piece_timeout()
     Tetris.stop_music()
+
+    let nice_time = Tetris.nice_time(Tetris.game_over_date, Tetris.game_started_date)
     
     $("#game_over_score").text(`Score: ${Tetris.format_number(Tetris.score)}`)
+    $("#game_over_time").text(`Time: ${nice_time}`)
+    $("#game_over_lines_cleared").text(`Lines Cleared: ${Tetris.lines_cleared}`)
+    $("#game_over_max_combo").text(`Max Combo: ${Tetris.max_combo}`)
     Tetris.msg_game_over.show()
 
     Tetris.play_sound("game_over")
@@ -178,10 +193,11 @@ Tetris.pause_game = function()
     Tetris.game_paused = true
     Tetris.piece_active = false
 
+    Tetris.stop_music()
+
     if(Tetris.game_started)
     {
         Tetris.stop_descent_timeout()
-        Tetris.stop_music()
     }
 }
 
@@ -195,10 +211,11 @@ Tetris.unpause_game = function()
     Tetris.game_paused = false
     Tetris.piece_active = true
 
+    Tetris.start_music()
+
     if(Tetris.game_started)
     {
         Tetris.start_descent_timeout()
-        Tetris.start_music()
     }
 }
 
@@ -244,6 +261,11 @@ Tetris.charge_combo = function()
     {
         Tetris.combo += 1
         Tetris.set_combo_text()
+
+        if(Tetris.combo > Tetris.max_combo)
+        {
+            Tetris.max_combo = Tetris.combo
+        }
     }
 
     else
@@ -278,9 +300,9 @@ Tetris.hide_intro = function()
     }, 1000)
 }
 
-Tetris.start_music = function(reset=false, force=false)
+Tetris.start_music = function(reset=false)
 {
-    if(!force && (!Tetris.game_started || !Tetris.options.enable_music))
+    if((!Tetris.game_started || !Tetris.options.enable_music) && !Tetris.on_countdown)
     {
         return false
     }

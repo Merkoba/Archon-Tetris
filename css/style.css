@@ -426,10 +426,11 @@ body *
     justify-content: center;
 }
 
-#game_over_score
+.game_over_big
 {
     font-size: 1.6rem;
     white-space: nowrap;
+    margin-bottom: 0.5rem;
 }
 
 #game_over_buttons

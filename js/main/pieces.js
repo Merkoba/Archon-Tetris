@@ -363,7 +363,7 @@ Tetris.get_random_piece = function()
     return Tetris.pieces[name]
 }
 
-Tetris.place_next_piece = function()
+Tetris.place_next_piece = function(piece_name=false)
 {
     if(!Tetris.game_started)
     {
@@ -372,14 +372,22 @@ Tetris.place_next_piece = function()
 
     let piece
 
-    if(Tetris.previews.length > 0)
+    if(!piece_name)
     {
-        piece = Tetris.previews.shift()
+        if(Tetris.previews.length > 0)
+        {
+            piece = Tetris.previews.shift()
+        }
+    
+        else
+        {
+            piece = Tetris.get_random_piece()
+        }
     }
 
     else
     {
-        piece = Tetris.get_random_piece()
+        piece = Tetris.pieces[piece_name]
     }
 
     // let piece = Tetris.pieces["stick"]
@@ -522,25 +530,24 @@ Tetris.on_piece_placed = async function()
     
     Tetris.lock_timeout = setTimeout(async function()
     {
+        Tetris.stop_descent_timeout()
         Tetris.piece_getting_locked = false
 
         if(Tetris.ghost_piece)
         {
             Tetris.ghost_piece.remove()
         }
-
-        Tetris.prepare_placed_piece(Tetris.current_element, Tetris.current_mode)
-
+        
         for(let node of Tetris.current_nodes)
         {
-            if(node[1] > Tetris.grid.length - 1)
+            if(node[1] >= Tetris.grid.length)
             {
                 Tetris.on_game_over()
                 return false
             }
         }
-        
-        Tetris.stop_descent_timeout()
+
+        Tetris.prepare_placed_piece(Tetris.current_element, Tetris.current_mode)
 
         let num_cleared = await Tetris.check_lines_cleared()
 
@@ -549,6 +556,7 @@ Tetris.on_piece_placed = async function()
             Tetris.charge_level(num_cleared)
             Tetris.charge_combo()
             Tetris.calculate_clear_score(num_cleared)
+            Tetris.lines_cleared += num_cleared
         }
 
         else
@@ -562,7 +570,10 @@ Tetris.on_piece_placed = async function()
             Tetris.add_score(score)
         }
 
-        Tetris.place_next_piece()
+        if(!Tetris.debug)
+        {
+            Tetris.place_next_piece()
+        }
     }, 500)
 }
 
@@ -585,18 +596,11 @@ Tetris.move_down = function(from="generic")
     let exposed_nodes = Tetris.get_exposed_nodes(Tetris.current_nodes)
     let finish_after_move = false
     let move = true
-    let all_above = true
 
     for(let node of exposed_nodes)
     {
         let x = node[0]
         let y = node[1]
-
-        if(y < Tetris.grid.length)
-        {
-            all_above = false
-        }
-
         let y2 = y - 1
         let y3 = y - 2
 
@@ -639,12 +643,6 @@ Tetris.move_down = function(from="generic")
                 finish_after_move = true
             }
         }
-    }
-
-    if(!move && all_above)
-    {
-        Tetris.on_game_over()
-        return false
     }
 
     if(move)
@@ -958,7 +956,6 @@ Tetris.check_lines_cleared = async function(num_cleared=0)
 
     if(num_lines_cleared > 0)
     {
-        
         if(Tetris.make_placed_pieces_fall())
         {
             return Tetris.check_lines_cleared(num_cleared + num_lines_cleared)
@@ -994,7 +991,7 @@ Tetris.clear_line = async function(y)
             
             $(block).addClass("cleared_piece")
             
-            await async_timeout(function()
+            await Tetris.async_timeout(function()
             {
                 $(block).remove()
             }, 10)
@@ -1373,4 +1370,68 @@ Tetris.descend_nodes = function(nodes, amount=1)
     }
 
     return new_nodes
+}
+
+Tetris.fill = async function()
+{
+    let delay = 1000
+
+    for(let i=0; i<8; i++)
+    {
+        Tetris.place_next_piece("stick")
+        Tetris.rotate_piece("right")
+        Tetris.move_sideways("left")
+        Tetris.move_sideways("left")
+        Tetris.move_sideways("left")
+        Tetris.drop_piece()
+    
+        await Tetris.async_timeout(function()
+        {
+    
+        }, delay)
+    }
+
+    for(let i=0; i<8; i++)
+    {
+        Tetris.place_next_piece("stick")
+        Tetris.rotate_piece("right")
+        Tetris.move_sideways("right")
+        Tetris.drop_piece()
+    
+        await Tetris.async_timeout(function()
+        {
+    
+        }, delay)
+    }
+
+    for(let i=0; i<2; i++)
+    {
+        Tetris.place_next_piece("stick")
+        Tetris.move_sideways("right")
+        Tetris.move_sideways("right")
+        Tetris.move_sideways("right")
+        Tetris.move_sideways("right")
+        Tetris.drop_piece()
+    
+        await Tetris.async_timeout(function()
+        {
+    
+        }, delay)
+    }
+
+    for(let i=0; i<2; i++)
+    {
+        Tetris.place_next_piece("stick")
+        Tetris.move_sideways("right")
+        Tetris.move_sideways("right")
+        Tetris.move_sideways("right")
+        Tetris.move_sideways("right")
+        Tetris.move_sideways("right")
+        Tetris.drop_piece()
+    
+        await Tetris.async_timeout(function()
+        {
+    
+        }, delay * 2)
+    }
 }
