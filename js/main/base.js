@@ -161,7 +161,7 @@ Tetris.on_game_over = function()
     $("#game_over_time").text(`Time: ${nice_time}`)
     $("#game_over_lines_cleared").text(`Lines Cleared: ${Tetris.lines_cleared}`)
     $("#game_over_max_combo").text(`Max Combo: ${Tetris.max_combo}`)
-    $("#game_over_max_combo").text(`POW Used: ${Tetris.pows_used}`)
+    $("#game_over_pows_used").text(`POW Used: ${Tetris.pows_used}`)
     Tetris.msg_game_over.show()
 
     Tetris.play_sound("game_over")
