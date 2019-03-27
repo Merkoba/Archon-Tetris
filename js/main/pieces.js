@@ -1,4 +1,8 @@
 Tetris.element_preview_block_size = 15
+Tetris.element_wheel_preview_block_size = 40
+Tetris.placed_element_data = {}
+Tetris.piece_picker_time = 3000
+Tetris.placed_id = 1
 
 Tetris.create_pieces = function()
 {
@@ -187,8 +191,12 @@ Tetris.create_pieces = function()
         }
     }
 
+    Tetris.pieces_list = []
+
     for(let key in Tetris.pieces)
     {
+        Tetris.pieces_list.push(key)
+
         let piece = Tetris.pieces[key]
         let first_mode = piece.modes[0]
         let map = piece.map
@@ -244,7 +252,6 @@ Tetris.create_pieces = function()
         piece_container_element.css("padding-right", `${padding_right}px`)
         piece_container_element.css("padding-top", `${padding_top}px`)
         piece_container_element.css("padding-bottom", `${padding_bottom}px`)
-        piece_container_element.data("piece_type", key)
 
         let piece_element = $("<div class='piece'></div>")
         piece_element.css("width", `${width}px`)
@@ -257,10 +264,19 @@ Tetris.create_pieces = function()
         piece_element_preview.css("width", `${width2}px`)
         piece_element_preview.css("height", `${height2}px`)
 
+        let width3 = first_mode.width * Tetris.element_wheel_preview_block_size
+        let height3 = first_mode.height * Tetris.element_wheel_preview_block_size
+
+        let piece_element_wheel_preview = $("<div class='piece'></div>")
+        piece_element_wheel_preview.css("width", `${width3}px`)
+        piece_element_wheel_preview.css("height", `${height3}px`)
+
         let x = 0
         let x2 = 0
+        let x3 = 0
         let y = 0
         let y2 = 0
+        let y3 = 0
         let map_n = 0
         let break_loops = false
 
@@ -293,6 +309,14 @@ Tetris.create_pieces = function()
                     piece_block_element_preview.css("bottom", y2)
                     
                     piece_element_preview.append(piece_block_element_preview)
+
+                    let piece_block_element_wheel_preview = $(`<div class='piece_block piece_type_${key}'></div>`)
+                    piece_block_element_wheel_preview.css("width", `${Tetris.element_wheel_preview_block_size}px`)
+                    piece_block_element_wheel_preview.css("height", `${Tetris.element_wheel_preview_block_size}px`)
+                    piece_block_element_wheel_preview.css("left", x3)
+                    piece_block_element_wheel_preview.css("bottom", y3)
+                    
+                    piece_element_wheel_preview.append(piece_block_element_wheel_preview)
                     
                     if(map_n === map.length - 1)
                     {
@@ -305,17 +329,21 @@ Tetris.create_pieces = function()
 
                 x += Tetris.block_size
                 x2 += Tetris.element_preview_block_size
+                x3 += Tetris.element_wheel_preview_block_size
             }
 
             x = 0
             x2 = 0
+            x3 = 0
             y += Tetris.block_size
             y2 += Tetris.element_preview_block_size
+            y3 += Tetris.element_wheel_preview_block_size
         }
 
         piece_container_element.append(piece_element)
         piece.element = piece_container_element
         piece.element_preview = piece_element_preview
+        piece.element_wheel_preview = piece_element_wheel_preview
     }
 }
 
@@ -370,9 +398,22 @@ Tetris.place_next_piece = function(piece_name=false)
         return false
     }
 
+    if(Tetris.show_piece_picker_next)
+    {
+        Tetris.show_piece_picker_next = false
+        Tetris.show_piece_picker()
+        return false
+    }
+
     let piece
 
-    if(!piece_name)
+    if(Tetris.queued_left > 0)
+    {
+        piece = Tetris.pieces[Tetris.queued_piece]
+        Tetris.queued_left -= 1
+    }
+
+    else if(!piece_name)
     {
         if(Tetris.previews.length > 0)
         {
@@ -390,13 +431,14 @@ Tetris.place_next_piece = function(piece_name=false)
         piece = Tetris.pieces[piece_name]
     }
 
-    // let piece = Tetris.pieces["stick"]
-    // let piece = Tetris.pieces["periscope_right"]
-    // let piece = Tetris.pieces["periscope_left"]
-    // let piece = Tetris.pieces["dog_right"]
-    // let piece = Tetris.pieces["dog_left"]
-    // let piece = Tetris.pieces["square"]
-    // let piece = Tetris.pieces["tee"]
+    piece = Tetris.pieces["stick"]
+    // piece = Tetris.pieces["periscope_right"]
+    // piece = Tetris.pieces["periscope_left"]
+    // piece = Tetris.pieces["dog_right"]
+    // piece = Tetris.pieces["dog_left"]
+    // piece = Tetris.pieces["square"]
+    // piece = Tetris.pieces["tee"]
+
     let element = piece.element.clone(true, true)
     let top = (0 - (piece.modes[0].height * Tetris.block_size))
     let left = Tetris.block_size * (parseInt((Tetris.num_horizontal_blocks / 2) - (piece.modes[0].width / 2) - (piece.space.left)))
@@ -509,8 +551,6 @@ Tetris.rotate_piece = function(direction="right")
     {
         $(this).css('transform', `rotate(${reversed_degrees}deg)`)
     })
-
-    Tetris.current_element.data("degrees", Tetris.current_degrees)
 
     Tetris.update_piece_nodes()
     Tetris.update_ghost_piece()
@@ -920,6 +960,11 @@ Tetris.update_ghost_piece = function()
 
 Tetris.check_lines_cleared = async function(num_cleared=0)
 {
+    if(Tetris.clear_lines)
+    {
+        return 0
+    }
+
     Tetris.clearing_lines = true
     let activate_descent_timeout = Tetris.descent_timeout_active
     Tetris.stop_descent_timeout()
@@ -946,7 +991,6 @@ Tetris.check_lines_cleared = async function(num_cleared=0)
             num_lines_cleared += 1
             await Tetris.clear_line(i)
             Tetris.play_sound("clear")
-            console.info("Line cleared")
         }
     }
 
@@ -962,12 +1006,22 @@ Tetris.check_lines_cleared = async function(num_cleared=0)
     {
         let total = num_cleared + num_lines_cleared
         
-        if(num_cleared > 0)
+        if(total > 0)
         {
-            Tetris.charge_level(num_cleared)
+            Tetris.charge_level(total)
             Tetris.charge_combo()
-            Tetris.calculate_clear_score(num_cleared)
-            Tetris.lines_cleared += num_cleared
+            Tetris.calculate_clear_score(total)
+            Tetris.lines_cleared += total
+
+            if(total === 1)
+            {
+                console.info("1 line cleared")
+            }
+        
+            else
+            {
+                console.info(`${total} lines cleared`)
+            }
         }
     
         else
@@ -978,6 +1032,11 @@ Tetris.check_lines_cleared = async function(num_cleared=0)
         if(activate_descent_timeout)
         {
             Tetris.start_descent_timeout()
+        }
+
+        if(total > 4)
+        {
+            Tetris.show_piece_picker_next = true
         }
     
         Tetris.clearing_lines = false
@@ -1004,13 +1063,14 @@ Tetris.clear_line = async function(y)
             if(container.length > 0)
             {
                 Tetris.separate_blocks(container)
-                block =  Tetris.grid[y][x].element
+                block = Tetris.grid[y][x].element
             }
             
             $(block).addClass("cleared_piece")
             
             await Tetris.async_timeout(function()
             {
+                Tetris.placed_element_data[$(block).attr("id")] = undefined
                 $(block).remove()
             }, 10)
             
@@ -1024,12 +1084,19 @@ Tetris.clear_line = async function(y)
 
 Tetris.prepare_placed_piece = function(element, mode)
 {
+    let id = `placed_${Tetris.placed_id}`
+    Tetris.placed_id += 1
+
+    element.attr("id", id)
     element.addClass("placed_piece")
     element.addClass("placed_main")
-    element.data("mode", mode)
-    element.data("top", element.position().top)
-    element.data("left", element.position().left)
-
+    
+    Tetris.placed_element_data[id] = {}
+    let data = Tetris.placed_element_data[id]
+    data.mode = mode
+    data.top = element.position().top
+    data.left = element.position().left
+    
     let nodes = []
 
     element.find(".piece_block").each(function()
@@ -1042,39 +1109,46 @@ Tetris.prepare_placed_piece = function(element, mode)
         let y = node[1]
         
         nodes.push(node)
-
+        
         Tetris.grid[y][x].used = true
         Tetris.grid[y][x].element = $(this)
     })
-
-    element.data("nodes", nodes)
+    
+    data.nodes = nodes
 }
 
 Tetris.separate_blocks = function(element)
 {
+    let container_id = $(element).attr("id")
+    let container_data = Tetris.placed_element_data[container_id]
+
     $(element).find(".piece_block").each(function()
     {
+        let id = `placed_${Tetris.placed_id}`
+        Tetris.placed_id += 1
+
         let position = $(this).position()
-        let container = $(this).closest(".piece_container")
-        let piece_container_position = container.position()
         let piece_element_position = $(this).closest(".piece").position()
-        let top = piece_container_position.top + piece_element_position.top + position.top
-        let left = piece_container_position.left + piece_element_position.left + position.left
+        let top = container_data.top + piece_element_position.top + position.top
+        let left = container_data.left + piece_element_position.left + position.left
 
         let block = $(this).clone()
+        block.attr("id", id)
         block.addClass("placed_main")
         block.css('transform', `rotate(${0}deg)`)
         block.css("top", `${top}px`)
         block.css("left", `${left}px`)
-        block.data("top", top)
-        block.data("left", left)
         
         let position2 = {top:Math.round(top), left:Math.round(left)}
         let node = Tetris.get_node_by_position(position2)
         let x = node[0]
         let y = node[1]
 
-        block.data("nodes", [node])
+        Tetris.placed_element_data[id] = {}
+        let data = Tetris.placed_element_data[id]
+        data.nodes = [node]
+        data.top = top
+        data.left = left
 
         Tetris.grid[y][x].used = true
         Tetris.grid[y][x].element = block
@@ -1082,10 +1156,11 @@ Tetris.separate_blocks = function(element)
         Tetris.game.append(block)
     })
 
+    Tetris.placed_element_data[container_id] = undefined
     $(element).remove()
 }
 
-Tetris.separate_all_blocks = function()
+Tetris.separate_all_blocks = async function()
 {
     if($(".placed_piece").length > 0)
     {
@@ -1095,7 +1170,7 @@ Tetris.separate_all_blocks = function()
         })
     
         Tetris.make_placed_pieces_fall()
-        Tetris.check_lines_cleared()
+        await Tetris.check_lines_cleared()
     }
 }
 
@@ -1168,7 +1243,8 @@ Tetris.make_placed_pieces_fall = function()
 
             for(let i=0; i<Tetris.grid.length; i++)
             {
-                let nodes = element.data("nodes")
+                let data = Tetris.placed_element_data[$(element).attr("id")]
+                let nodes = data.nodes
 
                 if(!original_nodes)
                 {
@@ -1203,9 +1279,8 @@ Tetris.make_placed_pieces_fall = function()
                 {
                     let new_top = Tetris.get_position_data(element).top + Tetris.block_size
                     $(element).css("top", `${new_top}px`)
-                    $(element).data("top", new_top)
-                    $(element).data("nodes", Tetris.descend_nodes(nodes))
-
+                    data.top = new_top
+                    data.nodes = Tetris.descend_nodes(nodes)
                     moved = true
                     any_moved = true
                 }
@@ -1496,4 +1571,66 @@ Tetris.stop_descent_timeout = function()
 {
     clearTimeout(Tetris.descent_timeout)
     Tetris.descent_timeout_active = false
+}
+
+Tetris.show_piece_picker = function()
+{
+    Tetris.current_piece_picker_wheel_item = 0
+    Tetris.show_piece_picker_wheel_item()
+    $("#piece_picker").css("display", "block")
+    Tetris.piece_picker_active = true
+
+    Tetris.piece_picker_timeout = setTimeout(function()
+    {
+        Tetris.submit_piece_picker()
+    }, Tetris.piece_picker_time)
+}
+
+Tetris.hide_piece_picker = function()
+{
+    $("#piece_picker").css("display", "none")
+    Tetris.piece_picker_active = false
+    Tetris.place_next_piece()
+}
+
+Tetris.show_piece_picker_wheel_item = function()
+{
+    let name = Tetris.pieces_list[Tetris.current_piece_picker_wheel_item]
+    let piece = Tetris.pieces[name]
+    let item = $(`<div class='piece_picker_wheel_item' id='piece_picker_wheel_${piece.name}'></div>`)
+    item.html(piece.element_wheel_preview.clone())
+    $("#piece_picker_wheel").html(item)
+}
+
+Tetris.show_next_piece_picker_wheel_item = function()
+{
+    Tetris.current_piece_picker_wheel_item -= 1
+
+    if(Tetris.current_piece_picker_wheel_item < 0)
+    {
+        Tetris.current_piece_picker_wheel_item = Tetris.pieces_list.length - 1
+    }
+
+    Tetris.show_piece_picker_wheel_item()
+}
+
+Tetris.show_previous_piece_picker_wheel_item = function()
+{
+    Tetris.current_piece_picker_wheel_item += 1
+
+    if(Tetris.current_piece_picker_wheel_item > Tetris.pieces_list.length - 1)
+    {
+        Tetris.current_piece_picker_wheel_item = 0
+    }
+
+    Tetris.show_piece_picker_wheel_item()
+}
+
+Tetris.submit_piece_picker = function()
+{
+    clearTimeout(Tetris.piece_picker_timeout)
+    let name = Tetris.pieces_list[Tetris.current_piece_picker_wheel_item]
+    Tetris.queued_piece = name
+    Tetris.queued_left = 4
+    Tetris.hide_piece_picker()
 }

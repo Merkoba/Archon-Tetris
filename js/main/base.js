@@ -69,6 +69,10 @@ Tetris.start_game = function()
     Tetris.pow = 3
     Tetris.pow_charge = 0
     Tetris.clearing_lines = false
+    Tetris.piece_picker_active = false
+    Tetris.start_descent_after_unpause = false
+    Tetris.queued_left = 0
+    Tetris.show_piece_picker_next = false
     
     Tetris.setup_previews()
     Tetris.set_score_text()
@@ -173,7 +177,12 @@ Tetris.pause_game = function()
 
     if(Tetris.game_started)
     {
-        Tetris.stop_descent_timeout()
+        Tetris.start_descent_after_unpause = Tetris.descent_timeout_active
+
+        if(Tetris.descent_timeout_active)
+        {
+            Tetris.stop_descent_timeout()
+        }
     }
 }
 
@@ -191,7 +200,10 @@ Tetris.unpause_game = function()
 
     if(Tetris.game_started)
     {
-        Tetris.start_descent_timeout()
+        if(Tetris.start_descent_after_unpause)
+        {
+            Tetris.start_descent_timeout()
+        }
     }
 }
 
@@ -278,7 +290,12 @@ Tetris.hide_intro = function()
 
 Tetris.start_music = function(reset=false)
 {
-    if((!Tetris.game_started || !Tetris.options.enable_music) && !Tetris.on_countdown)
+    if(!Tetris.options.enable_music)
+    {
+        return false
+    }
+
+    if(!Tetris.game_started && !Tetris.on_countdown)
     {
         return false
     }

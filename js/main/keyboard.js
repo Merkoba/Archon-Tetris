@@ -2,6 +2,32 @@ Tetris.start_key_detection = function()
 {
     document.addEventListener('keydown', (e) =>
     {
+        if(Tetris.piece_picker_active)
+        {
+            if(e.key === "ArrowRight")
+            {
+                Tetris.show_next_piece_picker_wheel_item()
+                e.preventDefault()
+                return false
+            }
+            
+            else if(e.key === "ArrowLeft")
+            {
+                Tetris.show_previous_piece_picker_wheel_item()
+                e.preventDefault()
+                return false
+            }
+
+            else if(e.key === "Enter")
+            {
+                Tetris.submit_piece_picker()
+                e.preventDefault()
+                return false
+            }
+
+            return false
+        }
+
         if(Tetris.game_started && !Tetris.modal_open)
         {
             if(e.key === "ArrowUp" || e.key === "x")
@@ -11,7 +37,7 @@ Tetris.start_key_detection = function()
                 return false
             }
      
-            if(e.key === "Control" || e.key === "z")
+            else if(e.key === "Control" || e.key === "z")
             {
                 Tetris.rotate_piece("left")
                 e.preventDefault()
@@ -74,7 +100,7 @@ Tetris.start_key_detection = function()
             }
         }
 
-        if(Tetris.on_intro)
+        else if(Tetris.on_intro)
         {
             Tetris.hide_intro()
         }

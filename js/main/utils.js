@@ -135,7 +135,8 @@ Tetris.async_timeout = (cb, timeout = 0) => new Promise(resolve =>
 
 Tetris.get_position_data = function(element)
 {
-    return {top: $(element).data("top"), left: $(element).data("left")}
+    let data = Tetris.placed_element_data[$(element).attr("id")]
+    return {top: data.top, left: data.left}
 }
 
 Tetris.nice_time = function(date1, date2)
