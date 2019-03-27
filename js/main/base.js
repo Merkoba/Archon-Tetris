@@ -74,6 +74,7 @@ Tetris.start_game = function()
     Tetris.queued_left = 0
     Tetris.show_piece_picker_next = false
     Tetris.pow_active = false
+    Tetris.pows_used = 0
     
     Tetris.setup_previews()
     Tetris.set_score_text()
@@ -155,10 +156,12 @@ Tetris.on_game_over = function()
 
     let nice_time = Tetris.nice_time(Tetris.game_over_date, Tetris.game_started_date)
     
+    $("#game_over_level").text(`Level: ${Tetris.format_number(Tetris.level)}`)
     $("#game_over_score").text(`Score: ${Tetris.format_number(Tetris.score)}`)
     $("#game_over_time").text(`Time: ${nice_time}`)
     $("#game_over_lines_cleared").text(`Lines Cleared: ${Tetris.lines_cleared}`)
     $("#game_over_max_combo").text(`Max Combo: ${Tetris.max_combo}`)
+    $("#game_over_max_combo").text(`POW Used: ${Tetris.pows_used}`)
     Tetris.msg_game_over.show()
 
     Tetris.play_sound("game_over")
@@ -604,11 +607,14 @@ Tetris.activate_pow = function()
     Tetris.pow -= 1
     Tetris.set_pow_text()
     Tetris.pow_active = true
+    Tetris.pows_used += 1
 
     Tetris.current_element.find(".piece_block").each(function()
     {
         $(this).addClass("pow_active")
     })
+
+    Tetris.update_ghost_piece()
 }
 
 Tetris.check_first_time = function()
