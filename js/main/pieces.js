@@ -441,7 +441,7 @@ Tetris.place_next_piece = function(piece_name=false)
         piece = Tetris.pieces[piece_name]
     }
 
-    // piece = Tetris.pieces["stick"]
+    piece = Tetris.pieces["stick"]
     // piece = Tetris.pieces["periscope_right"]
     // piece = Tetris.pieces["periscope_left"]
     // piece = Tetris.pieces["dog_right"]
@@ -573,12 +573,12 @@ Tetris.rotate_piece = function(direction="right")
     }
 }
 
-Tetris.on_piece_placed = async function()
+Tetris.on_piece_placed = function()
 {
     Tetris.piece_active = false
     Tetris.piece_getting_locked = true
     
-    Tetris.lock_timeout = setTimeout(async function()
+    Tetris.lock_timeout = setTimeout(function()
     {
         Tetris.stop_descent_timeout()
         Tetris.piece_getting_locked = false
@@ -599,7 +599,7 @@ Tetris.on_piece_placed = async function()
 
         Tetris.prepare_placed_piece(Tetris.current_element, Tetris.current_mode)
 
-        let num_cleared = await Tetris.check_lines_cleared()
+        let num_cleared = Tetris.check_lines_cleared()
 
         if(num_cleared === 0)
         {
@@ -968,62 +968,54 @@ Tetris.update_ghost_piece = function()
     }
 }
 
-Tetris.check_lines_cleared = async function()
+Tetris.check_lines_cleared = function()
 {
-    if(Tetris.clearing_lines)
-    {
-        return 0
-    }
-    
-    Tetris.clearing_lines = true
+    let num_cleared = Tetris.do_check_lines_cleared()
 
-    let activate_descent_timeout = Tetris.descent_timeout_active
-    Tetris.stop_descent_timeout()
-  
-    return new Promise(async (resolve, reject) =>
+    if(num_cleared > 0)
     {
-        let num_cleared = await Tetris.do_check_lines_cleared()
+        Tetris.charge_level(num_cleared)
+        Tetris.charge_combo()
+        Tetris.calculate_clear_score(num_cleared)
+        Tetris.lines_cleared += num_cleared
 
-        if(num_cleared > 0)
+        if(num_cleared === 1)
         {
-            Tetris.charge_level(num_cleared)
-            Tetris.charge_combo()
-            Tetris.calculate_clear_score(num_cleared)
-            Tetris.lines_cleared += num_cleared
-
-            if(num_cleared === 1)
-            {
-                console.info("1 line cleared")
-            }
-        
-            else
-            {
-                console.info(`${num_cleared} lines cleared`)
-            }
+            console.info("1 line cleared")
         }
     
         else
         {
-            Tetris.reset_combo()
-        }
-
-        if(activate_descent_timeout)
-        {
-            Tetris.start_descent_timeout()
+            console.info(`${num_cleared} lines cleared`)
         }
 
         if(num_cleared > 4)
         {
             Tetris.show_piece_picker_next = true
         }
+        
+        let delay = 0
 
-        Tetris.clearing_lines = false
+        for(let i=0; i<num_cleared; i++)
+        {
+            setTimeout(function()
+            {
+                Tetris.play_sound("clear")
+            }, delay)
+            
+            delay += 200
+        }
+    }
 
-        resolve(num_cleared)
-    })
+    else
+    {
+        Tetris.reset_combo()
+    }
+
+    return num_cleared
 }
 
-Tetris.do_check_lines_cleared = async function(num_cleared=0)
+Tetris.do_check_lines_cleared = function(num_cleared=0)
 {
     let num_lines_cleared = 0
 
@@ -1045,8 +1037,7 @@ Tetris.do_check_lines_cleared = async function(num_cleared=0)
         if(cleared)
         {
             num_lines_cleared += 1
-            await Tetris.clear_line(i)
-            Tetris.play_sound("clear")
+            Tetris.clear_line(i)
         }
     }
 
@@ -1058,47 +1049,39 @@ Tetris.do_check_lines_cleared = async function(num_cleared=0)
         }
     }
     
-    return new Promise(async (resolve, reject) =>
-    {
-        resolve(num_cleared + num_lines_cleared)
-    })
+    return num_cleared + num_lines_cleared
 }
 
-Tetris.clear_line = async function(y)
+Tetris.clear_line = function(y)
 {
-    return new Promise(async (resolve, reject) =>
+    for(let x=0; x<Tetris.grid[y].length; x++)
     {
-        for(let x=0; x<Tetris.grid[y].length; x++)
+        let block =  Tetris.grid[y][x].element
+
+        if(!block)
         {
-            let block =  Tetris.grid[y][x].element
-
-            if(!block)
-            {
-                continue
-            }
-            
-            let container = $(block).closest(".piece_container")
-
-            if(container.length > 0)
-            {
-                Tetris.separate_blocks(container)
-                block = Tetris.grid[y][x].element
-            }
-            
-            $(block).addClass("cleared_piece")
-            
-            await Tetris.async_timeout(function()
-            {
-                $(block).remove()
-            }, 10)
-            
-            Tetris.placed_element_data[$(block).attr("id")] = undefined
-            Tetris.grid[y][x].used = false
-            Tetris.grid[y][x].element = undefined
+            continue
         }
+        
+        let container = $(block).closest(".piece_container")
 
-        resolve()
-    })
+        if(container.length > 0)
+        {
+            Tetris.separate_blocks(container)
+            block = Tetris.grid[y][x].element
+        }
+        
+        $(block).addClass("cleared_piece")
+        
+        setTimeout(function()
+        {
+            $(block).remove()
+        }, 500)
+        
+        Tetris.placed_element_data[$(block).attr("id")] = undefined
+        Tetris.grid[y][x].used = false
+        Tetris.grid[y][x].element = undefined
+    }
 }
 
 Tetris.prepare_placed_piece = function(element, mode)
@@ -1179,7 +1162,7 @@ Tetris.separate_blocks = function(element)
     $(element).remove()
 }
 
-Tetris.separate_all_blocks = async function()
+Tetris.separate_all_blocks = function()
 {
     if($(".placed_piece").length > 0)
     {
@@ -1189,7 +1172,7 @@ Tetris.separate_all_blocks = async function()
         })
 
         Tetris.make_placed_pieces_fall()
-        let num_cleared = await Tetris.check_lines_cleared()
+        let num_cleared = Tetris.check_lines_cleared()
         Tetris.update_ghost_piece()
     }
 }

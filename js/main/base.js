@@ -69,7 +69,6 @@ Tetris.start_game = function()
     Tetris.lines_cleared = 0
     Tetris.pow = 3
     Tetris.pow_charge = 0
-    Tetris.clearing_lines = false
     Tetris.piece_picker_active = false
     Tetris.start_descent_after_unpause = false
     Tetris.queued_left = 0

@@ -172,7 +172,7 @@ body, html
 {
     background: linear-gradient(rgb(255, 255, 255), #264c55);
     box-shadow: 0 0 4px rgb(212, 218, 233); 
-    animation: fade_out 10ms linear forwards;
+    animation: fade_out 100ms linear forwards;
 }
 
 #previews
