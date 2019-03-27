@@ -599,6 +599,13 @@ Tetris.on_piece_placed = function()
 
         Tetris.prepare_placed_piece(Tetris.current_element, Tetris.current_mode)
 
+        if(Tetris.pow_active)
+        {
+            Tetris.separate_all_blocks()
+            Tetris.make_placed_pieces_fall()
+            Tetris.pow_active = false
+        }
+
         let num_cleared = Tetris.check_lines_cleared()
 
         if(num_cleared === 0)
@@ -1100,9 +1107,10 @@ Tetris.prepare_placed_piece = function(element, mode)
     data.left = element.position().left
     
     let nodes = []
-
+    
     element.find(".piece_block").each(function()
     {
+        $(this).removeClass("pow_active")
         $(this).addClass("placed_block")
         
         let position = Tetris.get_placed_block_position(this)
@@ -1170,10 +1178,6 @@ Tetris.separate_all_blocks = function()
         {
             Tetris.separate_blocks(this)
         })
-
-        Tetris.make_placed_pieces_fall()
-        let num_cleared = Tetris.check_lines_cleared()
-        Tetris.update_ghost_piece()
     }
 }
 

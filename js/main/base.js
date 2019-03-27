@@ -73,6 +73,7 @@ Tetris.start_game = function()
     Tetris.start_descent_after_unpause = false
     Tetris.queued_left = 0
     Tetris.show_piece_picker_next = false
+    Tetris.pow_active = false
     
     Tetris.setup_previews()
     Tetris.set_score_text()
@@ -599,10 +600,15 @@ Tetris.activate_pow = function()
         return false
     }
 
-    Tetris.separate_all_blocks()
     Tetris.play_sound("pow")
     Tetris.pow -= 1
     Tetris.set_pow_text()
+    Tetris.pow_active = true
+
+    Tetris.current_element.find(".piece_block").each(function()
+    {
+        $(this).addClass("pow_active")
+    })
 }
 
 Tetris.check_first_time = function()
