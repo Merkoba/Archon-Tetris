@@ -41,7 +41,6 @@ body, html
     grid-template-columns: 1fr;
     grid-template-rows: auto;
     overflow: hidden;
-    width: fit-content;
     height: fit-content;
 }
 
@@ -54,7 +53,7 @@ body, html
 
 #sidebar
 {
-    margin-left: 0.25rem;
+    margin-left: 0.5rem;
     grid-area: sidebar;
     display: flex;
     flex-direction: column;
