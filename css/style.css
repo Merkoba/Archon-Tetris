@@ -198,7 +198,20 @@ body, html
 
 #active_piece
 {
-    box-shadow: inset 0 0 30px rgb(204, 204, 204); 
+    box-shadow: inset 0 0 30px rgb(204, 204, 204);
+    position: relative;
+}
+
+#queued_left
+{
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-right: 5px;
+    margin-top: 5px;
+    font-size: 1rem;
+    color: white;
+    z-index: 999;;
 }
 
 .preview_element

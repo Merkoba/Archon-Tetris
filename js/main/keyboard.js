@@ -18,13 +18,6 @@ Tetris.start_key_detection = function()
                 return false
             }
 
-            else if(e.key === "Enter")
-            {
-                Tetris.submit_piece_picker()
-                e.preventDefault()
-                return false
-            }
-
             return false
         }
 
