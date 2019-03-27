@@ -441,7 +441,7 @@ Tetris.place_next_piece = function(piece_name=false)
         piece = Tetris.pieces[piece_name]
     }
 
-    piece = Tetris.pieces["stick"]
+    // piece = Tetris.pieces["stick"]
     // piece = Tetris.pieces["periscope_right"]
     // piece = Tetris.pieces["periscope_left"]
     // piece = Tetris.pieces["dog_right"]
