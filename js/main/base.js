@@ -1,5 +1,6 @@
 const Tetris = {}
 
+Tetris.ls_first_time = "ls_first_time"
 Tetris.debug = false
 
 Tetris.init = function()
@@ -277,7 +278,13 @@ Tetris.set_combo_text = function()
 
 Tetris.hide_intro = function()
 {
+    if(Tetris.check_first_time())
+    {
+        return false
+    }
+
     Tetris.on_intro = false
+
     Tetris.start_game(true)
 
     $("#intro").css("opacity", 0)
@@ -381,7 +388,16 @@ Tetris.start_windows = function()
             titlebar,
             common,
             {
+                after_close: function()
+                {   
+                    if(Tetris.on_first_time_help)
+                    {
+                        Tetris.on_first_time_help = false
+                        Tetris.hide_intro()
+                    }
 
+                    common.after_close()
+                }
             }
         )
     )
@@ -421,7 +437,7 @@ Tetris.compile_templates = function()
 
 Tetris.setup_click_events = function()
 {
-    $("body").click(function()
+    $("#intro").click(function()
     {
         if(Tetris.on_intro)
         {
@@ -588,4 +604,23 @@ Tetris.activate_pow = function()
     Tetris.play_sound("pow")
     Tetris.pow -= 1
     Tetris.set_pow_text()
+}
+
+Tetris.check_first_time = function()
+{
+    let first_time = Tetris.get_local_storage(Tetris.ls_first_time)
+
+    if(!first_time)
+    {
+        Tetris.save_local_storage(Tetris.ls_first_time, {visited:true})
+        Tetris.on_first_time_help = true
+        Tetris.show_help()
+        return true
+    }
+
+    else
+    {
+        Tetris.on_first_time_help = false
+        return false
+    }
 }
