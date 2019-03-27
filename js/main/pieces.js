@@ -920,6 +920,10 @@ Tetris.update_ghost_piece = function()
 
 Tetris.check_lines_cleared = async function(num_cleared=0)
 {
+    Tetris.clearing_lines = true
+    let activate_descent_timeout = Tetris.descent_timeout_active
+    Tetris.stop_descent_timeout()
+
     let num_lines_cleared = 0
 
     for(let i=0; i<Tetris.grid.length; i++)
@@ -957,25 +961,29 @@ Tetris.check_lines_cleared = async function(num_cleared=0)
     return new Promise(async (resolve, reject) =>
     {
         let total = num_cleared + num_lines_cleared
-        Tetris.on_lines_cleared(total)
+        
+        if(num_cleared > 0)
+        {
+            Tetris.charge_level(num_cleared)
+            Tetris.charge_combo()
+            Tetris.calculate_clear_score(num_cleared)
+            Tetris.lines_cleared += num_cleared
+        }
+    
+        else
+        {
+            Tetris.reset_combo()
+        }
+
+        if(activate_descent_timeout)
+        {
+            Tetris.start_descent_timeout()
+        }
+    
+        Tetris.clearing_lines = false
+
         resolve(total)
     })
-}
-
-Tetris.on_lines_cleared = function(num_cleared)
-{
-    if(num_cleared > 0)
-    {
-        Tetris.charge_level(num_cleared)
-        Tetris.charge_combo()
-        Tetris.calculate_clear_score(num_cleared)
-        Tetris.lines_cleared += num_cleared
-    }
-
-    else
-    {
-        Tetris.reset_combo()
-    }
 }
 
 Tetris.clear_line = async function(y)
@@ -1079,13 +1087,16 @@ Tetris.separate_blocks = function(element)
 
 Tetris.separate_all_blocks = function()
 {
-    $(".placed_piece").each(function()
+    if($(".placed_piece").length > 0)
     {
-        Tetris.separate_blocks(this)
-    })
-
-    Tetris.make_placed_pieces_fall()
-    Tetris.check_lines_cleared()
+        $(".placed_piece").each(function()
+        {
+            Tetris.separate_blocks(this)
+        })
+    
+        Tetris.make_placed_pieces_fall()
+        Tetris.check_lines_cleared()
+    }
 }
 
 Tetris.get_block_at_position = function(x, y)
@@ -1154,7 +1165,6 @@ Tetris.make_placed_pieces_fall = function()
 
             let original_nodes = false
             let moved = false
-            let move_count = 0
 
             for(let i=0; i<Tetris.grid.length; i++)
             {
@@ -1198,7 +1208,6 @@ Tetris.make_placed_pieces_fall = function()
 
                     moved = true
                     any_moved = true
-                    move_count += 1
                 }
 
                 else
@@ -1455,4 +1464,36 @@ Tetris.fill = async function()
     
         }, delay * 2)
     }
+}
+
+Tetris.get_descent_delay = function()
+{
+    let delay = 800 - ((Tetris.level - 1) * 10)
+
+    if(delay < 100)
+    {
+        delay = 100
+    }
+
+    return delay
+}
+
+Tetris.start_descent_timeout = function()
+{
+    clearTimeout(Tetris.descent_timeout)
+
+    Tetris.piece_descent_delay = Tetris.get_descent_delay()
+
+    Tetris.descent_timeout = setTimeout(function()
+    {
+        Tetris.move_down("descent_timeout")
+    }, Tetris.piece_descent_delay)
+
+    Tetris.descent_timeout_active = true
+}
+
+Tetris.stop_descent_timeout = function()
+{
+    clearTimeout(Tetris.descent_timeout)
+    Tetris.descent_timeout_active = false
 }

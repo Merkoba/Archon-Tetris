@@ -68,6 +68,7 @@ Tetris.start_game = function()
     Tetris.lines_cleared = 0
     Tetris.pow = 3
     Tetris.pow_charge = 0
+    Tetris.clearing_lines = false
     
     Tetris.setup_previews()
     Tetris.set_score_text()
@@ -138,6 +139,7 @@ Tetris.start_countdown = function()
 
 Tetris.on_game_over = function()
 {
+    console.info("Game Over")
     Tetris.game_over_date = Date.now()
     Tetris.game_started = false
     Tetris.piece_active = false
@@ -155,35 +157,6 @@ Tetris.on_game_over = function()
     Tetris.msg_game_over.show()
 
     Tetris.play_sound("game_over")
-}
-
-Tetris.get_descent_delay = function()
-{
-    let delay = 800 - ((Tetris.level - 1) * 10)
-
-    if(delay < 10)
-    {
-        delay = 10
-    }
-
-    return delay
-}
-
-Tetris.start_descent_timeout = function()
-{
-    clearTimeout(Tetris.descent_timeout)
-
-    Tetris.piece_descent_delay = Tetris.get_descent_delay()
-
-    Tetris.descent_timeout = setTimeout(function()
-    {
-        Tetris.move_down("descent_timeout")
-    }, Tetris.piece_descent_delay)
-}
-
-Tetris.stop_descent_timeout = function()
-{
-    clearTimeout(Tetris.descent_timeout)
 }
 
 Tetris.pause_game = function()
@@ -588,7 +561,7 @@ Tetris.set_pow_text = function()
 
 Tetris.activate_pow = function()
 {
-    if(Tetris.pow === 0)
+    if(Tetris.pow === 0 || Tetris.clearing_lines)
     {
         Tetris.play_sound("tone_1")
         return false
