@@ -76,6 +76,7 @@ Tetris.start_game = function()
     Tetris.pow_active = false
     Tetris.pows_used = 0
     Tetris.big_piece_next = false
+    Tetris.time_paused = 0
 
     $("#paused").css("display", "none")
     
@@ -157,7 +158,8 @@ Tetris.on_game_over = function()
     Tetris.stop_drop_piece_timeout()
     Tetris.stop_music()
 
-    let nice_time = Tetris.nice_time(Tetris.game_over_date, Tetris.game_started_date)
+    let time = Tetris.game_over_date - Tetris.time_paused
+    let nice_time = Tetris.nice_time(time, Tetris.game_started_date)
     
     $("#game_over_level").text(`Level: ${Tetris.format_number(Tetris.level)}`)
     $("#game_over_score").text(`Score: ${Tetris.format_number(Tetris.score)}`)
@@ -193,6 +195,8 @@ Tetris.pause_game = function()
     }
 
     $("#paused").css("display", "block")
+
+    Tetris.pause_date = Date.now()
 }
 
 Tetris.unpause_game = function()
@@ -216,6 +220,8 @@ Tetris.unpause_game = function()
     }
 
     $("#paused").css("display", "none")
+
+    Tetris.time_paused += Date.now() - Tetris.pause_date
 }
 
 Tetris.toggle_pause_game = function()
