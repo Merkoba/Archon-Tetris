@@ -5,6 +5,8 @@ Tetris.piece_picker_time = 3000
 Tetris.min_descent_delay = 120
 Tetris.placed_id = 1
 
+Tetris.debug_queue = ["tee", "periscope_right", "dog_right", "tee", "tee", "dog_right"]
+
 Tetris.create_pieces = function()
 {
     Tetris.pieces = 
@@ -378,13 +380,19 @@ Tetris.create_pieces = function()
     }
 
     Tetris.pieces_list = []
-    Tetris.pieces_full_list = []
+    Tetris.big_pieces_list = []
+    Tetris.full_pieces_list = []
 
     for(let key in Tetris.pieces)
     {
-        Tetris.pieces_full_list.push(key)
+        Tetris.full_pieces_list.push(key)
 
-        if(!key.includes("_2"))
+        if(key.includes("_2"))
+        {
+            Tetris.big_pieces_list.push(key)
+        }
+        
+        else
         {
             Tetris.pieces_list.push(key)
         }
@@ -503,19 +511,9 @@ Tetris.create_pieces = function()
     }
 }
 
-Tetris.get_random_piece = function(include_big=false)
+Tetris.get_random_piece = function()
 {
-    let n
-
-    if(include_big)
-    {
-        n = Tetris.get_random_int(1, Tetris.pieces_full_list.length)
-    }
-    
-    else
-    {
-        n = Tetris.get_random_int(1, Tetris.pieces_list.length)
-    }
+    let n = Tetris.get_random_int(1, Tetris.pieces_list.length)
 
     let name
 
@@ -554,37 +552,46 @@ Tetris.get_random_piece = function(include_big=false)
         name = "tee"
     }
 
-    else if(n === 8)
+    return Tetris.pieces[name]
+}
+
+Tetris.get_random_big_piece = function()
+{
+    let n = Tetris.get_random_int(1, Tetris.big_pieces_list.length)
+
+    let name
+
+    if(n === 1)
     {
         name = "stick_2"
     }
 
-    else if(n === 9)
+    else if(n === 2)
     {
         name = "periscope_right_2"
     }
 
-    else if(n === 10)
+    else if(n === 3)
     {
         name = "periscope_left_2"
     }
 
-    else if(n === 11)
+    else if(n === 4)
     {
         name = "dog_right_2"
     }
 
-    else if(n === 12)
+    else if(n === 5)
     {
         name = "dog_left_2"
     }
 
-    else if(n === 13)
+    else if(n === 6)
     {
         name = "square_2"
     }
 
-    else if(n === 14)
+    else if(n === 7)
     {
         name = "tee_2"
     }
@@ -608,7 +615,12 @@ Tetris.place_next_piece = function(piece_name=false)
 
     let piece
 
-    if(Tetris.queued_left > 0)
+    if(Tetris.debug_queue.length > 0)
+    {
+        piece = Tetris.pieces[Tetris.debug_queue.shift()]
+    }
+
+    else if(Tetris.queued_left > 0)
     {
         piece = Tetris.pieces[Tetris.queued_piece]
         Tetris.queued_left -= 1
@@ -627,7 +639,7 @@ Tetris.place_next_piece = function(piece_name=false)
     else if(Tetris.big_piece_next)
     {
         Tetris.big_piece_next = false
-        piece = Tetris.get_random_piece(true)
+        piece = Tetris.get_random_big_piece()
     }
 
     else if(!piece_name)
@@ -1462,11 +1474,9 @@ Tetris.make_placed_pieces_fall = function()
 
     for(let y=0; y<Tetris.grid.length; y++)
     {
-        let row = Tetris.grid[y]
-
-        for(let x=0; x<row.length; x++)
+        for(let x=0; x<Tetris.grid[y].length; x++)
         {
-            if(!row[x].used)
+            if(!Tetris.grid[y][x].used)
             {
                 continue
             }
@@ -1566,6 +1576,8 @@ Tetris.make_placed_pieces_fall = function()
                             new_node.used = true
                             new_node.element = elements[i]
                         }
+
+                        x = -1
                     }
 
                     break

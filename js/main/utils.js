@@ -5,29 +5,6 @@ Tetris.round = function(value, decimals)
 
 Tetris.get_random_int = function(min, max, exclude=undefined)
 {
-    let num = Math.floor(Math.random() * (max - min + 1) + min)
-
-    if(exclude !== undefined)
-    {
-        if(num === exclude)
-        {
-            if(num + 1 <= max)
-            {
-                num = num + 1
-            }
-
-            else if(num - 1 >= min)
-            {
-                num = num - 1
-            }
-        }
-    }
-
-    return num
-}
-
-Tetris.get_random_int = function(min, max, exclude=undefined)
-{
     let num = Math.floor(Tetris.random() * (max - min + 1) + min)
 
     if(exclude !== undefined)
