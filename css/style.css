@@ -437,7 +437,7 @@ body *
     scrollbar-color: #767676 transparent !important;
 }
 
-#countdown
+.game_box
 {
     position: absolute;
     font-size: 2rem;    
@@ -451,16 +451,7 @@ body *
 
 #paused
 {
-    position: absolute;
-    font-size: 2rem;    
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #202020;
-    z-index: 999999;
-    padding: 1rem; 
     display: none;
-    opacity: 0.5;
 }
 
 #piece_picker
