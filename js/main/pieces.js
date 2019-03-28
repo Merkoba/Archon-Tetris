@@ -2,6 +2,7 @@ Tetris.element_preview_block_size = 15
 Tetris.element_wheel_preview_block_size = 40
 Tetris.placed_element_data = {}
 Tetris.piece_picker_time = 3000
+Tetris.min_descent_delay = 120
 Tetris.placed_id = 1
 
 Tetris.create_pieces = function()
@@ -658,7 +659,7 @@ Tetris.place_next_piece = function(piece_name=false)
     // piece = Tetris.pieces["dog_left"]
     // piece = Tetris.pieces["dog_left_2"]
     // piece = Tetris.pieces["square"]
-    piece = Tetris.pieces["square_2"]
+    // piece = Tetris.pieces["square_2"]
     // piece = Tetris.pieces["tee"]
     // piece = Tetris.pieces["tee_2"]
 
@@ -1302,7 +1303,7 @@ Tetris.clear_line = function(y)
         setTimeout(function()
         {
             $(block).remove()
-        }, 500)
+        }, 200)
         
         Tetris.placed_element_data[$(block).attr("id")] = undefined
         Tetris.grid[y][x].used = false
@@ -1530,9 +1531,8 @@ Tetris.make_placed_pieces_fall = function()
                 if(move)
                 {
                     let new_top = Tetris.get_position_data(element).top + Tetris.block_size
-                    $(element).css("top", `${new_top}px`)
-                    data.top = new_top
                     data.nodes = Tetris.descend_nodes(nodes)
+                    data.top = new_top
                     moved = true
                     any_moved = true
                 }
@@ -1541,6 +1541,8 @@ Tetris.make_placed_pieces_fall = function()
                 {
                     if(moved)
                     {
+                        $(element).css("top", `${data.top}px`)
+                        
                         let elements = []
 
                         for(let node of original_nodes)
@@ -1795,11 +1797,11 @@ Tetris.fill = async function()
 
 Tetris.get_descent_delay = function()
 {
-    let delay = 800 - ((Tetris.level - 1) * 10)
+    let delay = 1000 - ((Tetris.level - 1) * 10)
 
-    if(delay < 100)
+    if(delay < Tetris.min_descent_delay)
     {
-        delay = 100
+        delay = Tetris.min_descent_delay
     }
 
     return delay

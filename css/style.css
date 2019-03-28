@@ -171,7 +171,7 @@ body, html
 {
     background: linear-gradient(rgb(255, 255, 255), #4f7c86);
     box-shadow: 0 0 4px rgb(212, 218, 233); 
-    animation: fade_out 100ms linear forwards;
+    animation: fade_out 200ms linear forwards;
 }
 
 #previews
@@ -221,7 +221,7 @@ body, html
 
 .placed_main
 {
-    transition: top 500ms;
+    transition: top 250ms;
 }
 
 @keyframes fade_out 
