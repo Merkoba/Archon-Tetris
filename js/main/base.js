@@ -75,6 +75,7 @@ Tetris.start_game = function()
     Tetris.show_piece_picker_next = false
     Tetris.pow_active = false
     Tetris.pows_used = 0
+    Tetris.big_piece_next = false
     
     Tetris.setup_previews()
     Tetris.set_score_text()

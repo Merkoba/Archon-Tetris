@@ -31,6 +31,29 @@ Tetris.create_pieces = function()
                 bottom: 0
             }
         },
+        stick_2:
+        {
+            name: "stick_2",
+            modes:
+            [
+                {
+                    width: 1,
+                    height: 8
+                },
+                {
+                    width: 8,
+                    height: 1
+                }
+            ],
+            map: [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7]],
+            space:
+            {
+                left: 3,
+                right: 4,
+                top: 0,
+                bottom: 0
+            }
+        },
         periscope_right:
         {
             name: "periscope_right",
@@ -54,6 +77,37 @@ Tetris.create_pieces = function()
                 }
             ],
             map: [[0, 0], [1, 0], [0, 1], [0, 2]],
+            space:
+            {
+                left: 1,
+                right: 0,
+                top: 0,
+                bottom: 0
+            }
+        },
+        periscope_right_2:
+        {
+            name: "periscope_right_2",
+            modes:
+            [
+                {
+                    width: 4,
+                    height: 5
+                },
+                {
+                    width: 5,
+                    height: 4
+                },
+                {
+                    width: 4,
+                    height: 5,
+                },
+                {
+                    width: 5,
+                    height: 4
+                }
+            ],
+            map: [[0, 0], [1, 0], [2, 0], [3, 0], [0, 1], [0, 2], [0, 3], [0, 4]],
             space:
             {
                 left: 1,
@@ -93,6 +147,37 @@ Tetris.create_pieces = function()
                 bottom: 0
             }
         },
+        periscope_left_2:
+        {
+            name: "periscope_left_2",
+            modes:
+            [
+                {
+                    width: 4,
+                    height: 5
+                },
+                {
+                    width: 5,
+                    height: 4
+                },
+                {
+                    width: 4,
+                    height: 5,
+                },
+                {
+                    width: 5,
+                    height: 4
+                }
+            ],
+            map: [[0, 0], [1, 0], [2, 0], [3, 0], [3, 1], [3, 2], [3, 3], [3, 4]],
+            space:
+            {
+                left: 0,
+                right: 1,
+                top: 0,
+                bottom: 0
+            }
+        },
         dog_right:
         {
             name: "dog_right",
@@ -108,6 +193,29 @@ Tetris.create_pieces = function()
                 }
             ],
             map: [[0, 0], [1, 0], [1, 1], [2, 1]],
+            space:
+            {
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 1
+            }
+        },
+        dog_right_2:
+        {
+            name: "dog_right_2",
+            modes:
+            [
+                {
+                    width: 5,
+                    height: 4
+                },
+                {
+                    width: 4,
+                    height: 5
+                }
+            ],
+            map: [[0, 0], [1, 0], [2, 0], [2, 1], [2, 2], [2, 3], [3, 3], [4, 3]],
             space:
             {
                 left: 0,
@@ -139,6 +247,29 @@ Tetris.create_pieces = function()
                 bottom: 1
             }
         },
+        dog_left_2:
+        {
+            name: "dog_left_2",
+            modes:
+            [
+                {
+                    width: 5,
+                    height: 4
+                },
+                {
+                    width: 4,
+                    height: 5
+                }
+            ],
+            map: [[2, 0], [3, 0], [4, 0], [2, 1], [2, 2], [0, 3], [1, 3], [2, 3]],
+            space:
+            {
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 1
+            }
+        },
         square:
         {
             name: "square",
@@ -154,6 +285,29 @@ Tetris.create_pieces = function()
             {
                 left: 0,
                 right: 0,
+                top: 0,
+                bottom: 0
+            }
+        },
+        square_2:
+        {
+            name: "square_2",
+            modes:
+            [
+                {
+                    width: 2,
+                    height: 4
+                },
+                {
+                    width: 4,
+                    height: 2
+                }
+            ],
+            map: [[0, 0], [1,0], [0, 1], [1, 1], [0, 2], [1, 2], [0, 3], [1, 3]],
+            space:
+            {
+                left: 1,
+                right: 1,
                 top: 0,
                 bottom: 0
             }
@@ -188,59 +342,60 @@ Tetris.create_pieces = function()
                 top: 0,
                 bottom: 1
             }
+        },
+        tee_2:
+        {
+            name: "tee_2",
+            modes:
+            [
+                {
+                    width: 5,
+                    height: 4
+                },
+                {
+                    width: 4,
+                    height: 5
+                },
+                {
+                    width: 5,
+                    height: 4
+                },
+                {
+                    width: 4,
+                    height: 5
+                }
+            ],
+            map: [[2, 0], [2, 1], [2, 2], [0, 3], [1, 3], [2, 3], [3, 3], [4, 3]],
+            space:
+            {
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 1
+            }
         }
     }
 
     Tetris.pieces_list = []
+    Tetris.pieces_full_list = []
 
     for(let key in Tetris.pieces)
     {
-        Tetris.pieces_list.push(key)
+        Tetris.pieces_full_list.push(key)
+
+        if(!key.includes("_2"))
+        {
+            Tetris.pieces_list.push(key)
+        }
 
         let piece = Tetris.pieces[key]
         let first_mode = piece.modes[0]
         let map = piece.map
 
-        let padding_left = 0
-        let padding_right = 0
-        let padding_top = 0
-        let padding_bottom = 0
-
-        if(key === "stick")
-        {
-            padding_left = Tetris.block_size * piece.space.left
-            padding_right = Tetris.block_size * piece.space.right
-        }
-
-        else if(key === "periscope_right")
-        {
-            padding_left = Tetris.block_size * piece.space.left
-        }
-
-        else if(key === "periscope_left")
-        {
-            padding_right = Tetris.block_size * piece.space.right
-        }
-
-        else if(key === "dog_right")
-        {
-            padding_bottom = Tetris.block_size * piece.space.bottom
-        }
-
-        else if(key === "dog_left")
-        {
-            padding_bottom = Tetris.block_size * piece.space.bottom
-        }
-
-        else if(key === "square")
-        {
-            // Do nothing here
-        }
-
-        else if(key === "tee")
-        {
-            padding_bottom = Tetris.block_size * piece.space.bottom
-        }
+        let padding_left = piece.space.left * Tetris.block_size
+        let padding_right = piece.space.right * Tetris.block_size
+        let padding_top = piece.space.top * Tetris.block_size
+        let padding_bottom = piece.space.bottom * Tetris.block_size
 
         let width = first_mode.width * Tetris.block_size
         let height = first_mode.height * Tetris.block_size
@@ -347,9 +502,19 @@ Tetris.create_pieces = function()
     }
 }
 
-Tetris.get_random_piece = function()
+Tetris.get_random_piece = function(include_big=false)
 {
-    const n = Tetris.get_random_int(1, Object.keys(Tetris.pieces).length)
+    let n
+
+    if(include_big)
+    {
+        n = Tetris.get_random_int(1, Tetris.pieces_full_list.length)
+    }
+    
+    else
+    {
+        n = Tetris.get_random_int(1, Tetris.pieces_list.length)
+    }
 
     let name
 
@@ -388,6 +553,41 @@ Tetris.get_random_piece = function()
         name = "tee"
     }
 
+    else if(n === 8)
+    {
+        name = "stick_2"
+    }
+
+    else if(n === 9)
+    {
+        name = "periscope_right_2"
+    }
+
+    else if(n === 10)
+    {
+        name = "periscope_left_2"
+    }
+
+    else if(n === 11)
+    {
+        name = "dog_right_2"
+    }
+
+    else if(n === 12)
+    {
+        name = "dog_left_2"
+    }
+
+    else if(n === 13)
+    {
+        name = "square_2"
+    }
+
+    else if(n === 14)
+    {
+        name = "tee_2"
+    }
+
     return Tetris.pieces[name]
 }
 
@@ -423,6 +623,12 @@ Tetris.place_next_piece = function(piece_name=false)
         }
     }
 
+    else if(Tetris.big_piece_next)
+    {
+        Tetris.big_piece_next = false
+        piece = Tetris.get_random_piece(true)
+    }
+
     else if(!piece_name)
     {
         if(Tetris.previews.length > 0)
@@ -442,12 +648,19 @@ Tetris.place_next_piece = function(piece_name=false)
     }
 
     // piece = Tetris.pieces["stick"]
+    // piece = Tetris.pieces["stick_2"]
     // piece = Tetris.pieces["periscope_right"]
+    // piece = Tetris.pieces["periscope_right_2"]
     // piece = Tetris.pieces["periscope_left"]
+    // piece = Tetris.pieces["periscope_left_2"]
     // piece = Tetris.pieces["dog_right"]
+    // piece = Tetris.pieces["dog_right_2"]
     // piece = Tetris.pieces["dog_left"]
+    // piece = Tetris.pieces["dog_left_2"]
     // piece = Tetris.pieces["square"]
+    piece = Tetris.pieces["square_2"]
     // piece = Tetris.pieces["tee"]
+    // piece = Tetris.pieces["tee_2"]
 
     let element = piece.element.clone(true, true)
     let top = (0 - (piece.modes[0].height * Tetris.block_size))
@@ -978,6 +1191,7 @@ Tetris.update_ghost_piece = function()
 Tetris.check_lines_cleared = function()
 {
     let num_cleared = Tetris.do_check_lines_cleared()
+    let empty_lines = Tetris.count_empty_lines()
 
     if(num_cleared > 0)
     {
@@ -1017,6 +1231,11 @@ Tetris.check_lines_cleared = function()
     else
     {
         Tetris.reset_combo()
+    }
+
+    if(num_cleared > 0 && empty_lines === Tetris.grid.length)
+    {
+        Tetris.big_piece_next = true
     }
 
     return num_cleared
@@ -1089,6 +1308,32 @@ Tetris.clear_line = function(y)
         Tetris.grid[y][x].used = false
         Tetris.grid[y][x].element = undefined
     }
+}
+
+Tetris.count_empty_lines = function()
+{
+    let num_empty = 0
+
+    for(let row of Tetris.grid)
+    {
+        let is_empty = true
+
+        for(let item of row)
+        {
+            if(item.used)
+            {
+                is_empty = false
+                break
+            }
+        }
+
+        if(is_empty)
+        {
+            num_empty += 1
+        }
+    }
+
+    return num_empty
 }
 
 Tetris.prepare_placed_piece = function(element, mode)
