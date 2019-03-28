@@ -4,8 +4,7 @@ Tetris.placed_element_data = {}
 Tetris.piece_picker_time = 3000
 Tetris.min_descent_delay = 120
 Tetris.placed_id = 1
-
-Tetris.debug_queue = ["tee", "periscope_right", "dog_right", "tee", "tee", "dog_right"]
+Tetris.debug_queue = []
 
 Tetris.create_pieces = function()
 {
