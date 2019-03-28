@@ -42,6 +42,12 @@ Tetris.get_options = function()
         changed = true
     }
 
+    if(Tetris.options.enable_background_image === undefined)
+    {
+        Tetris.options.enable_background_image = true
+        changed = true
+    }
+
     if(Tetris.options.number_of_rows === undefined)
     {
         Tetris.options.number_of_rows = 20
@@ -83,6 +89,12 @@ Tetris.setup_options = function()
     Tetris.get_options()   
     Tetris.prepare_options_widgets()
     Tetris.start_options_widget_listeners()
+    Tetris.call_initial_option_actions()
+}
+
+Tetris.call_initial_option_actions = function()
+{
+    Tetris.option_enable_background_image_action()
 }
 
 Tetris.prepare_options_widgets = function()
@@ -221,6 +233,23 @@ Tetris.option_enable_music_action = function(val)
 Tetris.option_enable_sound_effects_action = function(val)
 {
     Tetris.options.enable_sound_effects = val
+    return true
+}
+
+Tetris.option_enable_background_image_action = function(val)
+{
+    Tetris.options.enable_background_image = val
+
+    if(Tetris.options.enable_background_image)
+    {
+        $("#background").css("display", "block")
+    }
+    
+    else
+    {
+        $("#background").css("display", "none")
+    }
+
     return true
 }
 

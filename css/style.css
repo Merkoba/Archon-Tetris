@@ -10,6 +10,27 @@ body, html
     font-family: monospace;
 }
 
+body *
+{
+    scrollbar-width: thin;
+    scrollbar-color: #767676 transparent !important;
+}
+
+::-webkit-scrollbar
+{
+    width: 8px;
+}
+
+::-webkit-scrollbar-track-piece
+{
+    background-color: transparent !important;
+}
+
+::-webkit-scrollbar-thumb
+{
+    background-color: #767676 !important;
+}
+
 #background
 {
     position: fixed;
@@ -21,6 +42,7 @@ body, html
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+    display: block;
 }
 
 #main
@@ -352,7 +374,7 @@ body, html
 
 #options_container
 {
-    min-width: 10rem;
+    min-width: 14rem;
 }
 
 .options_number
@@ -414,27 +436,6 @@ body, html
 .help_item:last-child
 {
     margin-bottom: 0;
-}
-
-::-webkit-scrollbar
-{
-    width: 8px;
-}
-
-::-webkit-scrollbar-track-piece
-{
-    background-color: transparent !important;
-}
-
-::-webkit-scrollbar-thumb
-{
-    background-color: #767676 !important;
-}
-
-body *
-{
-    scrollbar-width: thin;
-    scrollbar-color: #767676 transparent !important;
 }
 
 .game_box
