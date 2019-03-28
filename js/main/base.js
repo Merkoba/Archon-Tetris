@@ -189,6 +189,8 @@ Tetris.pause_game = function()
             Tetris.stop_descent_timeout()
         }
     }
+
+    $("#paused").css("display", "block")
 }
 
 Tetris.unpause_game = function()
@@ -200,9 +202,9 @@ Tetris.unpause_game = function()
     
     Tetris.game_paused = false
     Tetris.piece_active = true
-
+    
     Tetris.start_music()
-
+    
     if(Tetris.game_started)
     {
         if(Tetris.start_descent_after_unpause)
@@ -210,6 +212,8 @@ Tetris.unpause_game = function()
             Tetris.start_descent_timeout()
         }
     }
+
+    $("#paused").css("display", "none")
 }
 
 Tetris.toggle_pause_game = function()
