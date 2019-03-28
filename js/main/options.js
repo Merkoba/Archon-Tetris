@@ -125,6 +125,11 @@ Tetris.start_options_widget_listeners = function()
                     {
                         Tetris.save_options()
                     }
+
+                    else
+                    {
+                        $(`#option_${id}`).prop("checked", option)
+                    }
                 }
             })
         }
@@ -141,6 +146,11 @@ Tetris.start_options_widget_listeners = function()
                     if(Tetris[`option_${id}_action`](val))
                     {
                         Tetris.save_options()
+                    }
+
+                    else
+                    {
+                        $(`#option_${id}`).val(option)
                     }
                 }
             })
@@ -181,7 +191,7 @@ Tetris.call_options_actions = function()
 {
     for(let key in Tetris.options)
     {
-        Tetris[`option_${key}_action`]()
+        Tetris[`option_${key}_action`](Tetris.options[key])
     }
 }
 
@@ -220,7 +230,6 @@ Tetris.option_number_of_rows_action = function(val)
 
     if(value < 10)
     {
-        $("#option_number_of_rows").val(Tetris.options.number_of_rows)
         return false
     }
 
@@ -234,11 +243,10 @@ Tetris.option_number_of_columns_action = function(val)
 
     if(value < 10)
     {
-        $("#option_number_of_columns").val(Tetris.options.number_of_columns)
         return false
     }
 
-    Tetris.number_of_columns = value
+    Tetris.options.number_of_columns = value
     return true
 }
 
@@ -248,7 +256,6 @@ Tetris.option_number_of_previews_action = function(val)
 
     if(value < 0)
     {
-        $("#option_number_of_previews").val(Tetris.options.number_of_previews)
         return false
     }
 
@@ -263,7 +270,6 @@ Tetris.option_block_size_action = function(val)
 
     if(value < 4)
     {
-        $("#option_block_size").val(Tetris.options.block_size)
         return false
     }
 
