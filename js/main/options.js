@@ -94,7 +94,7 @@ Tetris.setup_options = function()
 
 Tetris.call_initial_option_actions = function()
 {
-    Tetris.option_enable_background_image_action()
+    Tetris.option_enable_background_image_action(Tetris.options.enable_background_image)
 }
 
 Tetris.prepare_options_widgets = function()
