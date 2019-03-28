@@ -13,12 +13,11 @@ body, html
 #background
 {
     position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
+    left: 0; right: 0;
+    top: 0; bottom: 0;
+    margin: auto;
     background-image: url("../img/bg.gif");
-    opacity: 0.05;
+    opacity: 0.025;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -29,8 +28,7 @@ body, html
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 999;
-
+    position: relative;
 }
 
 #main_container
@@ -149,6 +147,11 @@ body, html
 .piece_type_tee, .piece_type_tee_2
 {
     background: linear-gradient(rgb(139, 24, 139), #41132c);
+}
+
+.placed_block.placed_main
+{
+    background: linear-gradient(rgb(241, 241, 241), #565b5c);
 }
 
 #score
