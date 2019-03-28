@@ -10,11 +10,27 @@ body, html
     font-family: monospace;
 }
 
+#background
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-image: url("../img/bg.gif");
+    opacity: 0.05;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
 #main
 {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 999;
+
 }
 
 #main_container
@@ -47,7 +63,7 @@ body, html
 #game
 {
     position: relative;
-    background-color: #2f3237;
+    background-color: #2f3237b2;
     overflow: hidden;
 }
 
@@ -72,7 +88,7 @@ body, html
 {
     position: absolute;
     background-color: transparent;
-    box-shadow: inset 0 0 1px #1d1d1d;
+    box-shadow: inset 0 0 1px #d6d6d631;
 }
 
 .piece_container
