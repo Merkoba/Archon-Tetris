@@ -1296,7 +1296,7 @@ Tetris.clear_line = function(y)
 {
     for(let x=0; x<Tetris.grid[y].length; x++)
     {
-        let block =  Tetris.grid[y][x].element
+        let block = Tetris.grid[y][x].element
 
         if(!block)
         {
@@ -1312,7 +1312,7 @@ Tetris.clear_line = function(y)
         }
         
         $(block).addClass("cleared_piece")
-        
+
         setTimeout(function()
         {
             $(block).remove()
@@ -1331,7 +1331,7 @@ Tetris.process_cleared_line = function(cleared_row)
         return false
     }
 
-    let ids = []
+    let elements = {}
 
     for(let y=cleared_row+1; y<Tetris.grid.length; y++)
     {
@@ -1359,35 +1359,36 @@ Tetris.process_cleared_line = function(cleared_row)
 
             let id = $(element).attr("id")
 
-            if(!ids.includes(id))
+            if(!elements[id])
             {
-                ids.push(id)
+                let data = Tetris.placed_element_data[id]
+                let elems = []
+
+                for(let node of data.nodes)
+                {
+                    let x = node[0]
+                    let y = node[1]
+                    let onode = Tetris.grid[y][x]
+                    elems.push(onode.element)
+                }
+
+                elements[id] = elems
             }
+
+            Tetris.grid[y][x].used = false
+            Tetris.grid[y][x].element = undefined
         }
     }
 
-    for(let id of ids)
+    for(let id in elements)
     {
         let element = $(`#${id}`)
+        let elems = elements[id]
         let data = Tetris.placed_element_data[id]
         let new_top = Tetris.get_position_data(element).top + Tetris.block_size
         data.top = new_top
         element.css("top", `${data.top}px`)
-        let original_nodes = data.nodes
         data.nodes = Tetris.descend_nodes(data.nodes)
-
-        let elements = []
-
-        for(let node of original_nodes)
-        {
-            let x = node[0]
-            let y = node[1]
-            let original_node = Tetris.grid[y][x]
-
-            elements.push(original_node.element)
-            original_node.used = false
-            original_node.element = undefined
-        }
 
         for(let i=0; i<data.nodes.length; i++)
         {
@@ -1397,7 +1398,7 @@ Tetris.process_cleared_line = function(cleared_row)
             let new_node = Tetris.grid[y][x]
 
             new_node.used = true
-            new_node.element = elements[i]
+            new_node.element = elems[i]
         }
     }
 }
@@ -1554,7 +1555,7 @@ Tetris.prepare_placed_piece = function(element, mode)
         nodes.push(node)
         
         Tetris.grid[y][x].used = true
-        Tetris.grid[y][x].element = $(this)
+        Tetris.grid[y][x].element = this
     })
     
     data.nodes = nodes
@@ -1594,7 +1595,7 @@ Tetris.separate_blocks = function(element)
         data.left = left
 
         Tetris.grid[y][x].used = true
-        Tetris.grid[y][x].element = block
+        Tetris.grid[y][x].element = block[0]
 
         Tetris.game.append(block)
     })
@@ -1612,57 +1613,6 @@ Tetris.separate_all_blocks = function()
             Tetris.separate_blocks(this)
         })
     }
-}
-
-Tetris.get_block_at_position = function(x, y)
-{
-    let half_block = Tetris.block_size / 2
-    let top = Tetris.game_height - ((1 + y) * Tetris.block_size) + half_block
-    let left = 0 + ((1 + x) * Tetris.block_size) - half_block
-    let found = false
-
-    $(".placed_block").each(function()
-    {
-        if($(this).hasClass("cleared_block"))
-        {
-            return true
-        }
-
-        let position = Tetris.get_placed_block_position(this)
-
-        if(position.top < top && ((position.top + Tetris.block_size) > top))
-        {
-            if(position.left < left && ((position.left + Tetris.block_size) > left))
-            {
-                found = this
-                return false
-            }
-        }
-    })
-
-    return found
-}
-
-Tetris.get_placed_piece_nodes = function(element)
-{
-    let nodes = []
-
-    if($(element).hasClass("placed_piece"))
-    {
-        $(element).find(".placed_block").each(function()
-        {
-            let position = Tetris.get_placed_block_position(this)
-            nodes.push(Tetris.get_node_by_position(position))
-        })
-    }
-
-    else
-    {
-        let position = Tetris.get_placed_block_position(element)
-        nodes.push(Tetris.get_node_by_position(position))
-    }
-
-    return nodes
 }
 
 Tetris.get_placed_block_position = function(block)
