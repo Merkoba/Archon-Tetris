@@ -1387,6 +1387,7 @@ Tetris.process_cleared_line = function(cleared_row)
         let data = Tetris.placed_element_data[id]
         let new_top = Tetris.get_position_data(element).top + Tetris.block_size
         data.top = new_top
+        element.css("top")
         element.css("top", `${data.top}px`)
         data.nodes = Tetris.descend_nodes(data.nodes)
 
