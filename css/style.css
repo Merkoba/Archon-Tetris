@@ -262,7 +262,7 @@ body *
 
 .placed_main
 {
-    transition: top 250ms;
+    transition: top 500ms;
 }
 
 @keyframes fade_out 

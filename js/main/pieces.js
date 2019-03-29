@@ -1470,12 +1470,13 @@ Tetris.make_placed_blocks_fall = function()
                 {
                     if(moved)
                     {
+                        $(block).css("top")
                         $(block).css("top", `${data.top}px`)
 
                         let x = original_nodes[0][0]
                         let y = original_nodes[0][1]
                         let original_node = Tetris.grid[y][x]
-                        
+
                         let element = original_node.element
                         original_node.used = false
                         original_node.element = undefined
