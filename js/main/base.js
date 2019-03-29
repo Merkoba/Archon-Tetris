@@ -3,7 +3,7 @@ const Tetris = {}
 Tetris.debug = false
 Tetris.ls_first_time = "ls_first_time"
 Tetris.level_charge_goal = 4
-Tetris.pow_charge_goal = 8
+Tetris.pow_charge_goal = 20
 
 Tetris.init = function()
 {

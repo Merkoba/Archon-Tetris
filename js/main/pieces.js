@@ -1207,10 +1207,10 @@ Tetris.check_lines_cleared = function()
 
     if(num_cleared > 0)
     {
+        Tetris.calculate_clear_score(num_cleared)
         Tetris.charge_level(num_cleared)
         Tetris.charge_pow(num_cleared)
         Tetris.charge_combo()
-        Tetris.calculate_clear_score(num_cleared)
         Tetris.lines_cleared += num_cleared
 
         if(num_cleared === 1)

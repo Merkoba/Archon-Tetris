@@ -2,10 +2,13 @@ Tetris.ls_options = "ls_options_version_1"
 
 Tetris.reset_options = function()
 {
-    Tetris.remove_local_storage(Tetris.ls_options)
-    Tetris.get_options()
-    Tetris.prepare_options_widgets()
-    Tetris.call_options_actions()
+    if(confirm("Are you sure you want to reset options to default?"))
+    {
+        Tetris.remove_local_storage(Tetris.ls_options)
+        Tetris.get_options()
+        Tetris.prepare_options_widgets()
+        Tetris.call_options_actions()
+    }
 }
 
 Tetris.save_options = function()

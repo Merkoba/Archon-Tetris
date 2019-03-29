@@ -8,6 +8,7 @@ body, html
     max-height: 100%;
     max-width: 100%;
     font-family: monospace;
+    height: 100%;
 }
 
 body *
@@ -51,6 +52,7 @@ body *
     align-items: center;
     justify-content: center;
     position: relative;
+    height: 100%;
 }
 
 #main_container
@@ -58,15 +60,14 @@ body *
     display: grid;
     width: fit-content;
     height: fit-content;
-    grid-template-columns: 1fr 1fr 1fr -1fr;
     grid-template-rows: 0fr 0fr 0fr;
     grid-template-areas:
         "... topbar ... ..."
         "main main main sidebar"
             "main main main ..."
             "main main main ...";
-    margin-top: 100px;
     justify-items: center;
+    height: 100%;
 }
 
 #game_container
@@ -102,6 +103,7 @@ body *
     margin-bottom: 1rem;
     grid-area: topbar;
     text-align: center;
+    margin-top: 100px;
 }
 
 .block
