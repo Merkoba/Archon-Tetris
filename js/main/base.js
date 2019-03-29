@@ -1,7 +1,9 @@
 const Tetris = {}
 
-Tetris.ls_first_time = "ls_first_time"
 Tetris.debug = false
+Tetris.ls_first_time = "ls_first_time"
+Tetris.level_charge_goal = 4
+Tetris.pow_charge_goal = 8
 
 Tetris.init = function()
 {
@@ -559,7 +561,7 @@ Tetris.charge_level = function(num_cleared)
 {
     Tetris.level_charge += num_cleared
 
-    let num_levels = Tetris.level_charge / 4
+    let num_levels = Tetris.level_charge / Tetris.level_charge_goal
     let num_levels_split = num_levels.toString().split(".")
     let whole, decimals
 
@@ -577,27 +579,59 @@ Tetris.charge_level = function(num_cleared)
     if(whole >= 1)
     {
         Tetris.level += whole
-
         Tetris.set_level_text()
         console.info(`Level up: ${Tetris.level}`)
-
+        
         if(decimals)
         {
-            Tetris.level_charge = (decimals / 10) * 4
+            Tetris.level_charge = (decimals / 10) * Tetris.level_charge_goal
         }
-
+        
         else
         {
             Tetris.level_charge = 0
         }
+    }
+}
 
+Tetris.charge_pow = function(num_cleared)
+{
+    Tetris.pow_charge += num_cleared
+
+    let num_pows = Tetris.pow_charge / Tetris.pow_charge_goal
+    let num_pows_split = num_pows.toString().split(".")
+    let whole, decimals
+
+    if(num_pows_split.length > 1)
+    {
+        whole = parseInt(num_pows_split[0])
+        decimals = parseInt(num_pows_split[1])
+    }
+
+    else
+    {
+        whole = num_pows
+    }
+
+    if(whole >= 1)
+    {
         Tetris.pow_charge += whole
 
-        if(Tetris.pow_charge >= 10)
+        if(Tetris.pow_charge >= Tetris.pow_charge_goal)
         {
             Tetris.pow += 1
-            Tetris.pow_charge = 0
             Tetris.set_pow_text()
+            console.info("POW earned")
+        }
+        
+        if(decimals)
+        {
+            Tetris.pow_charge = (decimals / 10) * Tetris.pow_charge_goal
+        }
+        
+        else
+        {
+            Tetris.pow_charge = 0
         }
     }
 }

@@ -2,7 +2,7 @@ Tetris.element_preview_block_size = 15
 Tetris.element_wheel_preview_block_size = 40
 Tetris.placed_element_data = {}
 Tetris.piece_picker_time = 3000
-Tetris.min_descent_delay = 120
+Tetris.min_descent_delay = 100
 Tetris.placed_id = 1
 Tetris.debug_queue = []
 
@@ -1208,6 +1208,7 @@ Tetris.check_lines_cleared = function()
     if(num_cleared > 0)
     {
         Tetris.charge_level(num_cleared)
+        Tetris.charge_pow(num_cleared)
         Tetris.charge_combo()
         Tetris.calculate_clear_score(num_cleared)
         Tetris.lines_cleared += num_cleared
