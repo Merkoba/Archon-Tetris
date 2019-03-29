@@ -1319,8 +1319,7 @@ Tetris.clear_line = function(y)
         }, 200)
         
         Tetris.placed_element_data[$(block).attr("id")] = undefined
-        Tetris.grid[y][x].used = false
-        Tetris.grid[y][x].element = undefined
+        Tetris.set_grid_node_to_defaults(Tetris.grid[y][x])
     }
 }
 
@@ -1341,6 +1340,7 @@ Tetris.process_cleared_line = function(cleared_row)
 
             if(!block)
             {
+                Tetris.set_grid_node_to_defaults(Tetris.grid[y][x])
                 continue
             }
 
@@ -1375,8 +1375,7 @@ Tetris.process_cleared_line = function(cleared_row)
                 elements[id] = elems
             }
 
-            Tetris.grid[y][x].used = false
-            Tetris.grid[y][x].element = undefined
+            Tetris.set_grid_node_to_defaults(Tetris.grid[y][x])
         }
     }
 
@@ -1479,8 +1478,7 @@ Tetris.make_placed_blocks_fall = function()
                         let original_node = Tetris.grid[y][x]
 
                         let element = original_node.element
-                        original_node.used = false
-                        original_node.element = undefined
+                        Tetris.set_grid_node_to_defaults(original_node)
 
                         let x2 = node[0]
                         let y2 = node[1]
