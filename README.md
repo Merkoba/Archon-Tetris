@@ -1,7 +1,7 @@
-## Tetris clone with some original gimmicks.
+## Tetris clone with some original gimmicks
 ![](https://i.imgur.com/sx7NOxw.jpg)
 
-## Game ends when part of a placed piece if above the top
+## Game ends when part of a placed piece is above the top
 ![](https://i.imgur.com/oVqs0Ze.jpg)
 
 ## When a powered up piece is placed, all placed blocks become independent and loose.
