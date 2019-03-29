@@ -1,9 +1,11 @@
 Tetris.element_preview_block_size = 15
+Tetris.element_preview_block_size_2 = 10
 Tetris.element_wheel_preview_block_size = 40
 Tetris.placed_element_data = {}
 Tetris.piece_picker_time = 3000
 Tetris.min_descent_delay = 100
 Tetris.placed_id = 1
+// Tetris.debug_queue = ["stick_2", "periscope_right_2", "periscope_left_2", "dog_right_2", "dog_left_2", "square_2", "tee_2"]
 Tetris.debug_queue = []
 
 Tetris.create_pieces = function()
@@ -389,11 +391,13 @@ Tetris.create_pieces = function()
         if(key.includes("_2"))
         {
             Tetris.big_pieces_list.push(key)
+            preview_block_size = Tetris.element_preview_block_size_2
         }
         
         else
         {
             Tetris.pieces_list.push(key)
+            preview_block_size = Tetris.element_preview_block_size
         }
 
         let piece = Tetris.pieces[key]
@@ -420,8 +424,8 @@ Tetris.create_pieces = function()
         piece_element.css("width", `${width}px`)
         piece_element.css("height", `${height}px`)
 
-        let width2 = first_mode.width * Tetris.element_preview_block_size
-        let height2 = first_mode.height * Tetris.element_preview_block_size
+        let width2 = first_mode.width * preview_block_size
+        let height2 = first_mode.height * preview_block_size
 
         let piece_element_preview = $("<div class='piece'></div>")
         piece_element_preview.css("width", `${width2}px`)
@@ -466,8 +470,8 @@ Tetris.create_pieces = function()
                     piece_element.append(piece_block_element)
                     
                     let piece_block_element_preview = $(`<div class='piece_block piece_type_${key}'></div>`)
-                    piece_block_element_preview.css("width", `${Tetris.element_preview_block_size}px`)
-                    piece_block_element_preview.css("height", `${Tetris.element_preview_block_size}px`)
+                    piece_block_element_preview.css("width", `${preview_block_size}px`)
+                    piece_block_element_preview.css("height", `${preview_block_size}px`)
                     piece_block_element_preview.css("left", x2)
                     piece_block_element_preview.css("bottom", y2)
                     
@@ -491,7 +495,7 @@ Tetris.create_pieces = function()
                 }
 
                 x += Tetris.block_size
-                x2 += Tetris.element_preview_block_size
+                x2 += preview_block_size
                 x3 += Tetris.element_wheel_preview_block_size
             }
 
@@ -499,7 +503,7 @@ Tetris.create_pieces = function()
             x2 = 0
             x3 = 0
             y += Tetris.block_size
-            y2 += Tetris.element_preview_block_size
+            y2 += preview_block_size
             y3 += Tetris.element_wheel_preview_block_size
         }
 
