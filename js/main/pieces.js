@@ -1328,7 +1328,6 @@ Tetris.clear_line = function(y)
 
 Tetris.make_pieces_fall = function(iterations=0)
 {
-    console.time("fall")
     let any_moved = false
 
     for(let y=0; y<Tetris.grid.length; y++)
@@ -1448,8 +1447,6 @@ Tetris.make_pieces_fall = function(iterations=0)
     {
         return Tetris.make_pieces_fall(iterations + 1)
     }
-
-    console.timeEnd("fall")
 
     return iterations > 0
 }

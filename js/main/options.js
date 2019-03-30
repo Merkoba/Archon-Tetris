@@ -81,6 +81,18 @@ Tetris.get_options = function()
         changed = true
     }
 
+    if(Tetris.options.goal === undefined)
+    {
+        Tetris.options.goal = 1
+        changed = true
+    }
+
+    if(Tetris.options.goal_type === undefined)
+    {
+        Tetris.options.goal_type = "none"
+        changed = true
+    }
+
     if(changed)
     {
         Tetris.save_options()
@@ -98,6 +110,7 @@ Tetris.setup_options = function()
 Tetris.call_initial_option_actions = function()
 {
     Tetris.option_enable_background_image_action(Tetris.options.enable_background_image)
+    Tetris.option_goal_type_action(Tetris.options.goal_type)
 }
 
 Tetris.prepare_options_widgets = function()
@@ -113,7 +126,7 @@ Tetris.prepare_options_widgets = function()
             $(this).prop("checked", option)
         }
 
-        else if(type === "number" || type === "text")
+        else if(type === "number" || type === "text" || type === "select")
         {
             $(this).val(option)
         }
@@ -155,6 +168,28 @@ Tetris.start_options_widget_listeners = function()
             {
                 let option = Tetris.options[id]
                 let val = $(`#option_${id}`).val()
+
+                if(val !== option)
+                {
+                    if(Tetris[`option_${id}_action`](val))
+                    {
+                        Tetris.save_options()
+                    }
+
+                    else
+                    {
+                        $(`#option_${id}`).val(option)
+                    }
+                }
+            })
+        }
+
+        else if(type === "select")
+        {
+            $(this).change(function()
+            {  
+                let option = Tetris.options[id]
+                let val = $(this).find('option:selected').val()
 
                 if(val !== option)
                 {
@@ -312,5 +347,35 @@ Tetris.option_block_size_action = function(val)
 Tetris.option_seed_action = function(val)
 {
     Tetris.options.seed = $("#option_seed").val().trim()
+    return true
+}
+
+Tetris.option_goal_action = function(val)
+{
+    let value = parseInt(val)
+    
+    if(value < 1)
+    {
+        return false
+    }
+    
+    Tetris.options.goal = value
+    return true
+}
+
+Tetris.option_goal_type_action = function(val)
+{
+    Tetris.options.goal_type = val
+
+    if(Tetris.options.goal_type === "none")
+    {
+        $("#options_item_goal").css("display", "none")
+    }
+    
+    else
+    {
+        $("#options_item_goal").css("display", "block")
+    }
+
     return true
 }

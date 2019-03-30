@@ -134,6 +134,19 @@
                 <div class='options_label'>Seed</div>
                 <input type='text' id='option_seed' class='options_widget options_text' data-options-widget-type='text' placeholder="Empty == Random">
             </div>
+            <div class='options_item' id='options_item_goal'>
+                <div class='options_label'>Goal</div>
+                <input type='number' min="1" id='option_goal' class='options_widget options_number_big' data-options-widget-type='text'>
+            </div>
+            <div class='options_item'>
+                <div class='options_label'>Goal Type</div>
+                <select id='option_goal_type' class='options_widget options_select' data-options-widget-type='select'>
+                    <option value="none" selected>None</option>
+                    <option value="score">Score</option>
+                    <option value="level">Level</option>
+                    <option value="minutes">Minutes</option>
+                </select>
+            </div>
             <div class='options_item'>
                 <div id="options_reset_button" class='action'>Reset</div>
             </div>

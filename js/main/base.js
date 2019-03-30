@@ -55,6 +55,7 @@ Tetris.start_game = function()
 
     Tetris.stop_descent_timeout()
     Tetris.stop_drop_piece_timeout()
+    Tetris.stop_time_check_interval()
     Tetris.stop_countdown()
     Tetris.init_variables()
     Tetris.create_grid()
@@ -100,6 +101,7 @@ Tetris.do_start_game = function()
     Tetris.game_paused = false
     Tetris.game_started = true
     Tetris.game_started_date = Date.now()
+    Tetris.start_time_check_interval()
 
     Tetris.stop_countdown()
 
@@ -149,7 +151,7 @@ Tetris.start_countdown = function()
     Tetris.on_countdown = true
 }
 
-Tetris.on_game_over = function()
+Tetris.on_game_over = function(title="Game Over")
 {
     console.info("Game Over")
     Tetris.game_over_date = Date.now()
@@ -158,6 +160,7 @@ Tetris.on_game_over = function()
     Tetris.on_countdown = false
     Tetris.stop_descent_timeout()
     Tetris.stop_drop_piece_timeout()
+    Tetris.stop_time_check_interval()
     Tetris.stop_music()
 
     let time = Tetris.game_over_date - Tetris.time_paused
@@ -169,6 +172,8 @@ Tetris.on_game_over = function()
     $("#game_over_lines_cleared").text(`Lines Cleared: ${Tetris.lines_cleared}`)
     $("#game_over_max_combo").text(`Max Combo: ${Tetris.max_combo}`)
     $("#game_over_pows_used").text(`POW Used: ${Tetris.pows_used}`)
+
+    Tetris.msg_game_over.set_title(title)
     Tetris.msg_game_over.show()
 
     Tetris.play_sound("game_over")
@@ -253,6 +258,14 @@ Tetris.add_score = function(n)
     if(n > 10)
     {
         console.info(`Scored increased by: ${n}`)
+    }
+
+    if(Tetris.options.goal_type === "score")
+    {
+        if(Tetris.score >= Tetris.options.goal)
+        {
+            Tetris.on_game_over("Score Goal Met")
+        }
     }
 }
 
@@ -591,6 +604,14 @@ Tetris.charge_level = function(num_cleared)
         {
             Tetris.level_charge = 0
         }
+
+        if(Tetris.options.goal_type === "level")
+        {
+            if(Tetris.level >= Tetris.options.goal)
+            {
+                Tetris.on_game_over("Level Goal Met")
+            }
+        }
     }
 }
 
@@ -681,4 +702,26 @@ Tetris.check_first_time = function()
         Tetris.on_first_time_help = false
         return false
     }
+}
+
+Tetris.start_time_check_interval = function()
+{
+    Tetris.time_check_interval = setInterval(function()
+    {
+        if(Tetris.options.goal_type === "minutes")
+        {
+            let time = Date.now() - Tetris.game_started_date - Tetris.time_paused
+            let minutes = Tetris.round(time / 60 / 1000, 3)
+            
+            if(minutes >= Tetris.options.goal)
+            {
+                Tetris.on_game_over("Minutes Goal Met")
+            }
+        }
+    }, 1000)
+}
+
+Tetris.stop_time_check_interval = function()
+{
+    clearInterval(Tetris.time_check_interval)
 }

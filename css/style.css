@@ -385,6 +385,12 @@ body *
     text-align: center;
 }
 
+.options_number_big
+{
+    width: 8rem;
+    text-align: center;
+}
+
 .options_checkbox
 {
     width: 1rem;
@@ -531,4 +537,15 @@ body *
 .pow_active
 {
     box-shadow: 0 0 8px #ffffff;
+}
+
+select 
+{
+    text-align: center;
+    text-align-last: center;
+}
+
+option 
+{
+    text-align: left;
 }

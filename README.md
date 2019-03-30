@@ -12,3 +12,17 @@
 
 ## Clearing all lines spawns a big piece
 ![](https://i.imgur.com/rm0AyS2.jpg)
+
+
+## Options
+
+- Show/Hide Ghost
+- Enable/Disable Music
+- Enable/Disable Sound Effects
+- Enable/Disable Background
+- Number of Rows
+- Number of Columns
+- Number of Previews
+- Block size in pixels
+- Math Random Seed
+- Goal (Score, Level, Minutes, or None)
