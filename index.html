@@ -5,7 +5,7 @@
 
         <link rel='shortcut icon' href='img/favicon.png?version=1' type='image/x-icon'>
 
-        <link rel="stylesheet" type="text/css" href="css/style.css?version=1">
+        <link rel="stylesheet" type="text/css" href="css/style.css?version=2">
 
         <script src="js/libs/jquery.min.js?version=1"></script>
         <script src="js/libs/seedrandom.min.js?version=1"></script>
@@ -15,7 +15,7 @@
 
         <script src="js/main/base.js?version=1"></script>
         <script src="js/main/utils.js?version=1"></script>
-        <script src="js/main/pieces.js?version=1"></script>
+        <script src="js/main/pieces.js?version=2"></script>
         <script src="js/main/grid.js?version=1"></script>
         <script src="js/main/keyboard.js?version=1"></script>
         <script src="js/main/local_storage.js?version=1"></script>
@@ -61,7 +61,11 @@
                 </div>
                 <div id='piece_picker'>
                     <div id='piece_picker_title'>Choose The Next Four</div>
-                    <div id='piece_picker_wheel'> </div>
+                    <div id='piece_picker_wheel'>
+                        <img id='piece_picker_wheel_arrow_left' class='piece_picker_wheel_arrow' src='img/arrow_left.png'>
+                        <div id='piece_picker_wheel_content'></div>
+                        <img id='piece_picker_wheel_arrow_right' class='piece_picker_wheel_arrow' src='img/arrow_right.png'>
+                    </div>
                 </div>
             </div>
         </div>

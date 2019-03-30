@@ -1831,7 +1831,7 @@ Tetris.show_piece_picker_wheel_item = function()
     let piece = Tetris.pieces[name]
     let item = $(`<div class='piece_picker_wheel_item' id='piece_picker_wheel_${piece.name}'></div>`)
     item.html(piece.element_wheel_preview.clone())
-    $("#piece_picker_wheel").html(item)
+    $("#piece_picker_wheel_content").html(item)
 }
 
 Tetris.show_next_piece_picker_wheel_item = function()

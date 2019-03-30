@@ -493,6 +493,25 @@ body *
     position: relative;
 }
 
+.piece_picker_wheel_arrow
+{
+    width: 45px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#piece_picker_wheel_arrow_left
+{
+    position: absolute;
+    left: 0; 
+}
+
+#piece_picker_wheel_arrow_right
+{
+    position: absolute;
+    right: 0;
+}
+
 .piece_picker_wheel_item
 {
     position: absolute;
