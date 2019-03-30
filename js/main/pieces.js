@@ -787,15 +787,21 @@ Tetris.rotate_piece = function(direction="right")
         
         if(edge === "left")
         {
-            Tetris.move_sideways("right", false)
-            Tetris.rotate_piece(direction)
+            if(Tetris.move_sideways("right", false))
+            {
+                Tetris.rotate_piece(direction)
+            }
+            
             return false
         }
         
         else if(edge === "right")
         {
-            Tetris.move_sideways("left", false)
-            Tetris.rotate_piece(direction)
+            if(Tetris.move_sideways("left", false))
+            {
+                Tetris.rotate_piece(direction)
+            }
+            
             return false
         }
         
@@ -1093,6 +1099,8 @@ Tetris.move_sideways = function(direction, play_sound=true)
     {
         Tetris.move_down("move_sideways")
     }
+
+    return true
 }
 
 Tetris.drop_piece = function()
