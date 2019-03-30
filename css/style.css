@@ -214,7 +214,7 @@ body *
 {
     background: linear-gradient(rgb(255, 255, 255), #4f7c86);
     box-shadow: 0 0 4px rgb(212, 218, 233); 
-    animation: fade_out 200ms linear forwards;
+    animation: fade_out 250ms linear forwards;
 }
 
 #previews

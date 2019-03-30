@@ -831,7 +831,7 @@ Tetris.on_piece_placed = function()
         if(Tetris.pow_active)
         {
             Tetris.separate_all_blocks()
-            Tetris.make_placed_blocks_fall()
+            Tetris.make_pieces_fall()
             Tetris.pow_active = false
         }
 
@@ -1281,14 +1281,12 @@ Tetris.do_check_lines_cleared = function(num_cleared=0)
         {
             num_lines_cleared += 1
             Tetris.clear_line(y)
-            Tetris.process_cleared_line(y)
-            y -= 1
         }
     }
 
     if(num_lines_cleared > 0)
     {
-        if(Tetris.make_placed_blocks_fall())
+        if(Tetris.make_pieces_fall())
         {
             return Tetris.do_check_lines_cleared(num_cleared + num_lines_cleared)
         }
@@ -1321,95 +1319,16 @@ Tetris.clear_line = function(y)
         setTimeout(function()
         {
             $(block).remove()
-        }, 200)
+        }, 250)
         
         Tetris.placed_element_data[$(block).attr("id")] = undefined
         Tetris.set_grid_node_to_defaults(Tetris.grid[y][x])
     }
 }
 
-Tetris.process_cleared_line = function(cleared_row)
+Tetris.make_pieces_fall = function(iterations=0)
 {
-    if(cleared_row + 1 >= Tetris.grid.length)
-    {
-        return false
-    }
-
-    let elements = {}
-
-    for(let y=cleared_row+1; y<Tetris.grid.length; y++)
-    {
-        for(let x=0; x<Tetris.grid[y].length; x++)
-        {
-            let block = Tetris.grid[y][x].element
-
-            if(!block)
-            {
-                Tetris.set_grid_node_to_defaults(Tetris.grid[y][x])
-                continue
-            }
-
-            let element
-            let container = $(block).closest(".placed_piece")
-            
-            if(container.length > 0)
-            {
-                element = container
-            }
-            
-            else
-            {
-                element = block
-            }
-
-            let id = $(element).attr("id")
-
-            if(!elements[id])
-            {
-                let data = Tetris.placed_element_data[id]
-                let elems = []
-
-                for(let node of data.nodes)
-                {
-                    let x = node[0]
-                    let y = node[1]
-                    let onode = Tetris.grid[y][x]
-                    elems.push(onode.element)
-                }
-
-                elements[id] = elems
-            }
-
-            Tetris.set_grid_node_to_defaults(Tetris.grid[y][x])
-        }
-    }
-
-    for(let id in elements)
-    {
-        let element = $(`#${id}`)
-        let elems = elements[id]
-        let data = Tetris.placed_element_data[id]
-        let new_top = Tetris.get_position_data(element).top + Tetris.block_size
-        data.top = new_top
-        element.css("top")
-        element.css("top", `${data.top}px`)
-        data.nodes = Tetris.descend_nodes(data.nodes)
-
-        for(let i=0; i<data.nodes.length; i++)
-        {
-            let node = data.nodes[i]
-            let x = node[0]
-            let y = node[1]
-            let new_node = Tetris.grid[y][x]
-
-            new_node.used = true
-            new_node.element = elems[i]
-        }
-    }
-}
-
-Tetris.make_placed_blocks_fall = function()
-{
+    console.time("fall")
     let any_moved = false
 
     for(let y=0; y<Tetris.grid.length; y++)
@@ -1423,84 +1342,116 @@ Tetris.make_placed_blocks_fall = function()
 
             let block = Tetris.grid[y][x].element
 
-            if(!block || !$(block).hasClass("placed_main"))
+            if(!block)
             {
                 continue
             }
 
+            let element
+            let container = $(block).closest(".piece_container")
+
+            if(container.length > 0)
+            {
+                element = container
+            }
+
+            else
+            {
+                element = block
+            }
+
+            let id = $(element).attr("id")
+            let data = Tetris.placed_element_data[id]
             let original_nodes = false
             let moved = false
 
             for(let i=0; i<Tetris.grid.length; i++)
             {
-                let data = Tetris.placed_element_data[$(block).attr("id")]
-                let nodes = data.nodes
-                let node = nodes[0]
-
                 if(!original_nodes)
                 {
-                    original_nodes = nodes
+                    original_nodes = data.nodes
                 }
 
                 let move = true
+                let exposed_nodes = Tetris.get_exposed_nodes(data.nodes)
 
-                let x = node[0]
-                let y = node[1]
-                let y2 = y - 1
-            
-                if(y === 0)
+                for(let node of exposed_nodes)
                 {
-                    move = false
-                }
-
-                else
-                {
-                    let node2 = Tetris.grid[y2][x]
-    
-                    if(node2.used)
+                    let x = node[0]
+                    let y = node[1]
+                    let y2 = y - 1
+                
+                    if(y === 0)
                     {
                         move = false
+                    }
+    
+                    else
+                    {
+                        let node2 = Tetris.grid[y2][x]
+        
+                        if(node2.used)
+                        {
+                            move = false
+                        }
                     }
                 }
 
                 if(move)
                 {
-                    let new_top = Tetris.get_position_data(block).top + Tetris.block_size
-                    data.nodes = Tetris.descend_nodes(nodes)
+                    let new_top = Tetris.get_position_data(element).top + Tetris.block_size
+                    data.nodes = Tetris.descend_nodes(data.nodes)
                     data.top = new_top
                     moved = true
-                    any_moved = true
                 }
-
+                
                 else
                 {
                     if(moved)
                     {
-                        $(block).css("top")
-                        $(block).css("top", `${data.top}px`)
-
-                        let x = original_nodes[0][0]
-                        let y = original_nodes[0][1]
-                        let original_node = Tetris.grid[y][x]
-
-                        let element = original_node.element
-                        Tetris.set_grid_node_to_defaults(original_node)
-
-                        let x2 = node[0]
-                        let y2 = node[1]
-                        let new_node = Tetris.grid[y2][x2]
-
-                        new_node.used = true
-                        new_node.element = element
+                        $(element).css("top")
+                        $(element).css("top", `${data.top}px`)
+                        
+                        let elements = []
+                        
+                        for(let node of original_nodes)
+                        {
+                            let x = node[0]
+                            let y = node[1]
+                            let original_node = Tetris.grid[y][x]
+                            
+                            elements.push(original_node.element)
+                            Tetris.set_grid_node_to_defaults(original_node)
+                        }
+                        
+                        for(let i=0; i<data.nodes.length; i++)
+                        {
+                            let node = data.nodes[i]
+                            let x = node[0]
+                            let y = node[1]
+                            let new_node = Tetris.grid[y][x]
+                            
+                            new_node.used = true
+                            new_node.element = elements[i]
+                        }
+                        
+                        any_moved = true
                     }
-
+                    
                     break
                 }
             }
         }
     }
+    
+    if(any_moved)
+    {
+        return Tetris.make_pieces_fall(iterations + 1)
+    }
 
-    return any_moved
+    console.timeEnd("fall")
+
+    return iterations > 0
 }
 
 Tetris.count_empty_lines = function()
