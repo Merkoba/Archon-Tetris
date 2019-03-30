@@ -790,9 +790,8 @@ Tetris.rotate_piece = function(direction="right")
             if(Tetris.move_sideways("right", false))
             {
                 Tetris.rotate_piece(direction)
+                return false
             }
-            
-            return false
         }
         
         else if(edge === "right")
@@ -800,9 +799,8 @@ Tetris.rotate_piece = function(direction="right")
             if(Tetris.move_sideways("left", false))
             {
                 Tetris.rotate_piece(direction)
+                return false
             }
-            
-            return false
         }
         
         Tetris.play_sound("tone_1")
