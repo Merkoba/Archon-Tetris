@@ -23,6 +23,6 @@
 - Number of Rows
 - Number of Columns
 - Number of Previews
-- Block size in pixels
+- Block Size (Pixels)
 - Math Random Seed
 - Goal (Score, Level, Minutes, or None)
