@@ -745,6 +745,7 @@ Tetris.rotate_piece = function(direction="right")
     Tetris.update_piece_nodes()
 
     let rollback = false
+    let edge
 
     // Check for collisions
     for(let node of Tetris.current_nodes)
@@ -755,13 +756,13 @@ Tetris.rotate_piece = function(direction="right")
         if(x < 0 || y < 0)
         {
             rollback = true
-            break
+            edge = "left"
         }
 
         if(x >= Tetris.num_horizontal_blocks)
         {
             rollback = true
-            break
+            edge = "right"
         }
 
         if(Tetris.grid[y] && Tetris.grid[y][x])
@@ -771,6 +772,7 @@ Tetris.rotate_piece = function(direction="right")
             if(node2.used)
             {
                 rollback = true
+                edge = "none"
                 break
             }
         }
@@ -782,6 +784,21 @@ Tetris.rotate_piece = function(direction="right")
         Tetris.current_mode = original_mode
         Tetris.current_element.css('transform', `rotate(${Tetris.current_degrees}deg)`)
         Tetris.update_piece_nodes()
+        
+        if(edge === "left")
+        {
+            Tetris.move_sideways("right", false)
+            Tetris.rotate_piece(direction)
+            return false
+        }
+        
+        else if(edge === "right")
+        {
+            Tetris.move_sideways("left", false)
+            Tetris.rotate_piece(direction)
+            return false
+        }
+        
         Tetris.play_sound("tone_1")
         return false
     }
@@ -977,7 +994,7 @@ Tetris.move_down = function(from="generic")
     return false
 }
 
-Tetris.move_sideways = function(direction)
+Tetris.move_sideways = function(direction, play_sound=true)
 {
     if(!Tetris.piece_active && !Tetris.piece_getting_locked)
     {
@@ -1024,7 +1041,11 @@ Tetris.move_sideways = function(direction)
 
     else
     {
-        Tetris.play_sound("tone_1")
+        if(play_sound)
+        {
+            Tetris.play_sound("tone_1")
+        }
+
         return false
     }
     
@@ -1062,7 +1083,11 @@ Tetris.move_sideways = function(direction)
     }
 
     Tetris.update_ghost_piece()
-    Tetris.play_sound("move")
+
+    if(play_sound)
+    {
+        Tetris.play_sound("move")
+    }
 
     if(Tetris.piece_getting_locked)
     {
