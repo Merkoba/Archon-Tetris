@@ -3,7 +3,6 @@ Tetris.element_preview_block_size_2 = 10
 Tetris.element_wheel_preview_block_size = 40
 Tetris.placed_element_data = {}
 Tetris.piece_picker_time = 3000
-Tetris.min_descent_delay = 100
 Tetris.placed_id = 1
 // Tetris.debug_queue = ["stick_2", "periscope_right_2", "periscope_left_2", "dog_right_2", "dog_left_2", "square_2", "tee_2"]
 Tetris.debug_queue = []
@@ -1124,7 +1123,7 @@ Tetris.do_drop_piece = function()
     Tetris.drop_piece_timeout = setTimeout(function()
     {
         Tetris.do_drop_piece()
-    }, 10)
+    }, Tetris.options.hard_drop_delay)
 }
 
 Tetris.stop_drop_piece_timeout = function()
@@ -1796,11 +1795,11 @@ Tetris.fill = async function()
 
 Tetris.get_descent_delay = function()
 {
-    let delay = 1000 - ((Tetris.level - 1) * 10)
+    let delay = 1000 - ((Tetris.level - 1) * Tetris.options.descent_multiplier)
 
-    if(delay < Tetris.min_descent_delay)
+    if(delay < Tetris.options.min_descent_delay)
     {
-        delay = Tetris.min_descent_delay
+        delay = Tetris.options.min_descent_delay
     }
 
     return delay

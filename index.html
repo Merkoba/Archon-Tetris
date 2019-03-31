@@ -98,7 +98,7 @@
 
     <script id='template_menu' type='text/x-handlebars-template' class='template'>
         <div id='menu_container'>
-            <div id='menu_restart' class='menu_item action'>Restart</div>
+            <div id='menu_restart' class='menu_item action'>Start</div>
             <div id='menu_options' class='menu_item action'>Options</div>
             <div id='menu_controls' class='menu_item action'>Controls</div>
             <div id='menu_help' class='menu_item action'>Help</div>
@@ -155,6 +155,18 @@
                     <option value="level">Level</option>
                     <option value="minutes">Minutes</option>
                 </select>
+            </div>
+            <div class='options_item'>
+                <div class='options_label' title='This is in milliseconds. Higher == Speed increases faster as levels increase'>Descent Multiplier</div>
+                <input type='number' min="1" id='option_descent_multiplier' class='options_widget options_number' data-options-widget-type='number'>
+            </div>
+            <div class='options_item'>
+                <div class='options_label' title='This is in milliseconds. Lower == Faster'>Minimum Descent Delay</div>
+                <input type='number' min="10" id='option_min_descent_delay' class='options_widget options_number' data-options-widget-type='number'>
+            </div>
+            <div class='options_item'>
+                <div class='options_label' title='This is in milliseconds. Lower == Faster'>Hard Drop Delay</div>
+                <input type='number' min="0" id='option_hard_drop_delay' class='options_widget options_number' data-options-widget-type='number'>
             </div>
             <div class='options_item'>
                 <div id="options_reset_button" class='action'>Reset</div>

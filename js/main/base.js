@@ -17,7 +17,9 @@ Tetris.init = function()
     Tetris.setup_separators()
     Tetris.setup_click_events()
     Tetris.setup_controls()
+    Tetris.start_hide_intro_timeout()
     Tetris.on_intro = true
+    Tetris.first_game_started = false
 
     $("#sound_intro")[0].oncanplay = function()
     {
@@ -49,11 +51,11 @@ Tetris.init_variables = function()
     Tetris.original_seed = Tetris.options.seed
 }
 
-Tetris.start_game = function()
+Tetris.start_game = function(initial=false)
 {
     Tetris.game_started = false
     Tetris.piece_active = false
-
+    
     Tetris.stop_descent_timeout()
     Tetris.stop_drop_piece_timeout()
     Tetris.stop_time_check_interval()
@@ -92,6 +94,15 @@ Tetris.start_game = function()
     Tetris.set_pow_text()
     Tetris.close_all_windows()
     
+    if(!initial)
+    {
+        Tetris.make_game_start()
+    }
+}
+
+Tetris.make_game_start = function()
+{
+    Tetris.close_all_windows()
     Tetris.start_countdown()
     Tetris.start_music(true)
 }
@@ -310,6 +321,8 @@ Tetris.set_combo_text = function()
 
 Tetris.hide_intro = function()
 {
+    Tetris.stop_hide_intro_timeout()
+
     if(Tetris.check_first_time())
     {
         return false
@@ -318,6 +331,7 @@ Tetris.hide_intro = function()
     Tetris.on_intro = false
 
     Tetris.start_game(true)
+    Tetris.msg_menu.show()
 
     $("#intro").css("opacity", 0)
     
@@ -501,7 +515,7 @@ Tetris.setup_click_events = function()
 
     $("#menu_restart").click(function()
     {
-        Tetris.start_game()
+        Tetris.conditional_start_game()
     })
 
     $("#menu_options").click(function()
@@ -757,4 +771,32 @@ Tetris.start_time_check_interval = function()
 Tetris.stop_time_check_interval = function()
 {
     clearInterval(Tetris.time_check_interval)
+}
+
+Tetris.start_hide_intro_timeout = function()
+{
+    Tetris.hide_intro_timeout = setTimeout(function()
+    {
+        Tetris.hide_intro()
+    }, 5000)
+}
+
+Tetris.stop_hide_intro_timeout = function()
+{
+    clearTimeout(Tetris.hide_intro_timeout)
+}
+
+Tetris.conditional_start_game = function()
+{
+    if(Tetris.first_game_started)
+    {
+        Tetris.start_game()
+    }
+
+    else
+    {
+        Tetris.make_game_start()
+        Tetris.first_game_started = true
+        $("#menu_restart").text("Restart")
+    }
 }

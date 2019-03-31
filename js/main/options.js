@@ -93,6 +93,21 @@ Tetris.get_options = function()
         changed = true
     }
 
+    if(Tetris.options.descent_multiplier === undefined)
+    {
+        Tetris.options.descent_multiplier = 20
+    }
+
+    if(Tetris.options.min_descent_delay === undefined)
+    {
+        Tetris.options.min_descent_delay = 100
+    }
+
+    if(Tetris.options.hard_drop_delay === undefined)
+    {
+        Tetris.options.hard_drop_delay = 10
+    }
+
     if(changed)
     {
         Tetris.save_options()
@@ -377,5 +392,44 @@ Tetris.option_goal_type_action = function(val)
         $("#options_item_goal").css("display", "block")
     }
 
+    return true
+}
+
+Tetris.option_descent_multiplier_action = function(val)
+{
+    let value = parseInt(val)
+
+    if(value < 1)
+    {
+        return false
+    }
+
+    Tetris.options.descent_multiplier = value
+    return true
+}
+
+Tetris.option_min_descent_delay_action = function(val)
+{
+    let value = parseInt(val)
+
+    if(value < 10)
+    {
+        return false
+    }
+
+    Tetris.options.min_descent_delay = value
+    return true
+}
+
+Tetris.option_hard_drop_delay_action = function(val)
+{
+    let value = parseInt(val)
+
+    if(value < 0)
+    {
+        return false
+    }
+
+    Tetris.options.hard_drop_delay = value
     return true
 }

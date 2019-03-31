@@ -73,13 +73,16 @@ Tetris.start_key_detection = function()
                     e.preventDefault()
                     return false
                 }
+            }
+        }
 
-                else if(e.key === Tetris.controls.restart_game)
-                {
-                    Tetris.start_game()
-                    e.preventDefault()
-                    return false
-                }
+        if(!Tetris.modal_open)
+        {
+            if(e.key === Tetris.controls.restart_game)
+            {
+                Tetris.conditional_start_game()
+                e.preventDefault()
+                return false
             }
         }
 
