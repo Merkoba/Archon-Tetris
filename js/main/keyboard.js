@@ -4,14 +4,14 @@ Tetris.start_key_detection = function()
     {
         if(Tetris.piece_picker_active)
         {
-            if(e.key === "ArrowRight")
+            if(e.key === Tetris.controls.piece_picker_next)
             {
                 Tetris.show_next_piece_picker_wheel_item()
                 e.preventDefault()
                 return false
             }
             
-            else if(e.key === "ArrowLeft")
+            else if(e.key === Tetris.controls.piece_picker_previous)
             {
                 Tetris.show_previous_piece_picker_wheel_item()
                 e.preventDefault()
@@ -23,42 +23,42 @@ Tetris.start_key_detection = function()
 
         if(Tetris.game_started && !Tetris.modal_open)
         {
-            if(e.key === "ArrowUp" || e.key === "x")
+            if(e.key === Tetris.controls.rotate_right)
             {
                 Tetris.rotate_piece("right")
                 e.preventDefault()
                 return false
             }
      
-            else if(e.key === "Control" || e.key === "z")
+            else if(e.key === Tetris.controls.rotate_left)
             {
                 Tetris.rotate_piece("left")
                 e.preventDefault()
                 return false
             }
 
-            else if(e.key === "ArrowDown")
+            else if(e.key === Tetris.controls.move_down)
             {
                 Tetris.move_down("keyboard")
                 e.preventDefault()
                 return false
             }
 
-            else if(e.key === "ArrowLeft")
+            else if(e.key === Tetris.controls.move_left)
             {
                 Tetris.move_sideways("left")
                 e.preventDefault()
                 return false
             }
 
-            else if(e.key === "ArrowRight")
+            else if(e.key === Tetris.controls.move_right)
             {
                 Tetris.move_sideways("right")
                 e.preventDefault()
                 return false
             }
 
-            else if(e.key === "Enter")
+            else if(e.key === Tetris.controls.activate_pow)
             {
                 Tetris.activate_pow()
                 e.preventDefault()
@@ -67,9 +67,16 @@ Tetris.start_key_detection = function()
 
             if(!e.repeat)
             {
-                if(e.key === " ")
+                if(e.key === Tetris.controls.hard_drop)
                 {
                     Tetris.drop_piece()
+                    e.preventDefault()
+                    return false
+                }
+
+                else if(e.key === Tetris.controls.restart_game)
+                {
+                    Tetris.start_game()
                     e.preventDefault()
                     return false
                 }

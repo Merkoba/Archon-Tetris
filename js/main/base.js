@@ -16,6 +16,7 @@ Tetris.init = function()
     Tetris.setup_audio()
     Tetris.setup_separators()
     Tetris.setup_click_events()
+    Tetris.setup_controls()
     Tetris.on_intro = true
 
     $("#sound_intro")[0].oncanplay = function()
@@ -448,6 +449,21 @@ Tetris.start_windows = function()
         )
     )
 
+    Tetris.msg_controls = Msg.factory
+    (
+        Object.assign
+        (
+            {
+
+            },
+            titlebar,
+            common,
+            {
+
+            }
+        )
+    )
+
     Tetris.msg_menu.set(Tetris.template_menu())
     Tetris.msg_options.set(Tetris.template_options())
     Tetris.msg_options.set_title("Options")
@@ -455,6 +471,8 @@ Tetris.start_windows = function()
     Tetris.msg_help.set_title("Help")
     Tetris.msg_game_over.set(Tetris.template_game_over())
     Tetris.msg_game_over.set_title("Game Over")
+    Tetris.msg_controls.set(Tetris.template_controls())
+    Tetris.msg_controls.set_title("Controls")
 }
 
 Tetris.compile_templates = function()
@@ -504,6 +522,21 @@ Tetris.setup_click_events = function()
     $("#options_reset_button").click(function()
     {
         Tetris.reset_options()
+    })
+
+    $("#menu_controls").click(function()
+    {
+        Tetris.show_controls()
+    })
+
+    $("#controls_reset").click(function()
+    {
+        Tetris.reset_controls()
+    })
+
+    $("#help_controls").click(function()
+    {
+        Tetris.show_controls()
     })
 }
 

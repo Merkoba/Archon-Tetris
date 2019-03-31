@@ -422,6 +422,7 @@ body *
 #options_reset_button
 {
     cursor: pointer;
+    display: inline-block;
 }
 
 .horizontal_separator
@@ -444,6 +445,13 @@ body *
 .help_item:last-child
 {
     margin-bottom: 0;
+}
+
+#help_controls
+{
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .game_box
@@ -567,4 +575,37 @@ select
 option 
 {
     text-align: left;
+}
+
+#controls_container
+{
+    width: 18rem;
+}
+
+.controls_item
+{
+    margin-bottom: 2rem;
+}
+
+.controls_item:last-child
+{
+    margin-bottom: 0;
+}
+
+.controls_label
+{
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.controls_input
+{
+    width: 8rem;
+    text-align: center;
+}
+
+#controls_reset
+{
+    cursor: pointer;
+    display: inline-block;
 }

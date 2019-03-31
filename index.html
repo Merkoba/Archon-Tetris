@@ -5,7 +5,7 @@
 
         <link rel='shortcut icon' href='img/favicon.png?version=1' type='image/x-icon'>
 
-        <link rel="stylesheet" type="text/css" href="css/style.css?version=2">
+        <link rel="stylesheet" type="text/css" href="css/style.css?version=3">
 
         <script src="js/libs/jquery.min.js?version=1"></script>
         <script src="js/libs/seedrandom.min.js?version=1"></script>
@@ -13,13 +13,14 @@
         <script src="js/libs/msg.min.js?version=1"></script>
         <script src="js/libs/separator.js?version=1"></script>
 
-        <script src="js/main/base.js?version=1"></script>
+        <script src="js/main/base.js?version=2"></script>
         <script src="js/main/utils.js?version=1"></script>
-        <script src="js/main/pieces.js?version=5"></script>
+        <script src="js/main/pieces.js?version=6"></script>
         <script src="js/main/grid.js?version=1"></script>
-        <script src="js/main/keyboard.js?version=1"></script>
+        <script src="js/main/keyboard.js?version=2"></script>
         <script src="js/main/local_storage.js?version=1"></script>
         <script src="js/main/options.js?version=1"></script>
+        <script src="js/main/controls.js?version=1"></script>
 
         <script>
             $(function()
@@ -99,6 +100,7 @@
         <div id='menu_container'>
             <div id='menu_restart' class='menu_item action'>Restart</div>
             <div id='menu_options' class='menu_item action'>Options</div>
+            <div id='menu_controls' class='menu_item action'>Controls</div>
             <div id='menu_help' class='menu_item action'>Help</div>
         </div>
     </script>
@@ -160,49 +162,76 @@
         </div>
     </script>
 
+    <script id='template_controls' type='text/x-handlebars-template' class='template'>
+        <div id='controls_container'>
+            <div class='controls_item'>
+                <div class='controls_label'>Rotate Right</div>
+                <input type='text' id='control_rotate_right' data-category='game' class='controls_input'>
+            </div>
+            <div class='controls_item'>
+                <div class='controls_label'>Rotate Left</div>
+                <input type='text' id='control_rotate_left' data-category='game' class='controls_input'>
+            </div>
+            <div class='controls_item'>
+                <div class='controls_label'>Move Right</div>
+                <input type='text' id='control_move_right' data-category='game' class='controls_input'>
+            </div>
+            <div class='controls_item'>
+                <div class='controls_label'>Move Left</div>
+                <input type='text' id='control_move_left' data-category='game' class='controls_input'>
+            </div>
+            <div class='controls_item'>
+                <div class='controls_label'>Move Down</div>
+                <input type='text' id='control_move_down' data-category='game' class='controls_input'>
+            </div>
+            <div class='controls_item'>
+                <div class='controls_label'>Hard Drop</div>
+                <input type='text' id='control_hard_drop' data-category='game' class='controls_input'>
+            </div>
+            <div class='controls_item'>
+                <div class='controls_label'>Activate POW</div>
+                <input type='text' id='control_activate_pow' data-category='game' class='controls_input'>
+            </div>
+            <div class='controls_item'>
+                <div class='controls_label'>Restart Game</div>
+                <input type='text' id='control_restart_game' data-category='game' class='controls_input'>
+            </div>
+            <div class='controls_item'>
+                <div class='controls_label'>Piece Picker: Next</div>
+                <input type='text' id='control_piece_picker_next' data-category='piece_picker' class='controls_input'>
+            </div>
+            <div class='controls_item'>
+                <div class='controls_label'>Piece Picker: Previous</div>
+                <input type='text' id='control_piece_picker_previous' data-category='piece_picker' class='controls_input'>
+            </div>
+            <div class='controls_item'>
+                <div class='controls_label' id='controls_reset'>Reset</div>
+            </div>
+        </div>
+    </script>
+
     <script id='template_help' type='text/x-handlebars-template' class='template'>
         <div id='help_container'>
             <div class='help_item'>
-                Up Arrow or C: Rotates the piece clockwise.
+                Levels increase every 4 lines cleared. As levels increase, pieces fall faster, but scoring increases.
             </div>
             <div class='help_item'>
-                Control or Z: Rotates the piece anti-clockwise.
+                Clearing a line separates all pieces touching the line into their own block.
             </div>
             <div class='help_item'>
-                Left Arrow: Moves the piece to the left.
+                Activating a POW on the current piece separates all placed pices into blocks that are independent and loose when the piece is placed. This causes them to fall.
             </div>
             <div class='help_item'>
-                Right Arrow: Moves the piece to the right.
+                POWs increase every 20 lines cleared.
             </div>
             <div class='help_item'>
-                Down Arrow: Moves the piece down by 1 step (Soft Drop).
-            </div>
-            <div class='help_item'>
-                Space: Drops the piece to the bottom instantly (Hard Drop).
-            </div>
-            <div class='help_item'>
-                Escape: Pauses the game and opens the menu. Closes windows.
-            </div>
-            <div class='help_item'>
-                F1: Pauses/unpauses the game.
-            </div>
-            <div class='help_item'>
-                Enter: Activates POW on the current piece. When the piece is placed, it separates all piece blocks into their own block, causing them to fall.
-            </div>
-            <div class='help_item'>
-                Clearing a line separates all blocks from the piece into their own block.
-            </div>
-            <div class='help_item'>
-                Clearing more than 4 lines activates a piece picker to choose the next 4 pieces. This gets triggered on the next piece. Left and right arrows cycle through the pieces. The picker lasts for 3 seconds.
+                Clearing more than 4 lines activates a piece picker to choose the next 4 pieces. This gets triggered on the next piece. The picker lasts for 3 seconds.
             </div>
             <div class='help_item'>
                 Clearing all the lines spawns a big piece.
             </div>
             <div class='help_item'>
-                Levels increase every 4 lines cleared. As levels increase, pieces fall faster, but scoring increases.
-            </div>
-            <div class='help_item'>
-                POWs increase every 20 lines cleared.
+                <div id='help_controls'>Controls</div>
             </div>
         </div>
     </script>

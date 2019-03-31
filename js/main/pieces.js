@@ -1867,11 +1867,11 @@ Tetris.show_piece_picker_wheel_item = function()
 
 Tetris.show_next_piece_picker_wheel_item = function()
 {
-    Tetris.current_piece_picker_wheel_item -= 1
+    Tetris.current_piece_picker_wheel_item += 1
 
-    if(Tetris.current_piece_picker_wheel_item < 0)
+    if(Tetris.current_piece_picker_wheel_item > Tetris.pieces_list.length - 1)
     {
-        Tetris.current_piece_picker_wheel_item = Tetris.pieces_list.length - 1
+        Tetris.current_piece_picker_wheel_item = 0
     }
 
     Tetris.show_piece_picker_wheel_item()
@@ -1879,11 +1879,11 @@ Tetris.show_next_piece_picker_wheel_item = function()
 
 Tetris.show_previous_piece_picker_wheel_item = function()
 {
-    Tetris.current_piece_picker_wheel_item += 1
+    Tetris.current_piece_picker_wheel_item -= 1
 
-    if(Tetris.current_piece_picker_wheel_item > Tetris.pieces_list.length - 1)
+    if(Tetris.current_piece_picker_wheel_item < 0)
     {
-        Tetris.current_piece_picker_wheel_item = 0
+        Tetris.current_piece_picker_wheel_item = Tetris.pieces_list.length - 1
     }
 
     Tetris.show_piece_picker_wheel_item()
