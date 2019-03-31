@@ -103,9 +103,9 @@ Tetris.get_options = function()
         Tetris.options.min_descent_delay = 100
     }
 
-    if(Tetris.options.hard_drop_delay === undefined)
+    if(Tetris.options.soft_drop_delay === undefined)
     {
-        Tetris.options.hard_drop_delay = 10
+        Tetris.options.soft_drop_delay = 10
     }
 
     if(changed)
@@ -447,7 +447,7 @@ Tetris.option_min_descent_delay_action = function(val)
     return true
 }
 
-Tetris.option_hard_drop_delay_action = function(val)
+Tetris.option_soft_drop_delay_action = function(val)
 {
     let value = parseInt(val)
 
@@ -456,6 +456,6 @@ Tetris.option_hard_drop_delay_action = function(val)
         return false
     }
 
-    Tetris.options.hard_drop_delay = value
+    Tetris.options.soft_drop_delay = value
     return true
 }

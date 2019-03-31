@@ -58,7 +58,7 @@ Tetris.start_game = function(initial=false)
     Tetris.current_piece = undefined
     
     Tetris.stop_descent_timeout()
-    Tetris.stop_drop_piece_timeout()
+    Tetris.stop_soft_drop_timeout()
     Tetris.stop_time_check_interval()
     Tetris.stop_countdown()
     Tetris.init_variables()
@@ -172,7 +172,7 @@ Tetris.on_game_over = function(title="Game Over")
     Tetris.piece_active = false
     Tetris.on_countdown = false
     Tetris.stop_descent_timeout()
-    Tetris.stop_drop_piece_timeout()
+    Tetris.stop_soft_drop_timeout()
     Tetris.stop_time_check_interval()
     Tetris.stop_music()
 

@@ -690,7 +690,7 @@ Tetris.place_next_piece = function(piece_name=false)
     Tetris.current_piece = piece
     Tetris.piece_active = true
     Tetris.piece_getting_locked = false
-    Tetris.doing_drop = false
+    Tetris.doing_soft_drop = false
 
     Tetris.update_piece_nodes()
     Tetris.add_preview()
@@ -822,57 +822,70 @@ Tetris.rotate_piece = function(direction="right")
     }
 }
 
-Tetris.on_piece_placed = function()
+Tetris.on_piece_placed = function(from)
 {
     Tetris.piece_active = false
     Tetris.piece_getting_locked = true
-    
-    Tetris.lock_timeout = setTimeout(function()
+
+    if(from === "hard_drop")
     {
-        Tetris.stop_descent_timeout()
-        Tetris.piece_getting_locked = false
+        Tetris.do_on_piece_placed()
+    }
 
-        if(Tetris.ghost_piece)
+    else
+    {
+        Tetris.lock_timeout = setTimeout(function()
         {
-            Tetris.ghost_piece.remove()
-        }
+            Tetris.do_on_piece_placed()
+        }, 500)
+    }
+}
+
+Tetris.do_on_piece_placed = function()
+{
+    Tetris.stop_descent_timeout()
+    Tetris.piece_getting_locked = false
+
+    if(Tetris.ghost_piece)
+    {
+        Tetris.ghost_piece.remove()
+    }
         
-        for(let node of Tetris.current_nodes)
+    for(let node of Tetris.current_nodes)
+    {
+        if(node[1] >= Tetris.grid.length)
         {
-            if(node[1] >= Tetris.grid.length)
-            {
-                Tetris.on_game_over()
-                return false
-            }
+            Tetris.on_game_over()
+            return false
         }
+    }
 
-        Tetris.prepare_placed_piece(Tetris.current_element, Tetris.current_mode)
+    Tetris.prepare_placed_piece(Tetris.current_element, Tetris.current_mode)
 
-        if(Tetris.pow_active)
-        {
-            Tetris.separate_all_blocks()
-            Tetris.make_pieces_fall()
-            Tetris.pow_active = false
-        }
+    if(Tetris.pow_active)
+    {
+        Tetris.separate_all_blocks()
+        Tetris.make_pieces_fall()
+        Tetris.pow_active = false
+    }
 
-        let num_cleared = Tetris.check_lines_cleared()
+    let num_cleared = Tetris.check_lines_cleared()
 
-        if(num_cleared === 0)
-        {
-            Tetris.play_sound("locked")
-        }
+    if(num_cleared === 0)
+    {
+        Tetris.play_sound("locked")
+    }
 
-        if(Tetris.combo > 0)
-        {
-            let score = 50 * Tetris.combo * Tetris.level
-            Tetris.add_score(score)
-        }
+    if(Tetris.combo > 0)
+    {
+        let score = 50 * Tetris.combo * Tetris.level
+        Tetris.add_score(score)
+    }
 
-        if(!Tetris.debug)
-        {
-            Tetris.place_next_piece()
-        }
-    }, 500)
+    if(!Tetris.debug)
+    {
+        Tetris.place_next_piece()
+    }
 }
 
 Tetris.cancel_piece_placed = function()
@@ -945,7 +958,7 @@ Tetris.move_down = function(from="generic")
 
     if(move)
     {
-        if(from === "drop")
+        if(from === "hard_drop")
         {
             Tetris.add_score(2)
         }
@@ -972,7 +985,7 @@ Tetris.move_down = function(from="generic")
             if(finish_after_move)
             {
                 Tetris.play_sound("placed")
-                Tetris.on_piece_placed()
+                Tetris.on_piece_placed(from)
                 return true
             }
 
@@ -1100,35 +1113,55 @@ Tetris.move_sideways = function(direction, play_sound=true)
     return true
 }
 
-Tetris.drop_piece = function()
+Tetris.hard_drop = function()
 {
-    if(!Tetris.piece_active || Tetris.doing_drop)
+    if(!Tetris.piece_active)
     {
         return false
     }
 
-    Tetris.do_drop_piece()
+    Tetris.do_hard_drop()
 }
 
-Tetris.do_drop_piece = function()
+Tetris.do_hard_drop = function()
 {
-    if(Tetris.move_down("drop"))
+    if(Tetris.move_down("hard_drop"))
     {
-        Tetris.doing_drop = false
         return
     }
 
-    Tetris.doing_drop = true
-
-    Tetris.drop_piece_timeout = setTimeout(function()
-    {
-        Tetris.do_drop_piece()
-    }, Tetris.options.hard_drop_delay)
+    Tetris.do_hard_drop()
 }
 
-Tetris.stop_drop_piece_timeout = function()
+Tetris.soft_drop = function()
 {
-    clearTimeout(Tetris.drop_piece_timeout)
+    if(!Tetris.piece_active || Tetris.doing_soft_drop)
+    {
+        return false
+    }
+
+    Tetris.do_soft_drop()
+}
+
+Tetris.do_soft_drop = function()
+{
+    if(Tetris.move_down("soft_drop"))
+    {
+        Tetris.doing_soft_drop = false
+        return
+    }
+
+    Tetris.doing_soft_drop = true
+
+    Tetris.soft_drop_timeout = setTimeout(function()
+    {
+        Tetris.do_soft_drop()
+    }, Tetris.options.soft_drop_delay)
+}
+
+Tetris.stop_soft_drop_timeout = function()
+{
+    clearTimeout(Tetris.soft_drop_timeout)
 }
 
 Tetris.update_piece_nodes = function()

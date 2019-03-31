@@ -37,13 +37,6 @@ Tetris.start_key_detection = function()
                 return false
             }
 
-            else if(e.key === Tetris.controls.move_down)
-            {
-                Tetris.move_down("keyboard")
-                e.preventDefault()
-                return false
-            }
-
             else if(e.key === Tetris.controls.move_left)
             {
                 Tetris.move_sideways("left")
@@ -67,9 +60,16 @@ Tetris.start_key_detection = function()
 
             if(!e.repeat)
             {
-                if(e.key === Tetris.controls.hard_drop)
+                if(e.key === Tetris.controls.soft_drop)
                 {
-                    Tetris.drop_piece()
+                    Tetris.soft_drop()
+                    e.preventDefault()
+                    return false
+                }
+
+                else if(e.key === Tetris.controls.hard_drop)
+                {
+                    Tetris.hard_drop()
                     e.preventDefault()
                     return false
                 }

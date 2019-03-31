@@ -40,9 +40,9 @@ Tetris.get_controls = function()
         changed = true
     }
 
-    if(Tetris.controls.move_down === undefined)
+    if(Tetris.controls.soft_drop === undefined)
     {
-        Tetris.controls.move_down = "ArrowDown"
+        Tetris.controls.soft_drop = "ArrowDown"
         changed = true
     }
 
