@@ -1313,6 +1313,15 @@ Tetris.check_lines_cleared = function()
             
             delay += 200
         }
+
+        clearTimeout(Tetris.game_flash_timeout)
+
+        Tetris.game.addClass("game_flash")
+
+        Tetris.game_flash_timeout = setTimeout(function()
+        {
+            Tetris.game.removeClass("game_flash")
+        }, 200)
     }
 
     else

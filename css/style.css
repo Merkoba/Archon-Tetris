@@ -86,6 +86,7 @@ body *
     position: relative;
     background-color: #2f3237b2;
     overflow: hidden;
+    transition: background-color 200ms;
 }
 
 #sidebar
@@ -674,4 +675,9 @@ option
 {
     cursor: pointer;
     display: inline-block;
+}
+
+.game_flash
+{
+    background-color: #ffffff65 !important;
 }
