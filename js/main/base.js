@@ -55,6 +55,7 @@ Tetris.start_game = function(initial=false)
 {
     Tetris.game_started = false
     Tetris.piece_active = false
+    Tetris.current_piece = undefined
     
     Tetris.stop_descent_timeout()
     Tetris.stop_drop_piece_timeout()
