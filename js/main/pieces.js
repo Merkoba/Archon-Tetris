@@ -1135,8 +1135,15 @@ Tetris.do_hard_drop = function()
 
 Tetris.soft_drop = function()
 {
-    if(!Tetris.piece_active || Tetris.doing_soft_drop)
+    if(!Tetris.piece_active)
     {
+        return false
+    }
+
+    if(Tetris.doing_soft_drop)
+    {
+        Tetris.stop_soft_drop_timeout()
+        Tetris.doing_soft_drop = false
         return false
     }
 
