@@ -26,3 +26,8 @@
 - Block Size (Pixels)
 - Math Random Seed
 - Goal (Score, Level, Minutes, or None)
+- Descent Multiplier
+- Minimum Descent Delay
+- Hard Drop Delay
+
+Plus controls can be configured.
