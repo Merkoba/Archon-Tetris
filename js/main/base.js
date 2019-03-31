@@ -405,7 +405,14 @@ Tetris.start_windows = function()
 
     Tetris.msg_menu = Msg.factory
     (
-        Object.assign({}, common)
+        Object.assign
+        (
+            {}, 
+            common,
+            {
+                id: "menu"
+            }
+        )
     )
         
     Tetris.msg_options = Msg.factory
@@ -416,6 +423,10 @@ Tetris.start_windows = function()
             common,
             titlebar,
             {
+                id: "options",
+                window_height: "30rem",
+                window_min_height: "30rem",
+                window_max_height: "30rem",
                 after_close: function()
                 {
                     Tetris.on_options_close()
@@ -435,6 +446,7 @@ Tetris.start_windows = function()
             titlebar,
             common,
             {
+                id: "help",
                 after_close: function()
                 {   
                     if(Tetris.on_first_time_help)
@@ -459,7 +471,7 @@ Tetris.start_windows = function()
             titlebar,
             common,
             {
-
+                id: "game_over"
             }
         )
     )
@@ -474,7 +486,7 @@ Tetris.start_windows = function()
             titlebar,
             common,
             {
-
+                id: "controls"
             }
         )
     )

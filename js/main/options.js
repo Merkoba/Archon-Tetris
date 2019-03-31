@@ -120,6 +120,7 @@ Tetris.setup_options = function()
     Tetris.prepare_options_widgets()
     Tetris.start_options_widget_listeners()
     Tetris.call_initial_option_actions()
+    Tetris.setup_options_window()
 }
 
 Tetris.call_initial_option_actions = function()
@@ -250,6 +251,31 @@ Tetris.on_options_close = function()
             Tetris.start_game()
         }
     }
+}
+
+Tetris.setup_options_window = function()
+{
+    $("#options_sidebar").on("click", ".options_category_item", function()
+    {
+        let category = $(this).attr("id").replace("options_category_item_", "")
+
+        $("#options_content").find(".options_category").each(function()
+        {
+            let category2 = $(this).attr("id").replace("options_category_", "")
+            
+            if(category === category2)
+            {
+                $(this).css("display", "block")
+                $(`#options_category_item_${category2}`).addClass("options_category_item_selected")
+            }
+
+            else
+            {
+                $(this).css("display", "none")
+                $(`#options_category_item_${category2}`).removeClass("options_category_item_selected")
+            }
+        })
+    })
 }
 
 Tetris.call_options_actions = function()
