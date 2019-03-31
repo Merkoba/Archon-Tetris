@@ -1715,6 +1715,11 @@ Tetris.update_previews = function()
         let element = Tetris.current_piece.element_preview.clone()
         $("#active_piece_element").html(element)
     }
+
+    else
+    {
+        $("#active_piece_element").html("")
+    }
 }
 
 Tetris.descend_nodes = function(nodes, amount=1)
