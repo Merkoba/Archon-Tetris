@@ -100,7 +100,7 @@ Tetris.get_options = function()
 
     if(Tetris.options.min_descent_delay === undefined)
     {
-        Tetris.options.min_descent_delay = 100
+        Tetris.options.min_descent_delay = 80
     }
 
     if(Tetris.options.soft_drop_delay === undefined)
