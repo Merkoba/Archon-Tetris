@@ -1,3 +1,6 @@
+Tetris.move_left_pressed = false
+Tetris.move_right_pressed = false
+
 Tetris.start_key_detection = function()
 {
     document.addEventListener('keydown', (e) =>
@@ -44,20 +47,6 @@ Tetris.start_key_detection = function()
                 return false
             }
 
-            else if(e.key === Tetris.controls.move_left)
-            {
-                Tetris.move_sideways("left")
-                e.preventDefault()
-                return false
-            }
-
-            else if(e.key === Tetris.controls.move_right)
-            {
-                Tetris.move_sideways("right")
-                e.preventDefault()
-                return false
-            }
-
             else if(e.key === Tetris.controls.activate_pow)
             {
                 Tetris.activate_pow()
@@ -77,6 +66,24 @@ Tetris.start_key_detection = function()
                 else if(e.key === Tetris.controls.hard_drop)
                 {
                     Tetris.hard_drop()
+                    e.preventDefault()
+                    return false
+                }
+
+                else if(e.key === Tetris.controls.move_left)
+                {
+                    Tetris.move_left_pressed = true
+                    Tetris.move_sideways("left")
+                    Tetris.restart_sideways_interval()
+                    e.preventDefault()
+                    return false
+                }
+
+                else if(e.key === Tetris.controls.move_right)
+                {
+                    Tetris.move_right_pressed = true
+                    Tetris.move_sideways("right")
+                    Tetris.restart_sideways_interval()
                     e.preventDefault()
                     return false
                 }
@@ -123,4 +130,56 @@ Tetris.start_key_detection = function()
             Tetris.hide_intro()
         }
     })
+
+    document.addEventListener('keyup', (e) =>
+    {
+        if(e.key === Tetris.controls.move_left)
+        {
+            Tetris.move_left_pressed = false
+        }
+
+        else if(e.key === Tetris.controls.move_right)
+        {
+            Tetris.move_right_pressed = false
+        }
+
+        if(!Tetris.move_left_pressed && !Tetris.move_right_pressed)
+        {
+            Tetris.stop_sideways_interval()
+        }
+    })
+
+    Tetris.start_sideways_interval = function()
+    {
+        Tetris.sideways_interval_timeout = setTimeout(function()
+        {
+            Tetris.sideways_interval = setInterval(function()
+            {
+                if(Tetris.game_started && !Tetris.modal_open)
+                {
+                    if(Tetris.move_left_pressed)
+                    {
+                        Tetris.move_sideways("left")
+                    }
+        
+                    else if(Tetris.move_right_pressed)
+                    {
+                        Tetris.move_sideways("right")
+                    }
+                }
+            }, 80)
+        }, 100)
+    } 
+    
+    Tetris.stop_sideways_interval = function()
+    {
+        clearTimeout(Tetris.sideways_interval_timeout)
+        clearInterval(Tetris.sideways_interval)
+    }
+
+    Tetris.restart_sideways_interval = function()
+    {
+        Tetris.stop_sideways_interval()
+        Tetris.start_sideways_interval()
+    }
 }
