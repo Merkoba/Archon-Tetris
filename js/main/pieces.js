@@ -752,16 +752,22 @@ Tetris.rotate_piece = function(direction="right")
         let x = node[0]
         let y = node[1]
 
-        if(x < 0 || y < 0)
+        if(x < 0)
         {
             rollback = true
             edge = "left"
         }
-
+        
         if(x >= Tetris.num_horizontal_blocks)
         {
             rollback = true
             edge = "right"
+        }
+
+        if(y < 0)
+        {
+            rollback = true
+            break
         }
 
         if(Tetris.grid[y] && Tetris.grid[y][x])
