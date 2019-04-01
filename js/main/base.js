@@ -76,7 +76,7 @@ Tetris.start_game = function(initial=false)
     Tetris.previews = []
     Tetris.max_combo = 0
     Tetris.lines_cleared = 0
-    Tetris.pow = 3
+    Tetris.pow = 0
     Tetris.pow_charge = 0
     Tetris.piece_picker_active = false
     Tetris.start_descent_after_unpause = false
