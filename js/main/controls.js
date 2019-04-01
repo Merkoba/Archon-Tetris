@@ -88,6 +88,12 @@ Tetris.get_controls = function()
         changed = true
     }
 
+    if(Tetris.controls.piece_picker_select === undefined)
+    {
+        Tetris.controls.piece_picker_select = "Enter"
+        changed = true
+    }
+
     if(changed)
     {
         Tetris.save_controls()

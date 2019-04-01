@@ -2,7 +2,6 @@ Tetris.element_preview_block_size = 15
 Tetris.element_preview_block_size_2 = 10
 Tetris.element_wheel_preview_block_size = 40
 Tetris.placed_element_data = {}
-Tetris.piece_picker_time = 3000
 Tetris.placed_id = 1
 // Tetris.debug_queue = ["stick_2", "periscope_right_2", "periscope_left_2", "dog_right_2", "dog_left_2", "square_2", "tee_2"]
 Tetris.debug_queue = []
@@ -1907,11 +1906,6 @@ Tetris.show_piece_picker = function()
     Tetris.show_piece_picker_wheel_item()
     $("#piece_picker").css("display", "block")
     Tetris.piece_picker_active = true
-
-    Tetris.piece_picker_timeout = setTimeout(function()
-    {
-        Tetris.submit_piece_picker()
-    }, Tetris.piece_picker_time)
 }
 
 Tetris.hide_piece_picker = function()
@@ -1923,7 +1917,6 @@ Tetris.hide_piece_picker = function()
 
 Tetris.submit_piece_picker = function()
 {
-    clearTimeout(Tetris.piece_picker_timeout)
     let name = Tetris.pieces_list[Tetris.current_piece_picker_wheel_item]
     Tetris.queued_piece = name
     Tetris.queued_left = 4

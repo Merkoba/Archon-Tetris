@@ -86,6 +86,7 @@ Tetris.start_game = function(initial=false)
     Tetris.time_paused = 0
 
     $("#paused").css("display", "none")
+    $("#queued_left").text("")
     
     Tetris.setup_previews()
     Tetris.set_score_text()
