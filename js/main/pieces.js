@@ -641,7 +641,7 @@ Tetris.get_random_big_piece = function()
         name = "tee_2"
     }
 
-    return Tetris.pieces[name]
+    return name
 }
 
 Tetris.place_next_piece = function(piece_name=false)
@@ -684,7 +684,7 @@ Tetris.place_next_piece = function(piece_name=false)
     else if(Tetris.big_piece_next)
     {
         Tetris.big_piece_next = false
-        piece = Tetris.get_random_big_piece()
+        piece = Tetris.pieces[Tetris.get_random_big_piece()]
     }
 
     else if(!piece_name)
@@ -939,6 +939,15 @@ Tetris.do_on_piece_placed = function(from)
     {
         let score = 50 * Tetris.combo * Tetris.level
         Tetris.add_score(score)
+    }
+
+    Tetris.pieces_placed += 1
+    Tetris.big_piece_charge += 1
+
+    if(Tetris.big_piece_charge >= 50)
+    {
+        Tetris.big_piece_next = true
+        Tetris.big_piece_charge = 0
     }
 
     if(!Tetris.debug)
@@ -1385,11 +1394,6 @@ Tetris.check_lines_cleared = function()
     else
     {
         Tetris.reset_combo()
-    }
-
-    if(num_cleared > 0 && empty_lines === Tetris.grid.length)
-    {
-        Tetris.big_piece_next = true
     }
 
     return num_cleared

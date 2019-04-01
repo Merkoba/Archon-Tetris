@@ -86,6 +86,8 @@ Tetris.start_game = function(initial=false)
     Tetris.pows_used = 0
     Tetris.big_piece_next = false
     Tetris.time_paused = 0
+    Tetris.pieces_placed = 0
+    Tetris.big_piece_charge = 0
 
     $("#paused").css("display", "none")
     $("#queued_left").text("")
@@ -186,6 +188,7 @@ Tetris.on_game_over = function(title="Game Over")
     $("#game_over_level").text(`Level: ${Tetris.format_number(Tetris.level)}`)
     $("#game_over_score").text(`Score: ${Tetris.format_number(Tetris.score)}`)
     $("#game_over_time").text(`Time: ${nice_time}`)
+    $("#game_over_pieces_placed").text(`Pieces Placed: ${Tetris.pieces_placed}`)
     $("#game_over_lines_cleared").text(`Lines Cleared: ${Tetris.lines_cleared}`)
     $("#game_over_max_combo").text(`Max Combo: ${Tetris.max_combo}`)
     $("#game_over_pows_used").text(`POW Used: ${Tetris.pows_used}`)
