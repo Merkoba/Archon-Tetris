@@ -683,5 +683,5 @@ option
 
 .piece_flash .placed_block
 {
-    box-shadow: 0 0 2px rgb(212, 218, 233);
+    box-shadow: 0 0 12px rgba(229, 231, 236, 0.322);
 }
