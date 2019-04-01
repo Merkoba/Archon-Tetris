@@ -681,3 +681,8 @@ option
 {
     background-color: #ffffff65 !important;
 }
+
+.piece_flash .placed_block
+{
+    box-shadow: 0 0 2px rgb(212, 218, 233);
+}

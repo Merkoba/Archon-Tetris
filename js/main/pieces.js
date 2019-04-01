@@ -835,19 +835,29 @@ Tetris.on_piece_placed = function(from)
 
     if(from === "hard_drop")
     {
-        Tetris.do_on_piece_placed()
+        Tetris.play_sound("woosh")
+    }
+
+    else
+    {
+        Tetris.play_sound("placed")
+    }
+
+    if(from === "hard_drop")
+    {
+        Tetris.do_on_piece_placed(from)
     }
 
     else
     {
         Tetris.lock_timeout = setTimeout(function()
         {
-            Tetris.do_on_piece_placed()
+            Tetris.do_on_piece_placed(from)
         }, 500)
     }
 }
 
-Tetris.do_on_piece_placed = function()
+Tetris.do_on_piece_placed = function(from)
 {
     Tetris.stop_descent_timeout()
     Tetris.piece_getting_locked = false
@@ -877,7 +887,7 @@ Tetris.do_on_piece_placed = function()
 
     let num_cleared = Tetris.check_lines_cleared()
 
-    if(num_cleared === 0)
+    if(num_cleared === 0 && from !== "hard_drop")
     {
         Tetris.play_sound("locked")
     }
@@ -990,18 +1000,17 @@ Tetris.move_down = function(from="generic")
     
             if(finish_after_move)
             {
-                Tetris.play_sound("placed")
                 Tetris.on_piece_placed(from)
                 return true
             }
 
-            else
-            {
-                if(from === "keyboard")
-                {
-                    Tetris.play_sound("move")
-                }
-            }
+            // else
+            // {
+            //     if(from === "keyboard")
+            //     {
+            //         Tetris.play_sound("move")
+            //     }
+            // }
         }
     }
 
@@ -1596,6 +1605,13 @@ Tetris.prepare_placed_piece = function(element, mode)
     })
     
     data.nodes = nodes
+
+    element.addClass("piece_flash")
+    
+    setTimeout(function()
+    {   
+        element.removeClass("piece_flash")
+    }, 100)
 }
 
 Tetris.separate_blocks = function(element)
