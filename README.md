@@ -28,6 +28,6 @@
 - Goal (Score, Level, Minutes, or None)
 - Descent Multiplier
 - Minimum Descent Delay
-- Hard Drop Delay
+- Soft Drop Delay
 
 Plus controls can be configured.
