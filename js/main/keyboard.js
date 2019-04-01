@@ -83,6 +83,14 @@ Tetris.start_key_detection = function()
             }
         }
 
+        if(!Tetris.on_intro && !Tetris.first_game_started)
+        {
+            if(e.key === "Enter")
+            {
+                Tetris.conditional_start_game()
+            }
+        }
+
         if(!Tetris.modal_open)
         {
             if(e.key === Tetris.controls.restart_game)
