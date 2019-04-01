@@ -18,6 +18,7 @@ Tetris.init = function()
     Tetris.setup_click_events()
     Tetris.setup_controls()
     Tetris.start_hide_intro_timeout()
+    Tetris.start_visibility_listeners()
     Tetris.on_intro = true
     Tetris.first_game_started = false
 
@@ -814,4 +815,12 @@ Tetris.conditional_start_game = function()
         Tetris.make_game_start()
         $("#menu_restart").text("Restart")
     }
+}
+
+Tetris.start_visibility_listeners = function()
+{
+    window.addEventListener("blur", function(event) 
+    {
+        Tetris.stop_and_clear_sideways_interval()
+    }, false)
 }

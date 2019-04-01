@@ -182,4 +182,11 @@ Tetris.start_key_detection = function()
         Tetris.stop_sideways_interval()
         Tetris.start_sideways_interval()
     }
+
+    Tetris.stop_and_clear_sideways_interval = function()
+    {
+        Tetris.stop_sideways_interval()
+        Tetris.move_left_pressed = false
+        Tetris.move_right_pressed = false
+    }
 }
