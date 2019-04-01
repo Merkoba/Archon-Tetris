@@ -71,7 +71,7 @@ Tetris.get_options = function()
 
     if(Tetris.options.block_size === undefined)
     {
-        Tetris.options.block_size = 36
+        Tetris.options.block_size = 33
         changed = true
     }
 
