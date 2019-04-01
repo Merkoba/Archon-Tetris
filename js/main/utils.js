@@ -3,22 +3,59 @@ Tetris.round = function(value, decimals)
     return Number(Math.round(value+'e'+decimals)+'e-'+decimals)
 }
 
-Tetris.get_random_int = function(min, max, exclude=undefined)
+Tetris.get_random_int = function(args={})
 {
-    let num = Math.floor(Tetris.random() * (max - min + 1) + min)
-
-    if(exclude !== undefined)
+    let def_args =
     {
-        if(num === exclude)
+        min: 0,
+        max: 1,
+        exclude: false,
+        seed: 1
+    }
+
+    args = Object.assign(def_args, args)
+
+    let num
+
+    if(args.seed === 1)
+    {
+        num = Math.floor(Tetris.random() * (args.max - args.min + 1) + args.min)
+    }
+    
+    else if(args.seed === 2)
+    {
+        num = Math.floor(Tetris.random_2() * (args.max - args.min + 1) + args.min)
+    }
+
+    else
+    {
+        return false
+    }
+
+    if(args.exclude)
+    {
+        let diff = args.max - args.min
+        let n = num
+
+        for(let i=0; i<diff*2; i++)
         {
-            if(num + 1 <= max)
+            if(args.exclude.includes(n))
             {
-                num = num + 1
+                if(n + 1 <= args.max)
+                {
+                    n += 1
+                }
+
+                else
+                {
+                    n = args.min
+                }
             }
 
-            else if(num - 1 >= min)
+            else
             {
-                num = num - 1
+                num = n
+                break
             }
         }
     }

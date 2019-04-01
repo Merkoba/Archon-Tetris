@@ -43,6 +43,7 @@ Tetris.init_variables = function()
     
     Tetris.seed = Tetris.options.seed || Date.now().toString().slice(-3)
     Tetris.random = new Math.seedrandom(Tetris.seed)
+    Tetris.random_2 = new Math.seedrandom(Tetris.seed)
     console.info(`Using seed: ${Tetris.seed}`)
 
     Tetris.original_number_of_rows = Tetris.options.number_of_rows
@@ -107,6 +108,7 @@ Tetris.make_game_start = function()
     Tetris.close_all_windows()
     Tetris.start_countdown()
     Tetris.start_music(true)
+    Tetris.first_game_started = true
 }
 
 Tetris.do_start_game = function()
@@ -810,7 +812,6 @@ Tetris.conditional_start_game = function()
     else
     {
         Tetris.make_game_start()
-        Tetris.first_game_started = true
         $("#menu_restart").text("Restart")
     }
 }

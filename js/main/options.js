@@ -248,7 +248,7 @@ Tetris.on_options_close = function()
     {
         if(confirm("To apply these settings the game must be restarted. Restart now?"))
         {
-            Tetris.conditional_start_game()
+            Tetris.start_game()
         }
     }
 }

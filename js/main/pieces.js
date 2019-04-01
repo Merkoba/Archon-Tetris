@@ -512,10 +512,47 @@ Tetris.create_pieces = function()
     }
 }
 
-Tetris.get_random_piece = function()
+Tetris.get_random_piece = function(bag=false)
 {
-    let n = Tetris.get_random_int(1, Tetris.pieces_list.length)
+    if(bag)
+    {
+        let nums = []
+        let names = []
 
+        for(let i=0; i<7; i++)
+        {
+            let n = Tetris.get_random_int
+            (
+                {
+                    min: 1,
+                    max: Tetris.pieces_list.length,
+                    exclude: nums
+                }
+            )
+
+            names.push(Tetris.get_piece_name(n))
+            nums.push(n)
+        }
+
+        return names
+    }
+
+    else
+    {
+        let n = Tetris.get_random_int
+        (
+            {
+                min: 1,
+                max: Tetris.pieces_list.length
+            }
+        )
+
+        return Tetris.get_piece_name(n)
+    }
+}
+
+Tetris.get_piece_name = function(n)
+{
     let name
 
     if(n === 1)
@@ -553,12 +590,19 @@ Tetris.get_random_piece = function()
         name = "tee"
     }
 
-    return Tetris.pieces[name]
+    return name
 }
 
 Tetris.get_random_big_piece = function()
 {
-    let n = Tetris.get_random_int(1, Tetris.big_pieces_list.length)
+    let n = Tetris.get_random_int
+    (
+        {
+            min: 1,
+            max: Tetris.big_pieces_list.length,
+            seed: 2
+        }
+    )
 
     let name
 
@@ -647,12 +691,12 @@ Tetris.place_next_piece = function(piece_name=false)
     {
         if(Tetris.previews.length > 0)
         {
-            piece = Tetris.previews.shift()
+            piece = Tetris.pieces[Tetris.previews.shift()]
         }
     
         else
         {
-            piece = Tetris.get_random_piece()
+            piece = Tetris.pieces[Tetris.get_random_piece()]
         }
     }
 
@@ -692,7 +736,7 @@ Tetris.place_next_piece = function(piece_name=false)
     Tetris.doing_soft_drop = false
 
     Tetris.update_piece_nodes()
-    Tetris.add_preview()
+    Tetris.check_piece_bag()
     Tetris.update_ghost_piece()
     Tetris.start_descent_timeout()
     Tetris.update_previews()
@@ -1728,31 +1772,31 @@ Tetris.calculate_clear_score = function(num_cleared)
     Tetris.add_score(score)
 }
 
-Tetris.add_preview = function()
+Tetris.check_piece_bag = function()
+{
+    if(Tetris.previews.length < Tetris.options.number_of_previews)
+    {
+        Tetris.fill_piece_bag()
+    }
+}
+
+Tetris.fill_piece_bag = function()
 {
     if(Tetris.options.number_of_previews > 0)
     {
-        Tetris.previews.push(Tetris.get_random_piece())
+        Tetris.previews.push(...Tetris.get_random_piece(true))
     }
 }
 
 Tetris.setup_previews = function()
 {
-    let length = Tetris.previews.length
+    Tetris.previews = []
 
-    if(length < Tetris.options.number_of_previews)
-    {
-        let n = Tetris.options.number_of_previews - length
-    
-        for(let i=0; i<n; i++)
-        {
-            Tetris.add_preview()
-        }
-    }
+    let n = Math.ceil(Tetris.options.number_of_previews / Tetris.pieces_list.length)
 
-    else if(length > Tetris.options.number_of_previews)
+    for(let i=0; i<n; i++)
     {
-        Tetris.previews = Tetris.previews.slice(0, Tetris.options.number_of_previews)
+        Tetris.fill_piece_bag()
     }
 
     $("#previews").html("")
@@ -1774,7 +1818,7 @@ Tetris.update_previews = function()
     
     $("#previews .preview_element").each(function()
     {
-        let piece = Tetris.previews[i]
+        let piece = Tetris.pieces[Tetris.previews[i]]
         let element = piece.element_preview.clone()
         $(this).html(element)
         i += 1
