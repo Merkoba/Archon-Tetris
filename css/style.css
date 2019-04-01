@@ -523,7 +523,7 @@ body *
 .game_box
 {
     position: absolute;
-    font-size: 2rem;    
+    font-size: 1.4rem;    
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
