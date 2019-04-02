@@ -1902,7 +1902,7 @@ Tetris.fill = async function()
 
 Tetris.get_descent_delay = function()
 {
-    let delay = 1000 - ((Tetris.level - 1) * Tetris.options.descent_multiplier)
+    let delay = 800 - ((Tetris.level - 1) * Tetris.options.descent_multiplier)
 
     if(delay < Tetris.options.min_descent_delay)
     {
