@@ -68,7 +68,7 @@ Tetris.start_game = function(initial=false)
     Tetris.create_pieces()
     
     Tetris.score = 0
-    Tetris.level = 1
+    Tetris.level = 0
     Tetris.combo = 0
     Tetris.combo_charged = false
     Tetris.pieces_delivered = 0
