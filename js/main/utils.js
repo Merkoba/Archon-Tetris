@@ -214,3 +214,15 @@ Tetris.nice_time = function(date1, date2)
 
     return nt
 }
+
+Tetris.get_full_decimal = function(n)
+{
+    let s = n.toString()
+
+    if(!s.startsWith("0") && s.length === 1)
+    {
+        return parseInt(`${s}0`)
+    }
+
+    return n
+}
