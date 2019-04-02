@@ -88,6 +88,7 @@ Tetris.start_game = function(initial=false)
     Tetris.time_paused = 0
     Tetris.pieces_placed = 0
     Tetris.big_piece_charge = 0
+    Tetris.current_piece_picker_wheel_item = 0
 
     $("#paused").css("display", "none")
     $("#queued_left").text("")

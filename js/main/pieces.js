@@ -1,6 +1,7 @@
 Tetris.element_preview_block_size = 15
 Tetris.element_preview_block_size_2 = 10
 Tetris.element_wheel_preview_block_size = 40
+Tetris.element_wheel_preview_block_size_2 = 35
 Tetris.placed_element_data = {}
 Tetris.placed_id = 1
 // Tetris.debug_queue = ["stick_2", "periscope_right_2", "periscope_left_2", "dog_right_2", "dog_left_2", "square_2", "tee_2"]
@@ -367,7 +368,7 @@ Tetris.create_pieces = function()
                     height: 5
                 }
             ],
-            map: [[2, 0], [2, 1], [2, 2], [0, 3], [1, 3], [2, 3], [3, 3], [4, 3]],
+            map: [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0], [2, 1], [2, 2], [2, 3]],
             space:
             {
                 left: 0,
@@ -386,16 +387,20 @@ Tetris.create_pieces = function()
     {
         Tetris.full_pieces_list.push(key)
 
+        let preview_block_size, wheel_preview_block_size
+
         if(key.includes("_2"))
         {
             Tetris.big_pieces_list.push(key)
             preview_block_size = Tetris.element_preview_block_size_2
+            wheel_preview_block_size = Tetris.element_wheel_preview_block_size_2 
         }
         
         else
         {
             Tetris.pieces_list.push(key)
             preview_block_size = Tetris.element_preview_block_size
+            wheel_preview_block_size = Tetris.element_wheel_preview_block_size 
         }
 
         let piece = Tetris.pieces[key]
@@ -429,8 +434,8 @@ Tetris.create_pieces = function()
         piece_element_preview.css("width", `${width2}px`)
         piece_element_preview.css("height", `${height2}px`)
 
-        let width3 = first_mode.width * Tetris.element_wheel_preview_block_size
-        let height3 = first_mode.height * Tetris.element_wheel_preview_block_size
+        let width3 = first_mode.width * wheel_preview_block_size
+        let height3 = first_mode.height * wheel_preview_block_size
 
         let piece_element_wheel_preview = $("<div class='piece'></div>")
         piece_element_wheel_preview.css("width", `${width3}px`)
@@ -476,8 +481,8 @@ Tetris.create_pieces = function()
                     piece_element_preview.append(piece_block_element_preview)
 
                     let piece_block_element_wheel_preview = $(`<div class='piece_block piece_type_${key}'></div>`)
-                    piece_block_element_wheel_preview.css("width", `${Tetris.element_wheel_preview_block_size}px`)
-                    piece_block_element_wheel_preview.css("height", `${Tetris.element_wheel_preview_block_size}px`)
+                    piece_block_element_wheel_preview.css("width", `${wheel_preview_block_size}px`)
+                    piece_block_element_wheel_preview.css("height", `${wheel_preview_block_size}px`)
                     piece_block_element_wheel_preview.css("left", x3)
                     piece_block_element_wheel_preview.css("bottom", y3)
                     
@@ -494,7 +499,7 @@ Tetris.create_pieces = function()
 
                 x += Tetris.block_size
                 x2 += preview_block_size
-                x3 += Tetris.element_wheel_preview_block_size
+                x3 += wheel_preview_block_size
             }
 
             x = 0
@@ -502,7 +507,7 @@ Tetris.create_pieces = function()
             x3 = 0
             y += Tetris.block_size
             y2 += preview_block_size
-            y3 += Tetris.element_wheel_preview_block_size
+            y3 += wheel_preview_block_size
         }
 
         piece_container_element.append(piece_element)
@@ -1928,7 +1933,6 @@ Tetris.stop_descent_timeout = function()
 
 Tetris.show_piece_picker = function()
 {
-    Tetris.current_piece_picker_wheel_item = 0
     Tetris.show_piece_picker_wheel_item()
     $("#piece_picker").css("display", "block")
     Tetris.piece_picker_active = true
@@ -1943,7 +1947,7 @@ Tetris.hide_piece_picker = function()
 
 Tetris.submit_piece_picker = function()
 {
-    let name = Tetris.pieces_list[Tetris.current_piece_picker_wheel_item]
+    let name = Tetris.full_pieces_list[Tetris.current_piece_picker_wheel_item]
     Tetris.queued_piece = name
     Tetris.queued_left = 4
     $("#queued_left").text(Tetris.queued_left)
@@ -1952,7 +1956,7 @@ Tetris.submit_piece_picker = function()
 
 Tetris.show_piece_picker_wheel_item = function()
 {
-    let name = Tetris.pieces_list[Tetris.current_piece_picker_wheel_item]
+    let name = Tetris.full_pieces_list[Tetris.current_piece_picker_wheel_item]
     let piece = Tetris.pieces[name]
     let item = $(`<div class='piece_picker_wheel_item' id='piece_picker_wheel_${piece.name}'></div>`)
     item.html(piece.element_wheel_preview.clone())
@@ -1963,7 +1967,7 @@ Tetris.show_next_piece_picker_wheel_item = function()
 {
     Tetris.current_piece_picker_wheel_item += 1
 
-    if(Tetris.current_piece_picker_wheel_item > Tetris.pieces_list.length - 1)
+    if(Tetris.current_piece_picker_wheel_item > Tetris.full_pieces_list.length - 1)
     {
         Tetris.current_piece_picker_wheel_item = 0
     }
@@ -1977,7 +1981,7 @@ Tetris.show_previous_piece_picker_wheel_item = function()
 
     if(Tetris.current_piece_picker_wheel_item < 0)
     {
-        Tetris.current_piece_picker_wheel_item = Tetris.pieces_list.length - 1
+        Tetris.current_piece_picker_wheel_item = Tetris.full_pieces_list.length - 1
     }
 
     Tetris.show_piece_picker_wheel_item()
