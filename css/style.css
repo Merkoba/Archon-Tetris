@@ -605,9 +605,9 @@ body *
 
 .game_over_big
 {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     white-space: nowrap;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
 }
 
 #game_over_buttons

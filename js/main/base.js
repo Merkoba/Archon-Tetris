@@ -78,12 +78,13 @@ Tetris.start_game = function(initial=false)
     Tetris.lines_cleared = 0
     Tetris.pow = 0
     Tetris.pow_charge = 0
+    Tetris.pows_earned = 0
+    Tetris.pows_used = 0
+    Tetris.pow_active = false
     Tetris.piece_picker_active = false
     Tetris.start_descent_after_unpause = false
     Tetris.queued_left = 0
     Tetris.show_piece_picker_next = false
-    Tetris.pow_active = false
-    Tetris.pows_used = 0
     Tetris.big_piece_next = false
     Tetris.time_paused = 0
     Tetris.pieces_placed = 0
@@ -192,6 +193,7 @@ Tetris.on_game_over = function(title="Game Over")
     $("#game_over_pieces_placed").text(`Pieces Placed: ${Tetris.pieces_placed}`)
     $("#game_over_lines_cleared").text(`Lines Cleared: ${Tetris.lines_cleared}`)
     $("#game_over_max_combo").text(`Max Combo: ${Tetris.max_combo}`)
+    $("#game_over_pows_earned").text(`POW Earned: ${Tetris.pows_earned}`)
     $("#game_over_pows_used").text(`POW Used: ${Tetris.pows_used}`)
 
     Tetris.msg_game_over.set_title(title)
@@ -705,6 +707,7 @@ Tetris.charge_pow = function(num_cleared)
     if(whole >= 1)
     {
         Tetris.pow += whole
+        Tetris.pows_earned += whole
         Tetris.set_pow_text()
         console.info("POW earned")
         
