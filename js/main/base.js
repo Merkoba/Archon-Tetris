@@ -664,7 +664,7 @@ Tetris.charge_level = function(num_cleared)
         
         if(decimals)
         {
-            Tetris.level_charge = (decimals / 10) * Tetris.level_charge_goal
+            Tetris.level_charge = (decimals / 100) * Tetris.level_charge_goal
         }
         
         else
@@ -714,7 +714,7 @@ Tetris.charge_pow = function(num_cleared)
         
         if(decimals)
         {
-            Tetris.pow_charge = (decimals / 10) * Tetris.pow_charge_goal
+            Tetris.pow_charge = (decimals / 100) * Tetris.pow_charge_goal
         }
         
         else
