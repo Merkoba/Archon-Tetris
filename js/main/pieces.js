@@ -1344,7 +1344,6 @@ Tetris.update_ghost_piece = function()
 Tetris.check_lines_cleared = function()
 {
     let num_cleared = Tetris.do_check_lines_cleared()
-    let empty_lines = Tetris.count_empty_lines()
 
     if(num_cleared > 0)
     {
@@ -1592,32 +1591,6 @@ Tetris.make_pieces_fall = function(iterations=0)
     return iterations > 0
 }
 
-Tetris.count_empty_lines = function()
-{
-    let num_empty = 0
-
-    for(let row of Tetris.grid)
-    {
-        let is_empty = true
-
-        for(let item of row)
-        {
-            if(item.used)
-            {
-                is_empty = false
-                break
-            }
-        }
-
-        if(is_empty)
-        {
-            num_empty += 1
-        }
-    }
-
-    return num_empty
-}
-
 Tetris.prepare_placed_piece = function(element, mode)
 {
     let id = `placed_${Tetris.placed_id}`
@@ -1756,19 +1729,24 @@ Tetris.calculate_clear_score = function(num_cleared)
         multiplier = 100
     }
 
-    if(num_cleared === 2)
+    else if(num_cleared === 2)
     {
         multiplier = 300
     }
 
-    if(num_cleared === 3)
+    else if(num_cleared === 3)
     {
         multiplier = 300
     }
 
-    if(num_cleared >= 4)
+    else if(num_cleared === 4)
     {
         multiplier = 800
+    }
+
+    else if(num_cleared > 4)
+    {
+        multiplier = 1000
     }
 
     let score = multiplier * Tetris.level
