@@ -703,14 +703,9 @@ Tetris.charge_pow = function(num_cleared)
 
     if(whole >= 1)
     {
-        Tetris.pow_charge += whole
-
-        if(Tetris.pow_charge >= Tetris.pow_charge_goal)
-        {
-            Tetris.pow += 1
-            Tetris.set_pow_text()
-            console.info("POW earned")
-        }
+        Tetris.pow += whole
+        Tetris.set_pow_text()
+        console.info("POW earned")
         
         if(decimals)
         {
