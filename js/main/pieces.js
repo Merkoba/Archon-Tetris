@@ -2,6 +2,7 @@ Tetris.element_preview_block_size = 15
 Tetris.element_preview_block_size_2 = 10
 Tetris.element_wheel_preview_block_size = 40
 Tetris.element_wheel_preview_block_size_2 = 35
+Tetris.big_piece_charge_goal = 50
 Tetris.placed_element_data = {}
 Tetris.placed_id = 1
 // Tetris.debug_queue = ["stick_2", "periscope_right_2", "periscope_left_2", "dog_right_2", "dog_left_2", "square_2", "tee_2"]
@@ -949,7 +950,7 @@ Tetris.do_on_piece_placed = function(from)
     Tetris.pieces_placed += 1
     Tetris.big_piece_charge += 1
 
-    if(Tetris.big_piece_charge >= 50)
+    if(Tetris.big_piece_charge >= Tetris.big_piece_charge_goal)
     {
         Tetris.big_piece_next = true
         Tetris.big_piece_charge = 0

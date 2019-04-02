@@ -2,8 +2,8 @@ const Tetris = {}
 
 Tetris.debug = false
 Tetris.ls_first_time = "ls_first_time"
-Tetris.level_charge_goal = 4
-Tetris.pow_charge_goal = 20
+Tetris.level_charge_goal = 5
+Tetris.pow_charge_goal = 50
 
 Tetris.init = function()
 {
