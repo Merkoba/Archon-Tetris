@@ -1062,13 +1062,13 @@ Tetris.move_down = function(from="generic")
                 return true
             }
 
-            // else
-            // {
-            //     if(from === "keyboard")
-            //     {
-            //         Tetris.play_sound("move")
-            //     }
-            // }
+            else
+            {
+                if(from === "keyboard")
+                {
+                    Tetris.play_sound("move")
+                }
+            }
         }
     }
 

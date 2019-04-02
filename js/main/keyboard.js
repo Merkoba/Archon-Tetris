@@ -1,5 +1,6 @@
 Tetris.move_left_pressed = false
 Tetris.move_right_pressed = false
+Tetris.move_down_pressed = false
 
 Tetris.start_key_detection = function()
 {
@@ -74,7 +75,7 @@ Tetris.start_key_detection = function()
                 {
                     Tetris.move_left_pressed = true
                     Tetris.move_sideways("left")
-                    Tetris.restart_sideways_interval()
+                    Tetris.restart_move_interval()
                     e.preventDefault()
                     return false
                 }
@@ -83,7 +84,16 @@ Tetris.start_key_detection = function()
                 {
                     Tetris.move_right_pressed = true
                     Tetris.move_sideways("right")
-                    Tetris.restart_sideways_interval()
+                    Tetris.restart_move_interval()
+                    e.preventDefault()
+                    return false
+                }
+
+                else if(e.key === Tetris.controls.move_down)
+                {
+                    Tetris.move_down_pressed = true
+                    Tetris.move_down("keyboard")
+                    Tetris.restart_move_interval()
                     e.preventDefault()
                     return false
                 }
@@ -143,17 +153,22 @@ Tetris.start_key_detection = function()
             Tetris.move_right_pressed = false
         }
 
-        if(!Tetris.move_left_pressed && !Tetris.move_right_pressed)
+        else if(e.key === Tetris.controls.move_down)
         {
-            Tetris.stop_sideways_interval()
+            Tetris.move_down_pressed = false
+        }
+
+        if(!Tetris.move_left_pressed && !Tetris.move_right_pressed && !Tetris.move_down_pressed)
+        {
+            Tetris.stop_move_interval()
         }
     })
 
-    Tetris.start_sideways_interval = function()
+    Tetris.start_move_interval = function()
     {
-        Tetris.sideways_interval_timeout = setTimeout(function()
+        Tetris.move_interval_timeout = setTimeout(function()
         {
-            Tetris.sideways_interval = setInterval(function()
+            Tetris.move_interval = setInterval(function()
             {
                 if(Tetris.game_started && !Tetris.modal_open)
                 {
@@ -162,31 +177,37 @@ Tetris.start_key_detection = function()
                         Tetris.move_sideways("left")
                     }
         
-                    else if(Tetris.move_right_pressed)
+                    if(Tetris.move_right_pressed)
                     {
                         Tetris.move_sideways("right")
+                    }
+        
+                    if(Tetris.move_down_pressed)
+                    {
+                        Tetris.move_down("keyboard")
                     }
                 }
             }, 80)
         }, 100)
     } 
     
-    Tetris.stop_sideways_interval = function()
+    Tetris.stop_move_interval = function()
     {
-        clearTimeout(Tetris.sideways_interval_timeout)
-        clearInterval(Tetris.sideways_interval)
+        clearTimeout(Tetris.move_interval_timeout)
+        clearInterval(Tetris.move_interval)
     }
 
-    Tetris.restart_sideways_interval = function()
+    Tetris.restart_move_interval = function()
     {
-        Tetris.stop_sideways_interval()
-        Tetris.start_sideways_interval()
+        Tetris.stop_move_interval()
+        Tetris.start_move_interval()
     }
 
-    Tetris.stop_and_clear_sideways_interval = function()
+    Tetris.stop_and_clear_move_interval = function()
     {
-        Tetris.stop_sideways_interval()
+        Tetris.stop_move_interval()
         Tetris.move_left_pressed = false
         Tetris.move_right_pressed = false
+        Tetris.move_down_pressed = false
     }
 }

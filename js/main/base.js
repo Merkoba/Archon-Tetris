@@ -823,6 +823,6 @@ Tetris.start_visibility_listeners = function()
 {
     window.addEventListener("blur", function(event) 
     {
-        Tetris.stop_and_clear_sideways_interval()
+        Tetris.stop_and_clear_move_interval()
     }, false)
 }
