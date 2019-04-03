@@ -857,7 +857,6 @@ Tetris.rotate_piece = function(direction="right")
             }
         }
         
-        Tetris.play_sound("tone_1")
         return false
     }
 
@@ -1130,11 +1129,6 @@ Tetris.move_sideways = function(direction, play_sound=true)
 
     else
     {
-        if(play_sound)
-        {
-            Tetris.play_sound("tone_1")
-        }
-
         return false
     }
     
@@ -1167,7 +1161,6 @@ Tetris.move_sideways = function(direction, play_sound=true)
         Tetris.current_element.css("top", `${top}px`)
         Tetris.current_element.css("left", `${left}px`)
         Tetris.update_piece_nodes()
-        Tetris.play_sound("tone_1")
         return false
     }
 
