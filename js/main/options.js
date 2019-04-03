@@ -137,7 +137,7 @@ Tetris.call_initial_option_actions = function()
 
 Tetris.prepare_options_widgets = function()
 {
-    let h = $(`<option value='none'>None</option>`)
+    let h = $(`<option value='none.png'>None</option>`)
     $("#option_block_texture").append(h)
 
     for(let texture of Tetris.textures)
@@ -145,7 +145,7 @@ Tetris.prepare_options_widgets = function()
         let h = $(`<option value='${texture.file_name}'>${texture.name}</option>`)
         $("#option_block_texture").append(h)
     }
-    
+
     $("#options_container").find(".options_widget").each(function()
     {
         let type = $(this).data("options-widget-type")
