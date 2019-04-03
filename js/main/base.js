@@ -100,7 +100,7 @@ Tetris.start_game = function(initial=false)
     Tetris.setup_previews()
     Tetris.set_score_text()
     Tetris.set_level_text()
-    Tetris.set_combo_text()
+    Tetris.set_speed_text()
     Tetris.set_seed_text()
     Tetris.set_pow_text()
     Tetris.close_all_windows()
@@ -307,7 +307,6 @@ Tetris.charge_combo = function()
     if(Tetris.combo_charged)
     {
         Tetris.combo += 1
-        Tetris.set_combo_text()
 
         if(Tetris.combo > Tetris.max_combo)
         {
@@ -325,13 +324,6 @@ Tetris.reset_combo = function()
 {
     Tetris.combo_charged = false
     Tetris.combo = 0
-    Tetris.set_combo_text()
-}
-
-Tetris.set_combo_text = function()
-{
-    let s = `Combo: ${Tetris.combo}`
-    $("#combo_text").text(s)
 }
 
 Tetris.hide_intro = function()
@@ -722,6 +714,8 @@ Tetris.charge_level = function(num_cleared)
             Tetris.level_charge = 0
         }
 
+        Tetris.set_speed_text()
+
         if(Tetris.options.goal_type === "level")
         {
             if(Tetris.level >= Tetris.options.goal)
@@ -873,4 +867,12 @@ Tetris.start_visibility_listeners = function()
     {
         Tetris.stop_and_clear_move_interval()
     }, false)
+}
+
+Tetris.set_speed_text = function()
+{
+    let delay = Tetris.get_descent_delay()
+    let percentage = (Tetris.initial_descent_delay - delay) / ((Tetris.initial_descent_delay - Tetris.options.min_descent_delay) / 100)
+    let s = `Speed: ${Tetris.round(percentage, 0)}%`
+    $("#speed_text").text(s)
 }

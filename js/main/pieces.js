@@ -2,6 +2,7 @@ Tetris.element_preview_block_size = 15
 Tetris.element_preview_block_size_2 = 10
 Tetris.element_wheel_preview_block_size = 40
 Tetris.element_wheel_preview_block_size_2 = 35
+Tetris.initial_descent_delay = 800
 Tetris.big_piece_charge_goal = 50
 Tetris.placed_element_data = {}
 Tetris.placed_id = 1
@@ -1895,7 +1896,7 @@ Tetris.fill = async function()
 
 Tetris.get_descent_delay = function()
 {
-    let delay = 800 - (Tetris.level * Tetris.options.descent_multiplier)
+    let delay = Tetris.initial_descent_delay - (Tetris.level * Tetris.options.descent_multiplier)
 
     if(delay < Tetris.options.min_descent_delay)
     {

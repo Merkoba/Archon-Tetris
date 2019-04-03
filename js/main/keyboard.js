@@ -139,6 +139,12 @@ Tetris.start_key_detection = function()
         {
             Tetris.hide_intro()
         }
+
+        if(e.key === "F1")
+        {
+            e.preventDefault()
+            return false
+        }
     })
 
     document.addEventListener('keyup', (e) =>
