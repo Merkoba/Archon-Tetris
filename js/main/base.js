@@ -19,6 +19,8 @@ Tetris.init = function()
     Tetris.setup_controls()
     Tetris.start_hide_intro_timeout()
     Tetris.start_visibility_listeners()
+    Tetris.create_pieces()
+    Tetris.setup_texture_preview()
     Tetris.on_intro = true
     Tetris.first_game_started = false
 
@@ -501,6 +503,21 @@ Tetris.start_windows = function()
         )
     )
 
+    Tetris.msg_texture_preview = Msg.factory
+    (
+        Object.assign
+        (
+            {
+
+            },
+            titlebar,
+            common,
+            {
+                id: "texture_preview"
+            }
+        )
+    )
+
     Tetris.msg_menu.set(Tetris.template_menu())
     Tetris.msg_options.set(Tetris.template_options())
     Tetris.msg_options.set_title("Options")
@@ -510,6 +527,7 @@ Tetris.start_windows = function()
     Tetris.msg_game_over.set_title("Game Over")
     Tetris.msg_controls.set(Tetris.template_controls())
     Tetris.msg_controls.set_title("Controls")
+    Tetris.msg_texture_preview.set(Tetris.template_texture_preview())
 }
 
 Tetris.compile_templates = function()
@@ -574,6 +592,16 @@ Tetris.setup_click_events = function()
     $("#help_controls").click(function()
     {
         Tetris.show_controls()
+    })
+
+    $("#texture_preview_random").click(function()
+    {
+        Tetris.set_random_block_texture()
+    })
+
+    $("#texture_preview_close").click(function()
+    {
+        Tetris.hide_texture_preview()
     })
 }
 
@@ -825,4 +853,12 @@ Tetris.start_visibility_listeners = function()
     {
         Tetris.stop_and_clear_move_interval()
     }, false)
+}
+
+Tetris.setup_texture_preview = function()
+{
+    let piece = Tetris.pieces.square
+    let item = $(`<div></div>`)
+    item.html(piece.element_wheel_preview.clone())
+    $("#texture_preview_element").html(item)
 }

@@ -108,6 +108,11 @@ Tetris.get_options = function()
         Tetris.options.soft_drop_delay = 10
     }
 
+    if(Tetris.options.block_texture === undefined)
+    {
+        Tetris.options.block_texture = "none.png"
+    }
+
     if(changed)
     {
         Tetris.save_options()
@@ -127,6 +132,7 @@ Tetris.call_initial_option_actions = function()
 {
     Tetris.option_enable_background_image_action(Tetris.options.enable_background_image)
     Tetris.option_goal_type_action(Tetris.options.goal_type)
+    Tetris.option_block_texture_action(Tetris.options.block_texture)
 }
 
 Tetris.prepare_options_widgets = function()
@@ -147,6 +153,16 @@ Tetris.prepare_options_widgets = function()
             $(this).val(option)
         }
     })
+
+    let h = $(`<option value='none'>None</option>`)
+    $("#option_block_texture").append(h)
+
+    for(let texture of Tetris.textures)
+    {
+        let h = $(`<option value='${texture.file_name}'>${texture.name}</option>`)
+        $("#option_block_texture").append(h)
+    }
+
 }
 
 Tetris.start_options_widget_listeners = function()
@@ -212,6 +228,11 @@ Tetris.start_options_widget_listeners = function()
                     if(Tetris[`option_${id}_action`](val))
                     {
                         Tetris.save_options()
+
+                        if(id === "block_texture")
+                        {
+                            Tetris.show_texture_preview()
+                        }
                     }
 
                     else
@@ -284,6 +305,26 @@ Tetris.call_options_actions = function()
     {
         Tetris[`option_${key}_action`](Tetris.options[key])
     }
+}
+
+Tetris.show_texture_preview = function()
+{
+    let name = $("#option_block_texture").find('option:selected').text()
+    Tetris.msg_texture_preview.set_title(name)
+    Tetris.msg_texture_preview.show()
+}
+
+Tetris.hide_texture_preview = function()
+{
+    Tetris.msg_texture_preview.close()
+}
+
+Tetris.set_random_block_texture = function()
+{
+    let options = $('#option_block_texture').find("option")
+    let val = $(options[Math.floor(Math.random() * options.length)]).val()
+    $("#option_block_texture").val(val)
+    $("#option_block_texture").change()
 }
 
 Tetris.option_enable_ghost_action = function(val)
@@ -457,5 +498,12 @@ Tetris.option_soft_drop_delay_action = function(val)
     }
 
     Tetris.options.soft_drop_delay = value
+    return true
+}
+
+Tetris.option_block_texture_action = function(val)
+{
+    Tetris.options.block_texture = val
+    Tetris.update_block_texture()
     return true
 }
