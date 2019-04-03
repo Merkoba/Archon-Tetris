@@ -327,6 +327,13 @@ Tetris.set_random_block_texture = function()
     $("#option_block_texture").change()
 }
 
+Tetris.set_previous_block_texture = function()
+{
+    let val = Tetris.previous_block_texture
+    $("#option_block_texture").val(val)
+    $("#option_block_texture").change()
+}
+
 Tetris.option_enable_ghost_action = function(val)
 {
     Tetris.options.enable_ghost = val
@@ -503,6 +510,7 @@ Tetris.option_soft_drop_delay_action = function(val)
 
 Tetris.option_block_texture_action = function(val)
 {
+    Tetris.previous_block_texture = Tetris.options.block_texture
     Tetris.options.block_texture = val
     Tetris.update_block_texture()
     return true

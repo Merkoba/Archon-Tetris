@@ -1,6 +1,7 @@
 :root 
 {
     --texture: url(../img/textures/diagmonds-light.png);
+    --piece-background-size: 25% auto, cover;
 }
 
 body, html
@@ -146,50 +147,50 @@ body *
 
 .piece_type_stick, .piece_type_stick_2
 {
-    background: var(--texture), linear-gradient(rgb(53, 243, 243), #286b77) repeat center center / cover;
-    background-size: 50% auto, cover;
+    background: var(--texture), linear-gradient(rgb(53, 243, 243), #286b77);
+    background-size: var(--piece-background-size)
 }
 
 .piece_type_periscope_right, .piece_type_periscope_right_2
 {
     background: var(--texture), linear-gradient(rgb(255, 189, 66), #79520b);
-    background-size: 50% auto, cover;
+    background-size: var(--piece-background-size)
 }
 
 .piece_type_periscope_left, .piece_type_periscope_left_2
 {
     background: var(--texture), linear-gradient(rgb(69, 69, 255), #1e2468);
-    background-size: 50% auto, cover;
+    background-size: var(--piece-background-size)
 }
 
 .piece_type_dog_right, .piece_type_dog_right_2
 {
     background: var(--texture), linear-gradient(rgb(0, 255, 0), #1a522a);
-    background-size: 50% auto, cover;
+    background-size: var(--piece-background-size)
 }
 
 .piece_type_dog_left, .piece_type_dog_left_2
 {
     background: var(--texture), linear-gradient(rgb(255, 62, 62), #421111);
-    background-size: 50% auto, cover;
+    background-size: var(--piece-background-size)
 }
 
 .piece_type_square, .piece_type_square_2
 {
     background: var(--texture), linear-gradient(rgb(255, 255, 101), #5a591c);
-    background-size: 50% auto, cover;
+    background-size: var(--piece-background-size)
 }
 
 .piece_type_tee, .piece_type_tee_2
 {
     background: var(--texture), linear-gradient(rgb(139, 24, 139), #41132c);
-    background-size: 50% auto, cover;
+    background-size: var(--piece-background-size)
 }
 
 .placed_block.placed_main
 {
     background: var(--texture), linear-gradient(rgb(241, 241, 241), #565b5c);
-    background-size: 50% auto, cover;
+    background-size: var(--piece-background-size)
 }
 
 #score
@@ -709,7 +710,7 @@ option
 #texture_preview_element
 {
     height: 250px;
-    width: 250px;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
