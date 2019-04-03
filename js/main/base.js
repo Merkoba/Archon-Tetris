@@ -95,6 +95,7 @@ Tetris.start_game = function(initial=false)
 
     $("#paused").css("display", "none")
     $("#queued_left").text("")
+    $("#menu_game_over").css("display", "none")
     
     Tetris.setup_previews()
     Tetris.set_score_text()
@@ -112,10 +113,10 @@ Tetris.start_game = function(initial=false)
 
 Tetris.make_game_start = function()
 {
+    Tetris.first_game_started = true
     Tetris.close_all_windows()
     Tetris.start_countdown()
     Tetris.start_music(true)
-    Tetris.first_game_started = true
 }
 
 Tetris.do_start_game = function()
@@ -202,6 +203,7 @@ Tetris.on_game_over = function(title="Game Over")
     Tetris.msg_game_over.show()
 
     Tetris.play_sound("game_over")
+    $("#menu_game_over").css("display", "block")
 }
 
 Tetris.pause_game = function()
@@ -422,7 +424,14 @@ Tetris.start_windows = function()
             {}, 
             common,
             {
-                id: "menu"
+                id: "menu",
+                before_close: function()
+                {
+                    if(!Tetris.first_game_started)
+                    {
+                        return false
+                    }
+                }
             }
         )
     )
@@ -567,6 +576,11 @@ Tetris.setup_click_events = function()
     $("#menu_help").click(function()
     {
         Tetris.show_help()
+    })
+
+    $("#menu_game_over").click(function()
+    {
+        Tetris.msg_game_over.show()
     })
 
     $("#game_over_play_again").click(function()

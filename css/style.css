@@ -378,6 +378,11 @@ body *
     margin-bottom: 0;
 }
 
+#menu_game_over
+{
+    display: none;
+}
+
 .action
 {
     transition: text-shadow 500ms, box-shadow 500ms

@@ -5,7 +5,7 @@
         <title>Archon Tetris</title>
         <link rel='shortcut icon' href='img/favicon.png?version=1' type='image/x-icon'>
 
-        <link rel="stylesheet" type="text/css" href="css/style.css?version=14">
+        <link rel="stylesheet" type="text/css" href="css/style.css?version=15">
 
         <script src="js/libs/jquery.min.js?version=1"></script>
         <script src="js/libs/seedrandom.min.js?version=1"></script>
@@ -13,7 +13,7 @@
         <script src="js/libs/msg.min.js?version=1"></script>
         <script src="js/libs/separator.js?version=1"></script>
 
-        <script src="js/main/base.js?version=21"></script>
+        <script src="js/main/base.js?version=22"></script>
         <script src="js/main/utils.js?version=3"></script>
         <script src="js/main/pieces.js?version=21"></script>
         <script src="js/main/grid.js?version=1"></script>
@@ -99,6 +99,7 @@
 
     <script id='template_menu' type='text/x-handlebars-template' class='template'>
         <div id='menu_container' class='unselectable'>
+            <div id='menu_game_over' class='menu_item action'>Game Over</div>
             <div id='menu_restart' class='menu_item action'>Start</div>
             <div id='menu_options' class='menu_item action'>Options</div>
             <div id='menu_controls' class='menu_item action'>Controls</div>
@@ -108,7 +109,7 @@
 
     <script id='template_options' type='text/x-handlebars-template' class='template'>
         <div id='options_container'>
-            <div id='options_sidebar'>
+            <div id='options_sidebar' class='unselectable'>
                 <div class='options_category_item options_category_item_selected' id='options_category_item_visual'>Visual</div>
                 <div class='options_category_item' id='options_category_item_audio'>Audio</div>
                 <div class='options_category_item' id='options_category_item_tweaks'>Tweaks</div>
