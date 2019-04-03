@@ -756,6 +756,7 @@ Tetris.charge_pow = function(num_cleared)
         Tetris.pow += whole
         Tetris.pows_earned += whole
         Tetris.set_pow_text()
+        Tetris.play_sound("pow_loaded")
         console.info("POW earned")
         
         if(decimals)
