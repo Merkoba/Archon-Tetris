@@ -20,9 +20,9 @@ Tetris.init = function()
     Tetris.start_hide_intro_timeout()
     Tetris.start_visibility_listeners()
     Tetris.create_pieces()
-    Tetris.setup_texture_preview()
     Tetris.on_intro = true
     Tetris.first_game_started = false
+    Tetris.current_texture_preview = 0
 
     $("#sound_intro")[0].oncanplay = function()
     {
@@ -603,6 +603,11 @@ Tetris.setup_click_events = function()
     {
         Tetris.set_previous_block_texture()
     })
+
+    $("#texture_preview_element").on("click", ".piece", function()
+    {
+        Tetris.show_texture_preview(true)
+    })
 }
 
 Tetris.setup_separators = function()
@@ -853,12 +858,4 @@ Tetris.start_visibility_listeners = function()
     {
         Tetris.stop_and_clear_move_interval()
     }, false)
-}
-
-Tetris.setup_texture_preview = function()
-{
-    let piece = Tetris.pieces.square
-    let item = $(`<div></div>`)
-    item.html(piece.element_wheel_preview.clone())
-    $("#texture_preview_element").html(item)
 }

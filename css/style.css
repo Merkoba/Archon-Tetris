@@ -1,7 +1,7 @@
 :root 
 {
     --texture: url(../img/textures/diagmonds-light.png);
-    --piece-background-size: 25% auto, cover;
+    --piece-background-size: 100% auto, cover;
 }
 
 body, html
@@ -707,13 +707,26 @@ option
     text-align: center;
 }
 
+#texture_preview_container
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 #texture_preview_element
 {
     height: 250px;
-    width: 100%;
+    width: 250px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#texture_preview_element .piece
+{
+    cursor: pointer;
 }
 
 #texture_preview_buttons

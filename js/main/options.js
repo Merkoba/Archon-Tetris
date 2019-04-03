@@ -1,4 +1,5 @@
 Tetris.ls_options = "ls_options_version_1"
+Tetris.previous_block_textures = []
 
 Tetris.reset_options = function()
 {
@@ -306,9 +307,23 @@ Tetris.call_options_actions = function()
     }
 }
 
-Tetris.show_texture_preview = function()
+Tetris.show_texture_preview = function(change_piece=false)
 {
     let name = $("#option_block_texture").find('option:selected').text()
+
+    if(change_piece)
+    {
+        Tetris.current_texture_preview += 1
+    }
+
+    if(Tetris.current_texture_preview >= Tetris.pieces_list.length)
+    {
+        Tetris.current_texture_preview = 0
+    }
+
+    let piece = Tetris.pieces[Tetris.pieces_list[Tetris.current_texture_preview]]
+    $("#texture_preview_element").html(piece.element_wheel_preview.clone())
+
     Tetris.msg_texture_preview.set_title(name)
     Tetris.msg_texture_preview.show()
 }
@@ -318,17 +333,24 @@ Tetris.hide_texture_preview = function()
     Tetris.msg_texture_preview.close()
 }
 
-Tetris.set_random_block_texture = function()
+Tetris.set_random_block_texture = function(save=true)
 {
     let options = $('#option_block_texture').find("option")
     let val = $(options[Math.floor(Math.random() * options.length)]).val()
+    Tetris.previous_block_textures.push(Tetris.options.block_texture)
+
     $("#option_block_texture").val(val)
     $("#option_block_texture").change()
 }
 
 Tetris.set_previous_block_texture = function()
 {
-    let val = Tetris.previous_block_texture
+    if(Tetris.previous_block_textures.length === 0)
+    {
+        return false
+    }
+
+    let val = Tetris.previous_block_textures.pop()
     $("#option_block_texture").val(val)
     $("#option_block_texture").change()
 }
@@ -509,7 +531,6 @@ Tetris.option_soft_drop_delay_action = function(val)
 
 Tetris.option_block_texture_action = function(val)
 {
-    Tetris.previous_block_texture = Tetris.options.block_texture
     Tetris.options.block_texture = val
     Tetris.update_block_texture()
     return true

@@ -5,7 +5,7 @@
         <title>Archon Tetris</title>
         <link rel='shortcut icon' href='img/favicon.png?version=1' type='image/x-icon'>
 
-        <link rel="stylesheet" type="text/css" href="css/style.css?version=13">
+        <link rel="stylesheet" type="text/css" href="css/style.css?version=14">
 
         <script src="js/libs/jquery.min.js?version=1"></script>
         <script src="js/libs/seedrandom.min.js?version=1"></script>
@@ -13,13 +13,13 @@
         <script src="js/libs/msg.min.js?version=1"></script>
         <script src="js/libs/separator.js?version=1"></script>
 
-        <script src="js/main/base.js?version=20"></script>
+        <script src="js/main/base.js?version=21"></script>
         <script src="js/main/utils.js?version=3"></script>
         <script src="js/main/pieces.js?version=20"></script>
         <script src="js/main/grid.js?version=1"></script>
         <script src="js/main/keyboard.js?version=9"></script>
         <script src="js/main/local_storage.js?version=1"></script>
-        <script src="js/main/options.js?version=12"></script>
+        <script src="js/main/options.js?version=13"></script>
         <script src="js/main/controls.js?version=5"></script>
         <script src="js/main/textures.js?version=1"></script>
 
@@ -293,11 +293,13 @@
     </script>
 
     <script id='template_texture_preview' type='text/x-handlebars-template' class='template'>
-        <div id='texture_preview_name'></div>
-        <div id='texture_preview_element'></div>
-        <div id='texture_preview_buttons' class='unselectable'>
-            <div id='texture_preview_random'>Random</div>
-            <div id='texture_preview_previous'>Previous</div>
+        <div id='texture_preview_container'>
+            <div id='texture_preview_name'></div>
+            <div id='texture_preview_element'></div>
+            <div id='texture_preview_buttons' class='unselectable'>
+                <div id='texture_preview_random'>Random</div>
+                <div id='texture_preview_previous'>Previous</div>
+            </div>
         </div>
     </script>
 </html>
