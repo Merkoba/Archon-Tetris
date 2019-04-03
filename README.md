@@ -29,5 +29,6 @@
 - Descent Multiplier
 - Minimum Descent Delay
 - Soft Drop Delay
+- Block Texture (Almost 400 textures to choose from)
 
 Plus controls can be configured.
