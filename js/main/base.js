@@ -603,11 +603,6 @@ Tetris.setup_click_events = function()
     {
         Tetris.set_previous_block_texture()
     })
-
-    $("#texture_preview_close").click(function()
-    {
-        Tetris.hide_texture_preview()
-    })
 }
 
 Tetris.setup_separators = function()
