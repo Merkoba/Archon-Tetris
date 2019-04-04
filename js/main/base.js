@@ -644,6 +644,11 @@ Tetris.setup_click_events = function()
     {
         Tetris.reset_theme()
     })
+
+    $("#paused").click(function()
+    {
+        Tetris.unpause_game()
+    })
 }
 
 Tetris.setup_separators = function()

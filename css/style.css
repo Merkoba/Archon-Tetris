@@ -723,3 +723,8 @@ option
     cursor: pointer;
     display: inline-block;
 }
+
+#paused
+{
+    cursor: pointer;
+}
