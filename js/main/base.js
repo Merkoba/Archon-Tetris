@@ -9,6 +9,7 @@ Tetris.init = function()
 {
     Tetris.game_started = false
 
+    Tetris.create_pieces()
     Tetris.compile_templates()
     Tetris.start_windows()
     Tetris.setup_options()
@@ -20,7 +21,6 @@ Tetris.init = function()
     Tetris.setup_theme()
     Tetris.start_hide_intro_timeout()
     Tetris.start_visibility_listeners()
-    Tetris.create_pieces()
     Tetris.on_intro = true
     Tetris.first_game_started = false
     Tetris.current_texture_preview = 0

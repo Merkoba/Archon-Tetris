@@ -702,6 +702,11 @@ option
     cursor: pointer;
 }
 
+#theme_container
+{
+    width: 16rem;
+}
+
 .theme_item
 {
     margin-bottom: 2rem;
@@ -716,6 +721,16 @@ option
 {
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
+}
+
+.theme_element
+{
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #3b3b3b;
+    padding: 1rem;
 }
 
 #theme_reset

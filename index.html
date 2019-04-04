@@ -5,7 +5,7 @@
         <title>Archon Tetris</title>
         <link rel='shortcut icon' href='img/favicon.png?version=1' type='image/x-icon'>
 
-        <link rel="stylesheet" type="text/css" href="css/style.css?version=17">
+        <link rel="stylesheet" type="text/css" href="css/style.css?version=18">
 
         <script src="js/libs/jquery.min.js?version=1"></script>
         <script src="js/libs/seedrandom.min.js?version=1"></script>
@@ -14,16 +14,16 @@
         <script src="js/libs/separator.js?version=1"></script>
         <script src="js/libs/colorlib.js?version=1"></script>
 
-        <script src="js/main/base.js?version=26"></script>
+        <script src="js/main/base.js?version=27"></script>
         <script src="js/main/utils.js?version=3"></script>
-        <script src="js/main/pieces.js?version=23"></script>
+        <script src="js/main/pieces.js?version=24"></script>
         <script src="js/main/grid.js?version=1"></script>
         <script src="js/main/keyboard.js?version=10"></script>
         <script src="js/main/local_storage.js?version=1"></script>
         <script src="js/main/options.js?version=13"></script>
         <script src="js/main/controls.js?version=5"></script>
         <script src="js/main/textures.js?version=1"></script>
-        <script src="js/main/theme.js?version=4"></script>
+        <script src="js/main/theme.js?version=5"></script>
 
         <script>
             $(function()
@@ -312,34 +312,42 @@
             <div class='theme_item'>
                 <div class='theme_label'>Stick</div>
                 <input type='color' class='theme_color' id='theme_color_stick'>
+                <div class='theme_element' id='theme_element_stick'></div>
             </div>
             <div class='theme_item'>
                 <div class='theme_label'>Periscope Right</div>
                 <input type='color' class='theme_color' id='theme_color_periscope_right'>
+                <div class='theme_element' id='theme_element_periscope_right'></div>
             </div>
             <div class='theme_item'>
                 <div class='theme_label'>Periscope Left</div>
                 <input type='color' class='theme_color' id='theme_color_periscope_left'>
+                <div class='theme_element' id='theme_element_periscope_left'></div>
             </div>
             <div class='theme_item'>
                 <div class='theme_label'>Dog Right</div>
                 <input type='color' class='theme_color' id='theme_color_dog_right'>
+                <div class='theme_element' id='theme_element_dog_right'></div>
             </div>
             <div class='theme_item'>
                 <div class='theme_label'>Dog Left</div>
                 <input type='color' class='theme_color' id='theme_color_dog_left'>
+                <div class='theme_element' id='theme_element_dog_left'></div>
             </div>
             <div class='theme_item'>
                 <div class='theme_label'>Square</div>
                 <input type='color' class='theme_color' id='theme_color_square'>
+                <div class='theme_element' id='theme_element_square'></div>
             </div>
             <div class='theme_item'>
                 <div class='theme_label'>Tee</div>
                 <input type='color' class='theme_color' id='theme_color_tee'>
+                <div class='theme_element' id='theme_element_tee'></div>
             </div>
             <div class='theme_item'>
                 <div class='theme_label'>Independent</div>
                 <input type='color' class='theme_color' id='theme_color_independent'>
+                <div class='theme_element' id='theme_element_independent'></div>
             </div>
             <div class='theme_item'>
                 <div id='theme_reset'>Reset</div>

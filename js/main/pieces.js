@@ -376,6 +376,25 @@ Tetris.create_pieces = function()
                 top: 0,
                 bottom: 1
             }
+        },
+        independent:
+        {
+            name: "independent",
+            modes:
+            [
+                {
+                    width: 1,
+                    height: 1
+                }
+            ],
+            map: [[0, 0]],
+            space:
+            {
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0
+            }
         }
     }
 
@@ -398,7 +417,11 @@ Tetris.create_pieces = function()
         
         else
         {
-            Tetris.pieces_list.push(key)
+            if(key !== "independent")
+            {
+                Tetris.pieces_list.push(key)
+            }
+            
             preview_block_size = Tetris.element_preview_block_size
             wheel_preview_block_size = Tetris.element_wheel_preview_block_size 
         }

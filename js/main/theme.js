@@ -9,6 +9,7 @@ Tetris.show_theme = function()
 Tetris.setup_theme = function()
 {
     Tetris.get_theme()
+    Tetris.fill_theme_elements()
     Tetris.fill_theme_inputs()
     Tetris.prepare_theme_inputs()
     Tetris.apply_theme()
@@ -82,6 +83,17 @@ Tetris.get_theme = function()
     {
         Tetris.save_theme()
     }
+}
+
+Tetris.fill_theme_elements = function()
+{
+    $("#theme_container").find(".theme_element").each(function()
+    {
+        let id = $(this).attr("id")
+        let theme = id.replace("theme_element_", "")
+        console.log(theme)
+        $(this).html(Tetris.pieces[theme].element_wheel_preview.clone())
+    })
 }
 
 Tetris.fill_theme_inputs = function()
