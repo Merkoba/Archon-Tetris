@@ -44,19 +44,19 @@ Tetris.get_theme = function()
 
     if(Tetris.theme.periscope_left === undefined)
     {
-        Tetris.theme.periscope_left = "#4545ff"
+        Tetris.theme.periscope_left = "#5d8fff"
         changed = true
     }
 
     if(Tetris.theme.dog_right === undefined)
     {
-        Tetris.theme.dog_right = "#00ff00"
+        Tetris.theme.dog_right = "#6bff6b"
         changed = true
     }
 
     if(Tetris.theme.dog_left === undefined)
     {
-        Tetris.theme.dog_left = "#ff3e3e"
+        Tetris.theme.dog_left = "#f86767"
         changed = true
     }
 
@@ -68,7 +68,7 @@ Tetris.get_theme = function()
 
     if(Tetris.theme.tee === undefined)
     {
-        Tetris.theme.tee = "#8b188b"
+        Tetris.theme.tee = "#b66cd5"
         changed = true
     }
 
@@ -123,8 +123,8 @@ Tetris.apply_theme = function()
 
     for(let key in Tetris.theme)
     {
-        let color = Tetris.theme[key]
-        let color_2 = Tetris.colorlib.get_lighter_or_darker(color, 0.2)
+        let color = Tetris.colorlib.array_to_rgb(Tetris.colorlib.hex_to_rgb(Tetris.theme[key]))
+        let color_2 = Tetris.colorlib.get_lighter_or_darker(color, 0.5)
 
         styles += 
         `.piece_type_${key}, .piece_type_${key}_2
