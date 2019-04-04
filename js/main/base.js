@@ -548,6 +548,7 @@ Tetris.start_windows = function()
     Tetris.msg_controls.set_title("Controls")
     Tetris.msg_texture_preview.set(Tetris.template_texture_preview())
     Tetris.msg_theme.set(Tetris.template_theme())
+    Tetris.msg_theme.set_title("Theme")
 }
 
 Tetris.compile_templates = function()
