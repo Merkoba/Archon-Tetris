@@ -421,7 +421,7 @@ Tetris.create_pieces = function()
             {
                 Tetris.pieces_list.push(key)
             }
-            
+
             preview_block_size = Tetris.element_preview_block_size
             wheel_preview_block_size = Tetris.element_wheel_preview_block_size 
         }
@@ -2002,9 +2002,4 @@ Tetris.show_previous_piece_picker_wheel_item = function()
     }
 
     Tetris.show_piece_picker_wheel_item()
-}
-
-Tetris.update_block_texture = function()
-{
-    document.documentElement.style.setProperty('--texture', `url(img/textures/${Tetris.options.block_texture})`);
 }

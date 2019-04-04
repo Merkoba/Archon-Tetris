@@ -16,11 +16,11 @@
 
         <script src="js/main/base.js?version=27"></script>
         <script src="js/main/utils.js?version=3"></script>
-        <script src="js/main/pieces.js?version=24"></script>
+        <script src="js/main/pieces.js?version=25"></script>
         <script src="js/main/grid.js?version=1"></script>
         <script src="js/main/keyboard.js?version=10"></script>
         <script src="js/main/local_storage.js?version=1"></script>
-        <script src="js/main/options.js?version=15"></script>
+        <script src="js/main/options.js?version=16"></script>
         <script src="js/main/controls.js?version=5"></script>
         <script src="js/main/textures.js?version=1"></script>
         <script src="js/main/theme.js?version=7"></script>
@@ -143,10 +143,6 @@
                         <input type='number' min="4" id='option_block_size' class='options_widget options_number' data-options-widget-type='number'>
                     </div>
                     <div class='options_item'>
-                        <div class='options_label'>Block Texture</div>
-                        <select id='option_block_texture' class='options_widget options_select' data-options-widget-type='select'></select>
-                    </div>
-                    <div class='options_item'>
                         <div class='options_label'>Block Shape</div>
                         <select id='option_block_shape' class='options_widget options_select' data-options-widget-type='select'>
                             <option value='square'>Square</option>
@@ -155,8 +151,18 @@
                         </select>
                     </div>
                     <div class='options_item'>
+                        <div class='options_label'>Block Texture</div>
+                        <select id='option_block_texture' class='options_widget options_select' data-options-widget-type='select'></select>
+                    </div>
+                    <div class='options_item' id='options_item_block_texture_url'>
+                        <div class='options_label'>Block Texture URL</div>
+                        <input type='text' id='option_block_texture_url' class='options_widget options_text' data-options-widget-type='text'>
+                    </div>
+                    <div class='options_item'>
                         <div class='options_label'>Background</div>
                         <select id='option_background' class='options_widget options_select' data-options-widget-type='select'>
+                            <option value='none'>None</option>
+                            <option value='url'>URL</option>
                             <option value='1'>1</option>
                             <option value='2'>2</option>
                             <option value='3'>3</option>
@@ -164,8 +170,11 @@
                             <option value='5'>5</option>
                             <option value='6'>6</option>
                             <option value='7'>7</option>
-                            <option value='none'>None</option>
                         </select>
+                    </div>
+                    <div class='options_item' id='options_item_background_url'>
+                        <div class='options_label'>Background URL</div>
+                        <input type='text' id='option_background_url' class='options_widget options_text' data-options-widget-type='text'>
                     </div>
                 </div>
                 <div id='options_category_audio' class='options_category'>

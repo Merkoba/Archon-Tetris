@@ -52,6 +52,12 @@ Tetris.get_options = function()
         changed = true
     }
 
+    if(Tetris.options.background_url === undefined)
+    {
+        Tetris.options.background_url = ""
+        changed = true
+    }
+
     if(Tetris.options.number_of_rows === undefined)
     {
         Tetris.options.number_of_rows = 20
@@ -114,6 +120,11 @@ Tetris.get_options = function()
         Tetris.options.block_texture = "none.png"
     }
 
+    if(Tetris.options.block_texture_url === undefined)
+    {
+        Tetris.options.block_texture_url = ""
+    }
+
     if(Tetris.options.block_shape === undefined)
     {
         Tetris.options.block_shape = "rounded"
@@ -145,6 +156,9 @@ Tetris.call_initial_option_actions = function()
 Tetris.prepare_options_widgets = function()
 {
     let h = $(`<option value='none.png'>None</option>`)
+    $("#option_block_texture").append(h)
+
+    h = $(`<option value='url'>URL</option>`)
     $("#option_block_texture").append(h)
 
     for(let texture of Tetris.textures)
@@ -212,6 +226,11 @@ Tetris.start_options_widget_listeners = function()
                     if(Tetris[`option_${id}_action`](val))
                     {
                         Tetris.save_options()
+
+                        if(id === "block_texture_url")
+                        {
+                            Tetris.show_texture_preview()
+                        }
                     }
 
                     else
@@ -309,11 +328,39 @@ Tetris.apply_background = function()
         $("#background").css("display", "none")
     }
 
+    else if(Tetris.options.background === "url")
+    {
+        let url = Tetris.options.background_url
+
+        if(url)
+        {
+            document.documentElement.style.setProperty('--background', `url("${url}")`)
+            $("#background").css("display", "block")
+        }
+    }
+
     else
     {
-        document.documentElement.style.setProperty('--background', `url("../img/bg${Tetris.options.background}.gif")`)
+        document.documentElement.style.setProperty('--background', `url(../img/bg${Tetris.options.background}.gif)`)
         $("#background").css("display", "block")
     }
+}
+
+Tetris.update_block_texture = function()
+{
+    let texture
+
+    if(Tetris.options.block_texture === "url")
+    {
+        texture = Tetris.options.block_texture_url
+    }
+
+    else
+    {
+        texture = `img/textures/${Tetris.options.block_texture}`
+    }
+
+    document.documentElement.style.setProperty('--texture', `url(${texture})`);
 }
 
 Tetris.setup_options_window = function()
@@ -429,6 +476,24 @@ Tetris.option_enable_sound_effects_action = function(val)
 Tetris.option_background_action = function(val)
 {
     Tetris.options.background = val
+
+    if(Tetris.options.background === "url")
+    {
+        $("#options_item_background_url").css("display", "block")
+    }
+    
+    else
+    {
+        $("#options_item_background_url").css("display", "none")
+    }
+
+    Tetris.apply_background()
+    return true
+}
+
+Tetris.option_background_url_action = function(val)
+{
+    Tetris.options.background_url = val.trim()
     Tetris.apply_background()
     return true
 }
@@ -564,6 +629,24 @@ Tetris.option_soft_drop_delay_action = function(val)
 Tetris.option_block_texture_action = function(val)
 {
     Tetris.options.block_texture = val
+
+    if(Tetris.options.block_texture === "url")
+    {
+        $("#options_item_block_texture_url").css("display", "block")
+    }
+    
+    else
+    {
+        $("#options_item_block_texture_url").css("display", "none")
+    }
+
+    Tetris.update_block_texture()
+    return true
+}
+
+Tetris.option_block_texture_url_action = function(val)
+{
+    Tetris.options.block_texture_url = val.trim()
     Tetris.update_block_texture()
     return true
 }
