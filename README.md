@@ -30,5 +30,6 @@
 - Minimum Descent Delay
 - Soft Drop Delay
 - Block Texture (Almost 400 textures to choose from)
+- Block Shape (Square, Rounded, or Circle)
 
-Plus controls can be configured.
+Plus controls and piece colors can be configured.
