@@ -91,7 +91,6 @@ Tetris.fill_theme_elements = function()
     {
         let id = $(this).attr("id")
         let theme = id.replace("theme_element_", "")
-        console.log(theme)
         $(this).html(Tetris.pieces[theme].element_wheel_preview.clone())
     })
 }

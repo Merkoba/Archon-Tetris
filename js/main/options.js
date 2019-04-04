@@ -114,6 +114,11 @@ Tetris.get_options = function()
         Tetris.options.block_texture = "none.png"
     }
 
+    if(Tetris.options.block_shape === undefined)
+    {
+        Tetris.options.block_shape = "rounded"
+    }
+
     if(changed)
     {
         Tetris.save_options()
@@ -134,6 +139,7 @@ Tetris.call_initial_option_actions = function()
     Tetris.option_enable_background_image_action(Tetris.options.enable_background_image)
     Tetris.option_goal_type_action(Tetris.options.goal_type)
     Tetris.option_block_texture_action(Tetris.options.block_texture)
+    Tetris.option_block_shape_action(Tetris.options.block_shape)
 }
 
 Tetris.prepare_options_widgets = function()
@@ -272,6 +278,28 @@ Tetris.on_options_close = function()
             Tetris.start_game()
         }
     }
+}
+
+Tetris.apply_block_shape = function()
+{
+    let radius
+
+    if(Tetris.options.block_shape === "square")
+    {
+        radius = "0%"
+    }
+
+    else if(Tetris.options.block_shape === "rounded")
+    {
+        radius = "25%"        
+    }
+
+    else if(Tetris.options.block_shape === "circle")
+    {
+        radius = "50%"
+    }
+
+    document.documentElement.style.setProperty('--block-shape', radius);
 }
 
 Tetris.setup_options_window = function()
@@ -533,5 +561,12 @@ Tetris.option_block_texture_action = function(val)
 {
     Tetris.options.block_texture = val
     Tetris.update_block_texture()
+    return true
+}
+
+Tetris.option_block_shape_action = function(val)
+{
+    Tetris.options.block_shape = val
+    Tetris.apply_block_shape()
     return true
 }
