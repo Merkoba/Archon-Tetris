@@ -136,12 +136,14 @@ Tetris.apply_theme = function()
     {
         let color = Tetris.colorlib.array_to_rgb(Tetris.colorlib.hex_to_rgb(Tetris.theme[key]))
         let color_2 = Tetris.colorlib.get_lighter_or_darker(color, 0.2)
+        let color_3 = Tetris.colorlib.get_lighter_or_darker(color, 0.5)
 
         styles += 
         `.piece_type_${key}, .piece_type_${key}_2
         {
             background: var(--texture), linear-gradient(${color}, ${color_2});
-            background-size: var(--piece-background-size)
+            background-size: var(--piece-background-size);
+            box-shadow: inset 0 0 2px ${color_3};
         }`
     }
 
