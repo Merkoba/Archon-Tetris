@@ -17,6 +17,7 @@ Tetris.init = function()
     Tetris.setup_separators()
     Tetris.setup_click_events()
     Tetris.setup_controls()
+    Tetris.setup_theme()
     Tetris.start_hide_intro_timeout()
     Tetris.start_visibility_listeners()
     Tetris.create_pieces()
@@ -92,7 +93,9 @@ Tetris.start_game = function(initial=false)
     Tetris.pieces_placed = 0
     Tetris.big_piece_charge = 0
     Tetris.current_piece_picker_wheel_item = 0
-
+    Tetris.placed_id = 1
+    Tetris.placed_element_data = {}
+    
     $("#paused").css("display", "none")
     $("#queued_left").text("")
     $("#menu_game_over").css("display", "none")
@@ -519,6 +522,21 @@ Tetris.start_windows = function()
         )
     )
 
+    Tetris.msg_theme = Msg.factory
+    (
+        Object.assign
+        (
+            {
+
+            },
+            titlebar,
+            common,
+            {
+                id: "theme"
+            }
+        )
+    )
+
     Tetris.msg_menu.set(Tetris.template_menu())
     Tetris.msg_options.set(Tetris.template_options())
     Tetris.msg_options.set_title("Options")
@@ -529,6 +547,7 @@ Tetris.start_windows = function()
     Tetris.msg_controls.set(Tetris.template_controls())
     Tetris.msg_controls.set_title("Controls")
     Tetris.msg_texture_preview.set(Tetris.template_texture_preview())
+    Tetris.msg_theme.set(Tetris.template_theme())
 }
 
 Tetris.compile_templates = function()
@@ -568,6 +587,11 @@ Tetris.setup_click_events = function()
     $("#menu_help").click(function()
     {
         Tetris.show_help()
+    })
+    
+    $("#menu_theme").click(function()
+    {
+        Tetris.show_theme()
     })
 
     $("#menu_game_over").click(function()
@@ -613,6 +637,11 @@ Tetris.setup_click_events = function()
     $("#texture_preview_element").on("click", ".piece", function()
     {
         Tetris.show_texture_preview(true)
+    })
+
+    $("#theme_reset").click(function()
+    {
+        Tetris.reset_theme()
     })
 }
 

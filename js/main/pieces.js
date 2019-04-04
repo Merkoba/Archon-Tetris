@@ -4,8 +4,6 @@ Tetris.element_wheel_preview_block_size = 40
 Tetris.element_wheel_preview_block_size_2 = 35
 Tetris.initial_descent_delay = 800
 Tetris.big_piece_charge_goal = 50
-Tetris.placed_element_data = {}
-Tetris.placed_id = 1
 // Tetris.debug_queue = ["stick_2", "periscope_right_2", "periscope_left_2", "dog_right_2", "dog_left_2", "square_2", "tee_2"]
 Tetris.debug_queue = []
 
@@ -1652,6 +1650,7 @@ Tetris.separate_blocks = function(element)
         let block = $(this).clone()
         block.attr("id", id)
         block.addClass("placed_main")
+        block.addClass("piece_type_independent")
         block.css('transform', `rotate(${0}deg)`)
         block.css("top", `${top}px`)
         block.css("left", `${left}px`)
@@ -1984,5 +1983,5 @@ Tetris.show_previous_piece_picker_wheel_item = function()
 
 Tetris.update_block_texture = function()
 {
-    document.documentElement.style.setProperty('--texture', `url(../img/textures/${Tetris.options.block_texture})`);
+    document.documentElement.style.setProperty('--texture', `url(img/textures/${Tetris.options.block_texture})`);
 }

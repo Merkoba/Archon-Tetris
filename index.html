@@ -5,23 +5,25 @@
         <title>Archon Tetris</title>
         <link rel='shortcut icon' href='img/favicon.png?version=1' type='image/x-icon'>
 
-        <link rel="stylesheet" type="text/css" href="css/style.css?version=15">
+        <link rel="stylesheet" type="text/css" href="css/style.css?version=16">
 
         <script src="js/libs/jquery.min.js?version=1"></script>
         <script src="js/libs/seedrandom.min.js?version=1"></script>
         <script src="js/libs/handlebars.js?version=1"></script>
         <script src="js/libs/msg.min.js?version=1"></script>
         <script src="js/libs/separator.js?version=1"></script>
+        <script src="js/libs/colorlib.js?version=1"></script>
 
-        <script src="js/main/base.js?version=23"></script>
+        <script src="js/main/base.js?version=24"></script>
         <script src="js/main/utils.js?version=3"></script>
-        <script src="js/main/pieces.js?version=22"></script>
+        <script src="js/main/pieces.js?version=23"></script>
         <script src="js/main/grid.js?version=1"></script>
         <script src="js/main/keyboard.js?version=10"></script>
         <script src="js/main/local_storage.js?version=1"></script>
         <script src="js/main/options.js?version=13"></script>
         <script src="js/main/controls.js?version=5"></script>
         <script src="js/main/textures.js?version=1"></script>
+        <script src="js/main/theme.js?version=1"></script>
 
         <script>
             $(function()
@@ -104,6 +106,7 @@
             <div id='menu_restart' class='menu_item action'>Start</div>
             <div id='menu_options' class='menu_item action'>Options</div>
             <div id='menu_controls' class='menu_item action'>Controls</div>
+            <div id='menu_theme' class='menu_item action'>Theme</div>
             <div id='menu_help' class='menu_item action'>Help</div>
         </div>
     </script>
@@ -300,6 +303,46 @@
             <div id='texture_preview_buttons' class='unselectable'>
                 <div id='texture_preview_random'>Random</div>
                 <div id='texture_preview_previous'>Previous</div>
+            </div>
+        </div>
+    </script>
+
+    <script id='template_theme' type='text/x-handlebars-template' class='template'>
+        <div id='theme_container'>
+            <div class='theme_item'>
+                <div class='theme_label'>Stick</div>
+                <input type='color' class='theme_color' id='theme_color_stick'>
+            </div>
+            <div class='theme_item'>
+                <div class='theme_label'>Periscope Right</div>
+                <input type='color' class='theme_color' id='theme_color_periscope_right'>
+            </div>
+            <div class='theme_item'>
+                <div class='theme_label'>Periscope Left</div>
+                <input type='color' class='theme_color' id='theme_color_periscope_left'>
+            </div>
+            <div class='theme_item'>
+                <div class='theme_label'>Dog Right</div>
+                <input type='color' class='theme_color' id='theme_color_dog_right'>
+            </div>
+            <div class='theme_item'>
+                <div class='theme_label'>Dog Left</div>
+                <input type='color' class='theme_color' id='theme_color_dog_left'>
+            </div>
+            <div class='theme_item'>
+                <div class='theme_label'>Square</div>
+                <input type='color' class='theme_color' id='theme_color_square'>
+            </div>
+            <div class='theme_item'>
+                <div class='theme_label'>Tee</div>
+                <input type='color' class='theme_color' id='theme_color_tee'>
+            </div>
+            <div class='theme_item'>
+                <div class='theme_label'>Independent</div>
+                <input type='color' class='theme_color' id='theme_color_independent'>
+            </div>
+            <div class='theme_item'>
+                <div id='theme_reset'>Reset</div>
             </div>
         </div>
     </script>

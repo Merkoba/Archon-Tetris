@@ -145,54 +145,6 @@ body *
     opacity: 0.3;
 }
 
-.piece_type_stick, .piece_type_stick_2
-{
-    background: var(--texture), linear-gradient(rgb(53, 243, 243), #286b77);
-    background-size: var(--piece-background-size)
-}
-
-.piece_type_periscope_right, .piece_type_periscope_right_2
-{
-    background: var(--texture), linear-gradient(rgb(255, 189, 66), #79520b);
-    background-size: var(--piece-background-size)
-}
-
-.piece_type_periscope_left, .piece_type_periscope_left_2
-{
-    background: var(--texture), linear-gradient(rgb(69, 69, 255), #1e2468);
-    background-size: var(--piece-background-size)
-}
-
-.piece_type_dog_right, .piece_type_dog_right_2
-{
-    background: var(--texture), linear-gradient(rgb(0, 255, 0), #1a522a);
-    background-size: var(--piece-background-size)
-}
-
-.piece_type_dog_left, .piece_type_dog_left_2
-{
-    background: var(--texture), linear-gradient(rgb(255, 62, 62), #421111);
-    background-size: var(--piece-background-size)
-}
-
-.piece_type_square, .piece_type_square_2
-{
-    background: var(--texture), linear-gradient(rgb(255, 255, 101), #5a591c);
-    background-size: var(--piece-background-size)
-}
-
-.piece_type_tee, .piece_type_tee_2
-{
-    background: var(--texture), linear-gradient(rgb(139, 24, 139), #41132c);
-    background-size: var(--piece-background-size)
-}
-
-.placed_block.placed_main
-{
-    background: var(--texture), linear-gradient(rgb(241, 241, 241), #565b5c);
-    background-size: var(--piece-background-size)
-}
-
 #score
 {
     margin-bottom: 0.8rem;
@@ -748,4 +700,26 @@ option
     margin-left: 0.5rem;
     margin-right: 0.5rem;
     cursor: pointer;
+}
+
+.theme_item
+{
+    margin-bottom: 2rem;
+}
+
+.theme_item:last-child
+{
+    margin-bottom: 0;
+}
+
+.theme_label
+{
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+#theme_reset
+{
+    cursor: pointer;
+    display: inline-block;
 }
