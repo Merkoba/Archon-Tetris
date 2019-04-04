@@ -38,7 +38,7 @@ Tetris.get_theme = function()
 
     if(Tetris.theme.periscope_right === undefined)
     {
-        Tetris.theme.periscope_right = "#ffbd42"
+        Tetris.theme.periscope_right = "#ffc46c"
         changed = true
     }
 
