@@ -124,7 +124,7 @@ Tetris.apply_theme = function()
     for(let key in Tetris.theme)
     {
         let color = Tetris.colorlib.array_to_rgb(Tetris.colorlib.hex_to_rgb(Tetris.theme[key]))
-        let color_2 = Tetris.colorlib.get_lighter_or_darker(color, 0.5)
+        let color_2 = Tetris.colorlib.get_lighter_or_darker(color, 0.2)
 
         styles += 
         `.piece_type_${key}, .piece_type_${key}_2
