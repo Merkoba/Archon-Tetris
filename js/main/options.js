@@ -46,9 +46,9 @@ Tetris.get_options = function()
         changed = true
     }
 
-    if(Tetris.options.enable_background_image === undefined)
+    if(Tetris.options.background === undefined)
     {
-        Tetris.options.enable_background_image = true
+        Tetris.options.background = "1"
         changed = true
     }
 
@@ -136,7 +136,7 @@ Tetris.setup_options = function()
 
 Tetris.call_initial_option_actions = function()
 {
-    Tetris.option_enable_background_image_action(Tetris.options.enable_background_image)
+    Tetris.option_background_action(Tetris.options.background)
     Tetris.option_goal_type_action(Tetris.options.goal_type)
     Tetris.option_block_texture_action(Tetris.options.block_texture)
     Tetris.option_block_shape_action(Tetris.options.block_shape)
@@ -299,7 +299,21 @@ Tetris.apply_block_shape = function()
         radius = "50%"
     }
 
-    document.documentElement.style.setProperty('--block-shape', radius);
+    document.documentElement.style.setProperty('--block-shape', radius)
+}
+
+Tetris.apply_background = function()
+{
+    if(Tetris.options.background === "none")
+    {
+        $("#background").css("display", "none")
+    }
+
+    else
+    {
+        document.documentElement.style.setProperty('--background', `url("../img/bg${Tetris.options.background}.gif")`)
+        $("#background").css("display", "block")
+    }
 }
 
 Tetris.setup_options_window = function()
@@ -412,20 +426,10 @@ Tetris.option_enable_sound_effects_action = function(val)
     return true
 }
 
-Tetris.option_enable_background_image_action = function(val)
+Tetris.option_background_action = function(val)
 {
-    Tetris.options.enable_background_image = val
-
-    if(Tetris.options.enable_background_image)
-    {
-        $("#background").css("display", "block")
-    }
-    
-    else
-    {
-        $("#background").css("display", "none")
-    }
-
+    Tetris.options.background = val
+    Tetris.apply_background()
     return true
 }
 

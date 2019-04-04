@@ -5,7 +5,7 @@
         <title>Archon Tetris</title>
         <link rel='shortcut icon' href='img/favicon.png?version=1' type='image/x-icon'>
 
-        <link rel="stylesheet" type="text/css" href="css/style.css?version=20">
+        <link rel="stylesheet" type="text/css" href="css/style.css?version=21">
 
         <script src="js/libs/jquery.min.js?version=1"></script>
         <script src="js/libs/seedrandom.min.js?version=1"></script>
@@ -20,7 +20,7 @@
         <script src="js/main/grid.js?version=1"></script>
         <script src="js/main/keyboard.js?version=10"></script>
         <script src="js/main/local_storage.js?version=1"></script>
-        <script src="js/main/options.js?version=14"></script>
+        <script src="js/main/options.js?version=15"></script>
         <script src="js/main/controls.js?version=5"></script>
         <script src="js/main/textures.js?version=1"></script>
         <script src="js/main/theme.js?version=7"></script>
@@ -127,10 +127,6 @@
                         <input type='checkbox' id='option_enable_ghost' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
                     </div>
                     <div class='options_item'>
-                        <div class='options_label'>Background</div>
-                        <input type='checkbox' id='option_enable_background_image' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
-                    </div>
-                    <div class='options_item'>
                         <div class='options_label'>Rows</div>
                         <input type='number' min="10" id='option_number_of_rows' class='options_widget options_number' data-options-widget-type='number'>
                     </div>
@@ -156,6 +152,19 @@
                             <option value='square'>Square</option>
                             <option value='rounded'>Rounded</option>
                             <option value='circle'>Circle</option>
+                        </select>
+                    </div>
+                    <div class='options_item'>
+                        <div class='options_label'>Background</div>
+                        <select id='option_background' class='options_widget options_select' data-options-widget-type='select'>
+                            <option value='1'>1</option>
+                            <option value='2'>2</option>
+                            <option value='3'>3</option>
+                            <option value='4'>4</option>
+                            <option value='5'>5</option>
+                            <option value='6'>6</option>
+                            <option value='7'>7</option>
+                            <option value='none'>None</option>
                         </select>
                     </div>
                 </div>

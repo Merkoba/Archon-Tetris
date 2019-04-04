@@ -1,8 +1,9 @@
 :root 
 {
-    --texture: url(../img/textures/diagmonds-light.png);
+    --texture: "";
     --piece-background-size: 100% auto, cover;
     --block-shape: 25%;
+    --background: "";
 }
 
 body, html
@@ -45,7 +46,7 @@ body *
     left: 0; right: 0;
     top: 0; bottom: 0;
     margin: auto;
-    background-image: url("../img/bg.gif");
+    background-image: var(--background);
     opacity: 0.025;
     background-size: cover;
     background-repeat: no-repeat;
