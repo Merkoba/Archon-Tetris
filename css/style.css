@@ -257,6 +257,7 @@ body *
     z-index: 999;
     opacity: 1;
     transition: opacity 1000ms;
+    color: white;
 }
 
 #intro_image
