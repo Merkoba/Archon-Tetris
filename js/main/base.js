@@ -628,9 +628,19 @@ Tetris.setup_click_events = function()
         Tetris.reset_controls()
     })
 
+    $("#help_options").click(function()
+    {
+        Tetris.show_options()
+    })
+
     $("#help_controls").click(function()
     {
         Tetris.show_controls()
+    })
+
+    $("#help_theme").click(function()
+    {
+        Tetris.show_theme()
     })
 
     $("#texture_preview_random").click(function()
@@ -664,6 +674,7 @@ Tetris.setup_separators = function()
     Tetris.horizontal_separator = Separator.factory({type:"horizontal"})
     Tetris.horizontal_separator.separate("info")
     Tetris.horizontal_separator.separate("info2")
+    Tetris.horizontal_separator.separate("help_buttons")
 }
 
 Tetris.show_menu = function()

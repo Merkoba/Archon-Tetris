@@ -1387,7 +1387,7 @@ Tetris.check_lines_cleared = function()
             console.info(`${num_cleared} lines cleared`)
         }
 
-        if(num_cleared > 4)
+        if(num_cleared >= Tetris.options.piece_picker_goal)
         {
             if(Tetris.options.piece_picker)
             {
@@ -2075,6 +2075,7 @@ Tetris.show_piece_picker = function()
     }
 
     Tetris.show_piece_picker_wheel_item()
+    $("#piece_picker_title").text(`Choose The Next ${Tetris.options.piece_picker_queue}`)
     $("#piece_picker").css("display", "block")
     Tetris.piece_picker_active = true
 }
@@ -2090,7 +2091,7 @@ Tetris.submit_piece_picker = function()
 {
     let name = Tetris.piece_picker_list[Tetris.current_piece_picker_wheel_item]
     Tetris.queued_piece = name
-    Tetris.queued_left = 4
+    Tetris.queued_left = Tetris.options.piece_picker_queue
     $("#queued_left").text(Tetris.queued_left)
     Tetris.hide_piece_picker()
 }

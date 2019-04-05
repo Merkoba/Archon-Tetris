@@ -5,7 +5,7 @@
         <title>Archon Tetris</title>
         <link rel='shortcut icon' href='img/favicon.png?version=1' type='image/x-icon'>
 
-        <link rel="stylesheet" type="text/css" href="css/style.css?version=25">
+        <link rel="stylesheet" type="text/css" href="css/style.css?version=26">
 
         <script src="js/libs/jquery.min.js?version=1"></script>
         <script src="js/libs/seedrandom.min.js?version=1"></script>
@@ -14,13 +14,13 @@
         <script src="js/libs/separator.js?version=1"></script>
         <script src="js/libs/colorlib.js?version=1"></script>
 
-        <script src="js/main/base.js?version=34"></script>
+        <script src="js/main/base.js?version=35"></script>
         <script src="js/main/utils.js?version=4"></script>
-        <script src="js/main/pieces.js?version=29"></script>
+        <script src="js/main/pieces.js?version=30"></script>
         <script src="js/main/grid.js?version=1"></script>
         <script src="js/main/keyboard.js?version=11"></script>
         <script src="js/main/local_storage.js?version=1"></script>
-        <script src="js/main/options.js?version=21"></script>
+        <script src="js/main/options.js?version=22"></script>
         <script src="js/main/controls.js?version=6"></script>
         <script src="js/main/textures.js?version=1"></script>
         <script src="js/main/theme.js?version=10"></script>
@@ -64,7 +64,7 @@
                     <div id='previews'></div>
                 </div>
                 <div id='piece_picker'>
-                    <div id='piece_picker_title'>Choose The Next Four</div>
+                    <div id='piece_picker_title'></div>
                     <div id='piece_picker_wheel'>
                         <img id='piece_picker_wheel_arrow_left' class='piece_picker_wheel_arrow' src='img/arrow_left.png'>
                         <div id='piece_picker_wheel_content'></div>
@@ -222,6 +222,14 @@
                             <option value='only_big'>Only Big Pieces</option>
                         </select>
                     </div>
+                    <div class='options_item' id='options_item_piece_picker_goal'>
+                        <div class='options_label'>Line Clears To Show Piece Picker</div>
+                        <input type='number' min="1" id='option_piece_picker_goal' class='options_widget options_number' data-options-widget-type='number'>
+                    </div>
+                    <div class='options_item' id='options_item_piece_picker_queue'>
+                        <div class='options_label'>Amount Of Picked Piece To Place</div>
+                        <input type='number' min="1" id='option_piece_picker_queue' class='options_widget options_number' data-options-widget-type='number'>
+                    </div>
                     <div class='options_item'>
                         <div class='options_label'>Big Pieces</div>
                         <input type='checkbox' id='option_big_pieces' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
@@ -327,7 +335,7 @@
     <script id='template_help' type='text/x-handlebars-template' class='template'>
         <div id='help_container'>
             <div class='help_item'>
-                Levels increase every 5 lines cleared. As levels increase, pieces fall faster, but scoring increases.
+                Levels increase by clearing lines. As levels increase, pieces fall faster, but scoring increases.
             </div>
             <div class='help_item'>
                 Clearing a line separates all pieces touching the line into their own block.
@@ -336,16 +344,21 @@
                 Activating a POW on the current piece separates all placed pices into blocks that are independent and loose when the piece is placed. This causes them to fall.
             </div>
             <div class='help_item'>
-                POWs increase every 50 lines cleared.
+                POWs are earned by clearing lines.
             </div>
             <div class='help_item'>
-                Clearing more than 4 lines activates a piece picker to choose the next 4 pieces. This gets triggered on the next piece.
+                Clearing a certain amount of lines activates a piece picker to choose the next type of pieces to place.
             </div>
             <div class='help_item'>
-                Every 50 pieces placed a big piece appears.
+                After a certain amount of pieces are placed, a big piece appears.
             </div>
             <div class='help_item'>
+                Settings are highly configurable. Check Options, Controls, and Theme.
+            </div>
+            <div class='unselectable' id='help_buttons'>
+                <div id='help_options'>Options</div>
                 <div id='help_controls'>Controls</div>
+                <div id='help_theme'>Theme</div>
             </div>
         </div>
     </script>

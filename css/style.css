@@ -481,13 +481,6 @@ body *
     margin-bottom: 0;
 }
 
-#help_controls
-{
-    display: inline-block;
-    cursor: pointer;
-    text-decoration: underline;
-}
-
 .game_box
 {
     position: absolute;
@@ -521,7 +514,7 @@ body *
 {
     margin-bottom: 2rem;
     text-align: center;
-    font-size: 1.7rem;    
+    font-size: 1.4rem;    
 }
 
 #piece_picker_wheel
@@ -722,5 +715,20 @@ option
 
 #paused
 {
+    cursor: pointer;
+}
+
+#help_buttons
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+#help_buttons > div
+{
+    text-decoration: underline;
     cursor: pointer;
 }

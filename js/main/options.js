@@ -175,6 +175,16 @@ Tetris.get_options = function()
         Tetris.options.pow = true
     }
 
+    if(Tetris.options.piece_picker_goal === undefined)
+    {
+        Tetris.options.piece_picker_goal = 5
+    }
+
+    if(Tetris.options.piece_picker_queue === undefined)
+    {
+        Tetris.options.piece_picker_queue = 4
+    }
+
     if(changed)
     {
         Tetris.save_options()
@@ -736,11 +746,15 @@ Tetris.option_piece_picker_action = function(val)
     if(Tetris.options.piece_picker)
     {
         $("#options_item_piece_picker_list").css("display", "block")
+        $("#options_item_piece_picker_goal").css("display", "block")
+        $("#options_item_piece_picker_queue").css("display", "block")
     }
     
     else
     {
         $("#options_item_piece_picker_list").css("display", "none")
+        $("#options_item_piece_picker_goal").css("display", "none")
+        $("#options_item_piece_picker_queue").css("display", "none")
     }
 
     return true
@@ -811,5 +825,31 @@ Tetris.option_pow_action = function(val)
         $("#options_item_pow_goal").css("display", "none")
     }
 
+    return true
+}
+
+Tetris.option_piece_picker_goal_action = function(val)
+{
+    let value = parseInt(val)
+
+    if(value < 1)
+    {
+        return false
+    }
+
+    Tetris.options.piece_picker_goal = value
+    return true
+}
+
+Tetris.option_piece_picker_queue_action = function(val)
+{
+    let value = parseInt(val)
+
+    if(value < 1)
+    {
+        return false
+    }
+
+    Tetris.options.piece_picker_queue = value
     return true
 }
