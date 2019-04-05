@@ -356,7 +356,7 @@ Tetris.hide_intro = function()
 
 Tetris.start_music = function(reset=false)
 {
-    if(!Tetris.options.enable_music)
+    if(!Tetris.options.music)
     {
         return false
     }
@@ -709,7 +709,7 @@ Tetris.set_seed_text = function()
 
 Tetris.play_sound = function(name)
 {
-    if(Tetris.options.enable_sound_effects)
+    if(Tetris.options.sound_effects)
     {
         $(`#sound_${name}`)[0].pause()
         $(`#sound_${name}`)[0].currentTime = 0

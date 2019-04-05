@@ -1308,7 +1308,7 @@ Tetris.do_update_nodes = function(element, mode)
 
 Tetris.update_ghost_piece = function()
 {
-    if(!Tetris.options.enable_ghost)
+    if(!Tetris.options.ghost)
     {
         return false
     }
