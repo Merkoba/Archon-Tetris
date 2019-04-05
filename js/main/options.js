@@ -165,6 +165,11 @@ Tetris.get_options = function()
         Tetris.options.warn_before_closing = false
     }
 
+    if(Tetris.options.piece_picker_list === undefined)
+    {
+        Tetris.options.piece_picker_list = "normal_and_big"
+    }
+
     if(changed)
     {
         Tetris.save_options()
@@ -186,6 +191,8 @@ Tetris.call_initial_option_actions = function()
     Tetris.option_goal_type_action(Tetris.options.goal_type)
     Tetris.option_block_texture_action(Tetris.options.block_texture)
     Tetris.option_block_shape_action(Tetris.options.block_shape)
+    Tetris.option_big_pieces_action(Tetris.options.big_pieces)
+    Tetris.option_piece_picker_action(Tetris.options.piece_picker)
 }
 
 Tetris.prepare_options_widgets = function()
@@ -702,12 +709,34 @@ Tetris.option_independence_action = function(val)
 Tetris.option_big_pieces_action = function(val)
 {
     Tetris.options.big_pieces = val
+
+    if(Tetris.options.big_pieces)
+    {
+        $("#options_item_big_piece_goal").css("display", "block")
+    }
+    
+    else
+    {
+        $("#options_item_big_piece_goal").css("display", "none")
+    }
+
     return true
 }
 
 Tetris.option_piece_picker_action = function(val)
 {
     Tetris.options.piece_picker = val
+
+    if(Tetris.options.piece_picker)
+    {
+        $("#options_item_piece_picker_list").css("display", "block")
+    }
+    
+    else
+    {
+        $("#options_item_piece_picker_list").css("display", "none")
+    }
+
     return true
 }
 
@@ -753,5 +782,11 @@ Tetris.option_big_piece_goal_action = function(val)
 Tetris.option_warn_before_closing_action = function(val)
 {
     Tetris.options.warn_before_closing = val
+    return true
+}
+
+Tetris.option_piece_picker_list_action = function(val)
+{
+    Tetris.options.piece_picker_list = val
     return true
 }

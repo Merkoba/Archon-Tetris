@@ -2059,6 +2059,21 @@ Tetris.stop_descent_timeout = function()
 
 Tetris.show_piece_picker = function()
 {
+    if(Tetris.options.piece_picker_list === "normal_and_big")
+    {
+        Tetris.piece_picker_list = Tetris.full_pieces_list
+    }
+
+    else if(Tetris.options.piece_picker_list === "only_normal")
+    {
+        Tetris.piece_picker_list = Tetris.pieces_list
+    }
+
+    else if(Tetris.options.piece_picker_list === "only_big")
+    {
+        Tetris.piece_picker_list = Tetris.big_pieces_list
+    }
+
     Tetris.show_piece_picker_wheel_item()
     $("#piece_picker").css("display", "block")
     Tetris.piece_picker_active = true
@@ -2073,7 +2088,7 @@ Tetris.hide_piece_picker = function()
 
 Tetris.submit_piece_picker = function()
 {
-    let name = Tetris.full_pieces_list[Tetris.current_piece_picker_wheel_item]
+    let name = Tetris.piece_picker_list[Tetris.current_piece_picker_wheel_item]
     Tetris.queued_piece = name
     Tetris.queued_left = 4
     $("#queued_left").text(Tetris.queued_left)
@@ -2082,7 +2097,12 @@ Tetris.submit_piece_picker = function()
 
 Tetris.show_piece_picker_wheel_item = function()
 {
-    let name = Tetris.full_pieces_list[Tetris.current_piece_picker_wheel_item]
+    if(Tetris.current_piece_picker_wheel_item >= Tetris.piece_picker_list.length)
+    {
+        Tetris.current_piece_picker_wheel_item = 0
+    }
+
+    let name = Tetris.piece_picker_list[Tetris.current_piece_picker_wheel_item]
     let piece = Tetris.pieces[name]
     let item = $(`<div class='piece_picker_wheel_item' id='piece_picker_wheel_${piece.name}'></div>`)
     item.html(piece.element_wheel_preview.clone())
@@ -2093,7 +2113,7 @@ Tetris.show_next_piece_picker_wheel_item = function()
 {
     Tetris.current_piece_picker_wheel_item += 1
 
-    if(Tetris.current_piece_picker_wheel_item > Tetris.full_pieces_list.length - 1)
+    if(Tetris.current_piece_picker_wheel_item > Tetris.piece_picker_list.length - 1)
     {
         Tetris.current_piece_picker_wheel_item = 0
     }
@@ -2107,7 +2127,7 @@ Tetris.show_previous_piece_picker_wheel_item = function()
 
     if(Tetris.current_piece_picker_wheel_item < 0)
     {
-        Tetris.current_piece_picker_wheel_item = Tetris.full_pieces_list.length - 1
+        Tetris.current_piece_picker_wheel_item = Tetris.piece_picker_list.length - 1
     }
 
     Tetris.show_piece_picker_wheel_item()
