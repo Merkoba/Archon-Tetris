@@ -13,23 +13,4 @@
 ## Every 50 pieces placed a big piece appears
 ![](https://i.imgur.com/rm0AyS2.jpg)
 
-
-## Options
-
-- Show/Hide Ghost
-- Enable/Disable Music
-- Enable/Disable Sound Effects
-- Enable/Disable Background
-- Number of Rows
-- Number of Columns
-- Number of Previews
-- Block Size (Pixels)
-- Math Random Seed
-- Goal (Score, Level, Minutes, or None)
-- Descent Multiplier
-- Minimum Descent Delay
-- Soft Drop Delay
-- Block Texture (Almost 400 textures to choose from)
-- Block Shape (Square, Rounded, or Circle)
-
-Plus controls and piece colors can be configured.
+Many options, controls, and piece colors can be configured.
