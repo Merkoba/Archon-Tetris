@@ -26,7 +26,10 @@ Tetris.init = function()
 
     $("#sound_intro")[0].oncanplay = function()
     {
-        $("#sound_intro")[0].play()
+        if(Tetris.options.sound_effects)
+        {
+            $("#sound_intro")[0].play()
+        }
     }
 }
 
@@ -767,7 +770,7 @@ Tetris.charge_pow = function(num_cleared)
     {
         return false
     }
-    
+
     Tetris.pow_charge += num_cleared
 
     let num_pows = Tetris.pow_charge / Tetris.options.pow_goal
