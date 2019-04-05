@@ -601,7 +601,7 @@ body *
 
 .pow_active
 {
-    box-shadow: 0 0 8px #ffffff;
+    box-shadow: 0 0 8px #ffffff !important;
 }
 
 select 
