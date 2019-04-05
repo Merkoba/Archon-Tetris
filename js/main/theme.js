@@ -270,6 +270,16 @@ Tetris.apply_theme = function()
         {
             box-shadow: 0 0 8px ${flash} !important;
         }
+
+        .preview
+        {
+            box-shadow: inset 0 0 2px ${text};
+        }
+
+        #active_piece
+        {
+            box-shadow: inset 0 0 30px ${text};
+        }
     </style>`
 
     $(".appended_theme_style").each(function()
