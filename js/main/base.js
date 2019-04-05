@@ -94,6 +94,7 @@ Tetris.start_game = function(initial=false)
     Tetris.big_piece_charge = 0
     Tetris.current_piece_picker_wheel_item = 0
     Tetris.placed_id = 1
+    Tetris.placed_block_id = 1
     Tetris.placed_element_data = {}
     
     $("#paused").css("display", "none")

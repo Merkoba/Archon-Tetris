@@ -130,6 +130,21 @@ Tetris.get_options = function()
         Tetris.options.block_shape = "rounded"
     }
 
+    if(Tetris.options.independence === undefined)
+    {
+        Tetris.options.independence = true
+    }
+
+    if(Tetris.options.big_pieces === undefined)
+    {
+        Tetris.options.big_pieces = true
+    }
+
+    if(Tetris.options.piece_picker === undefined)
+    {
+        Tetris.options.piece_picker = true
+    }
+
     if(changed)
     {
         Tetris.save_options()
@@ -655,5 +670,23 @@ Tetris.option_block_shape_action = function(val)
 {
     Tetris.options.block_shape = val
     Tetris.apply_block_shape()
+    return true
+}
+
+Tetris.option_independence_action = function(val)
+{
+    Tetris.options.independence = val
+    return true
+}
+
+Tetris.option_big_pieces_action = function(val)
+{
+    Tetris.options.big_pieces = val
+    return true
+}
+
+Tetris.option_piece_picker_action = function(val)
+{
+    Tetris.options.piece_picker = val
     return true
 }

@@ -946,7 +946,7 @@ Tetris.do_on_piece_placed = function(from)
         }
     }
 
-    Tetris.prepare_placed_piece(Tetris.current_element, Tetris.current_mode)
+    Tetris.prepare_placed_piece(Tetris.current_element)
 
     if(Tetris.pow_active)
     {
@@ -969,12 +969,16 @@ Tetris.do_on_piece_placed = function(from)
     }
 
     Tetris.pieces_placed += 1
-    Tetris.big_piece_charge += 1
 
-    if(Tetris.big_piece_charge >= Tetris.big_piece_charge_goal)
+    if(Tetris.options.big_pieces)
     {
-        Tetris.big_piece_next = true
-        Tetris.big_piece_charge = 0
+        Tetris.big_piece_charge += 1
+    
+        if(Tetris.big_piece_charge >= Tetris.big_piece_charge_goal)
+        {
+            Tetris.big_piece_next = true
+            Tetris.big_piece_charge = 0
+        }
     }
 
     if(!Tetris.debug)
@@ -1386,7 +1390,10 @@ Tetris.check_lines_cleared = function()
 
         if(num_cleared > 4)
         {
-            Tetris.show_piece_picker_next = true
+            if(Tetris.options.piece_picker)
+            {
+                Tetris.show_piece_picker_next = true
+            }
         }
         
         let delay = 0
@@ -1458,6 +1465,8 @@ Tetris.do_check_lines_cleared = function(num_cleared=0)
 
 Tetris.clear_line = function(y)
 {
+    let pieces_to_process = {}
+
     for(let x=0; x<Tetris.grid[y].length; x++)
     {
         let block = Tetris.grid[y][x].element
@@ -1471,8 +1480,28 @@ Tetris.clear_line = function(y)
 
         if(container.length > 0)
         {
-            Tetris.separate_blocks(container)
-            block = Tetris.grid[y][x].element
+            if(Tetris.options.independence)
+            {
+                Tetris.separate_blocks(container)
+                block = Tetris.grid[y][x].element
+            }
+
+            else
+            {
+                let id = container.attr("id")
+
+                if(!pieces_to_process[id])
+                {
+                    pieces_to_process[id] = []
+                }
+
+                pieces_to_process[id].push([x, y])
+            }
+        }
+        
+        else
+        {
+            Tetris.placed_element_data[$(block).attr("id")] = undefined
         }
         
         $(block).addClass("cleared_piece")
@@ -1482,8 +1511,12 @@ Tetris.clear_line = function(y)
             $(block).remove()
         }, 250)
         
-        Tetris.placed_element_data[$(block).attr("id")] = undefined
         Tetris.set_grid_node_to_defaults(Tetris.grid[y][x])
+    }
+
+    for(let id in pieces_to_process)
+    {
+        Tetris.remove_blocks_from_piece(id, pieces_to_process[id])
     }
 }
 
@@ -1612,7 +1645,7 @@ Tetris.make_pieces_fall = function(iterations=0)
     return iterations > 0
 }
 
-Tetris.prepare_placed_piece = function(element, mode)
+Tetris.prepare_placed_piece = function(element)
 {
     let id = `placed_${Tetris.placed_id}`
     Tetris.placed_id += 1
@@ -1623,7 +1656,6 @@ Tetris.prepare_placed_piece = function(element, mode)
     
     Tetris.placed_element_data[id] = {}
     let data = Tetris.placed_element_data[id]
-    data.mode = mode
     data.top = element.position().top
     data.left = element.position().left
     
@@ -1631,6 +1663,10 @@ Tetris.prepare_placed_piece = function(element, mode)
     
     element.find(".piece_block").each(function()
     {
+        let id = `placed_block_${Tetris.placed_block_id}`
+        Tetris.placed_block_id += 1
+
+        $(this).attr("id", id)
         $(this).removeClass("pow_active")
         $(this).addClass("placed_block")
         
@@ -1662,41 +1698,46 @@ Tetris.separate_blocks = function(element)
 
     $(element).find(".piece_block").each(function()
     {
-        let id = `placed_${Tetris.placed_id}`
-        Tetris.placed_id += 1
-
-        let position = $(this).position()
-        let piece_element_position = $(this).closest(".piece").position()
-        let top = container_data.top + piece_element_position.top + position.top
-        let left = container_data.left + piece_element_position.left + position.left
-
-        let block = $(this).clone()
-        block.attr("id", id)
-        block.addClass("placed_main")
-        block.addClass("piece_type_independent")
-        block.css('transform', `rotate(${0}deg)`)
-        block.css("top", `${top}px`)
-        block.css("left", `${left}px`)
-        
-        let position2 = {top:Math.round(top), left:Math.round(left)}
-        let node = Tetris.get_node_by_position(position2)
-        let x = node[0]
-        let y = node[1]
-
-        Tetris.placed_element_data[id] = {}
-        let data = Tetris.placed_element_data[id]
-        data.nodes = [node]
-        data.top = top
-        data.left = left
-
-        Tetris.grid[y][x].used = true
-        Tetris.grid[y][x].element = block[0]
-
-        Tetris.game.append(block)
+        Tetris.separate_block(this, container_data)
     })
 
     Tetris.placed_element_data[container_id] = undefined
     $(element).remove()
+}
+
+Tetris.separate_block = function(element, container_data)
+{
+    let id = `placed_${Tetris.placed_id}`
+    Tetris.placed_id += 1
+
+    let position = $(element).position()
+    let piece_element_position = $(element).closest(".piece").position()
+    let top = container_data.top + piece_element_position.top + position.top
+    let left = container_data.left + piece_element_position.left + position.left
+
+    let block = $(element).clone()
+    block.attr("id", id)
+    block.addClass("placed_main")
+    block.addClass("piece_type_independent")
+    block.css('transform', `rotate(${0}deg)`)
+    block.css("top", `${top}px`)
+    block.css("left", `${left}px`)
+        
+    let position2 = {top:Math.round(top), left:Math.round(left)}
+    let node = Tetris.get_node_by_position(position2)
+    let x = node[0]
+    let y = node[1]
+
+    Tetris.placed_element_data[id] = {}
+    let data = Tetris.placed_element_data[id]
+    data.nodes = [node]
+    data.top = top
+    data.left = left
+
+    Tetris.grid[y][x].used = true
+    Tetris.grid[y][x].element = block[0]
+
+    Tetris.game.append(block)
 }
 
 Tetris.separate_all_blocks = function()
@@ -1707,6 +1748,75 @@ Tetris.separate_all_blocks = function()
         {
             Tetris.separate_blocks(this)
         })
+    }
+}
+
+Tetris.remove_blocks_from_piece = function(id, list)
+{
+    let element = $(`#${id}`)
+    let data = Tetris.placed_element_data[id]
+
+    for(let node of list)
+    {
+        let x = node[0]
+        let y = node[1]
+
+        for(let i=0; i<data.nodes.length; i++)
+        {
+            let node = data.nodes[i]
+    
+            if(node[0] === x && node[1] === y)
+            {
+                data.nodes.splice(i, 1)
+                break
+            }
+        }
+    }
+
+    let clusters = Tetris.get_node_clusters(data.nodes)
+
+    if(clusters.length > 1)
+    {
+        for(let cluster of clusters)
+        {
+            let clone = element.clone()
+            
+            clone.find(".piece_block").each(function()
+            {   
+                let remove = true
+
+                for(let node of cluster)
+                {
+                    let x = node[0]
+                    let y = node[1]
+
+                    if(Tetris.grid[y][x].element.id === this.id)
+                    {
+                        Tetris.grid[y][x].element = this
+                        remove = false
+                        break
+                    }
+                }
+
+                if(remove)
+                {
+                    $(this).remove()
+                }
+            })
+
+            let id2 = `placed_${Tetris.placed_id}`
+            Tetris.placed_id += 1
+            Tetris.placed_element_data[id2] = {}
+            let data2 = Tetris.placed_element_data[id2]
+            data2.nodes = cluster
+            data2.top = data.top
+            data2.left = data.left
+            clone.attr("id", id2)
+            Tetris.game.append(clone)
+        }
+
+        Tetris.placed_element_data[id] = undefined
+        element.remove()
     }
 }
 
@@ -2002,4 +2112,145 @@ Tetris.show_previous_piece_picker_wheel_item = function()
     }
 
     Tetris.show_piece_picker_wheel_item()
+}
+
+Tetris.get_exposed_nodes = function(nodes)
+{
+    let exposed = []
+
+    for(let i=0; i<nodes.length; i++)
+    {
+        let x = nodes[i][0]
+        let y = nodes[i][1]
+
+        let add = true
+
+        for(let i2=0; i2<nodes.length; i2++)
+        {
+            if(i === i2)
+            {
+                continue
+            }
+
+            let x2 = nodes[i2][0]
+            let y2 = nodes[i2][1]
+
+            if(x === x2)
+            {
+                if(y > y2)
+                {
+                    add = false
+                    break
+                }
+            }
+        }
+
+        if(add)
+        {
+            exposed.push(nodes[i])
+        }
+    }
+
+    return exposed
+}
+
+Tetris.get_adjacent_nodes = function(nodes)
+{
+    let adjacents = {}
+
+    for(let node of nodes)
+    {
+        let adj = []
+
+        let x = node[0]
+        let y = node[1]
+
+        if(x > 0)
+        {
+            adj.push([x - 1, y])
+        }
+
+        if(x < Tetris.num_horizontal_blocks - 1)
+        {
+            adj.push([x + 1, y])
+        }
+
+        if(y > 0)
+        {
+            adj.push([x, y - 1])
+        }
+
+        if(y < Tetris.num_vertical_blocks - 1)
+        {
+            adj.push([x, y + 1])
+        }
+
+        adjacents[node] = adj
+    }
+
+    return adjacents
+}
+
+Tetris.get_node_clusters = function(nodes)
+{
+    let clusters = []
+    let cluster_firsts = []
+    let adjacents = Tetris.get_adjacent_nodes(nodes)
+
+    for(let node of nodes)
+    {
+        let q = []
+        let seen = []
+    
+        q.push(node.toString())
+        seen.push(node.toString())
+    
+        while(q.length > 0)
+        {
+            let n = q.shift()
+    
+            for(let node of adjacents[n])
+            {
+                let ns = node.toString()
+    
+                if(adjacents[ns] && !seen.includes(ns))
+                {
+                    q.push(ns)
+                    seen.push(ns)
+                }
+            }
+        }
+        
+        if(nodes.length === seen.length)
+        {
+            return [nodes]
+        }
+
+        else
+        {
+            let sorted = seen.sort()
+
+            if(!cluster_firsts.includes(sorted[0]))
+            {
+                clusters.push(sorted)
+                cluster_firsts.push(sorted[0])
+            }
+        }
+    }
+
+    let cluster_arrays = []
+
+    for(let cluster of clusters)
+    {
+        let arr = []
+
+        for(let node of cluster)
+        {
+            arr.push(node.split(",").map(x => parseInt(x)))
+        }
+
+        cluster_arrays.push(arr)
+    }
+
+    return cluster_arrays
 }

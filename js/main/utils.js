@@ -98,46 +98,6 @@ Tetris.rotate_piece_object = function(obj, mode)
     return new_obj
 }
 
-Tetris.get_exposed_nodes = function(nodes)
-{
-    let exposed = []
-
-    for(let i=0; i<nodes.length; i++)
-    {
-        let x = nodes[i][0]
-        let y = nodes[i][1]
-
-        let add = true
-
-        for(let i2=0; i2<nodes.length; i2++)
-        {
-            if(i === i2)
-            {
-                continue
-            }
-
-            let x2 = nodes[i2][0]
-            let y2 = nodes[i2][1]
-
-            if(x === x2)
-            {
-                if(y > y2)
-                {
-                    add = false
-                    break
-                }
-            }
-        }
-
-        if(add)
-        {
-            exposed.push(nodes[i])
-        }
-    }
-
-    return exposed
-}
-
 Tetris.async_timeout = (cb, timeout = 0) => new Promise(resolve => 
 {
     setTimeout(() => 

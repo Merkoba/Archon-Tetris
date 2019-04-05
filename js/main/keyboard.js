@@ -6,6 +6,11 @@ Tetris.start_key_detection = function()
 {
     document.addEventListener('keydown', (e) =>
     {
+        if(e.key === "F1")
+        {
+            e.preventDefault()
+        }
+        
         if(Tetris.piece_picker_active)
         {
             if(e.key === Tetris.controls.piece_picker_next)
@@ -138,12 +143,6 @@ Tetris.start_key_detection = function()
         else if(Tetris.on_intro)
         {
             Tetris.hide_intro()
-        }
-
-        if(e.key === "F1")
-        {
-            e.preventDefault()
-            return false
         }
     })
 
