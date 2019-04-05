@@ -916,7 +916,7 @@ Tetris.start_unload_events = function()
 {
     window.onbeforeunload = function(e)
     {
-        if(Tetris.options.warn_before_closing && Tetris.first_game_started)
+        if(Tetris.options.warn_before_closing && Tetris.game_started)
         {
             return "Are you sure?"
         }
