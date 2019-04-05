@@ -5,7 +5,7 @@
         <title>Archon Tetris</title>
         <link rel='shortcut icon' href='img/favicon.png?version=1' type='image/x-icon'>
 
-        <link rel="stylesheet" type="text/css" href="css/style.css?version=22">
+        <link rel="stylesheet" type="text/css" href="css/style.css?version=23">
 
         <script src="js/libs/jquery.min.js?version=1"></script>
         <script src="js/libs/seedrandom.min.js?version=1"></script>
@@ -23,7 +23,7 @@
         <script src="js/main/options.js?version=20"></script>
         <script src="js/main/controls.js?version=5"></script>
         <script src="js/main/textures.js?version=1"></script>
-        <script src="js/main/theme.js?version=7"></script>
+        <script src="js/main/theme.js?version=8"></script>
 
         <script>
             $(function()
@@ -318,7 +318,7 @@
                 <input type='text' id='control_piece_picker_select' data-category='piece_picker' class='controls_input'>
             </div>
             <div class='controls_item'>
-                <div class='controls_label' id='controls_reset'>Reset</div>
+                <div class='controls_label unselectable' id='controls_reset'>Reset</div>
             </div>
         </div>
     </script>
@@ -419,7 +419,63 @@
                 <div class='theme_element' id='theme_element_independent'></div>
             </div>
             <div class='theme_item'>
-                <div id='theme_reset'>Reset</div>
+                <div class='theme_label'>Gradient</div>
+                <select id='theme_gradient'>
+                    <option value='0'>None</option>
+                    <option value='10'>10%</option>
+                    <option value='20'>20%</option>
+                    <option value='30'>30%</option>
+                    <option value='40'>40%</option>
+                    <option value='50'>50%</option>
+                    <option value='60'>60%</option>
+                    <option value='70'>70%</option>
+                    <option value='80'>80%</option>
+                    <option value='90'>90%</option>
+                    <option value='100'>100%</option>
+                </select>
+            </div>
+            <div class='theme_item'>
+                <div class='theme_label'>Grid</div>
+                <input type='color' class='theme_color' id='theme_color_grid'>
+            </div>
+            <div class='theme_item'>
+                <div class='theme_label'>Grid Transparency</div>
+                <select id='theme_grid_transparency'>
+                    <option value='0'>None</option>
+                    <option value='10'>10%</option>
+                    <option value='20'>20%</option>
+                    <option value='30'>30%</option>
+                    <option value='40'>40%</option>
+                    <option value='50'>50%</option>
+                    <option value='60'>60%</option>
+                    <option value='70'>70%</option>
+                    <option value='80'>80%</option>
+                    <option value='90'>90%</option>
+                    <option value='100'>100%</option>
+                </select>
+            </div>
+            <div class='theme_item'>
+                <div class='theme_label'>Grid Lines Contrast</div>
+                <select id='theme_grid_lines_contrast'>
+                    <option value='0'>None</option>
+                    <option value='10'>10%</option>
+                    <option value='20'>20%</option>
+                    <option value='30'>30%</option>
+                    <option value='40'>40%</option>
+                    <option value='50'>50%</option>
+                    <option value='60'>60%</option>
+                    <option value='70'>70%</option>
+                    <option value='80'>80%</option>
+                    <option value='90'>90%</option>
+                    <option value='100'>100%</option>
+                </select>
+            </div>
+            <div class='theme_item'>
+                <div class='theme_label'>Body</div>
+                <input type='color' class='theme_color' id='theme_color_body'>
+            </div>
+            <div class='theme_item'>
+                <div id='theme_reset' class='unselectable'>Reset</div>
             </div>
         </div>
     </script>

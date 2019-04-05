@@ -8,8 +8,6 @@
 
 body, html
 {
-    color: white;
-    background-color: #1e1e1e;
     margin: 0;
     padding: 0;
     font-size: 18px;
@@ -92,7 +90,6 @@ body *
 #game
 {
     position: relative;
-    background-color: #2f3237b2;
     overflow: hidden;
     transition: background-color 200ms;
 }
@@ -119,7 +116,7 @@ body *
 {
     position: absolute;
     background-color: transparent;
-    box-shadow: inset 0 0 1px #d6d6d631;
+    transition: box-shadow 200ms;
 }
 
 .piece_container
@@ -499,7 +496,6 @@ body *
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: #202020;
     z-index: 999999;
     padding: 1rem;
 }
@@ -599,11 +595,6 @@ body *
     color: #dfdfdf !important;
 }
 
-.pow_active
-{
-    box-shadow: 0 0 8px #ffffff !important;
-}
-
 select 
 {
     text-align: center;
@@ -647,16 +638,6 @@ option
 {
     cursor: pointer;
     display: inline-block;
-}
-
-.game_flash
-{
-    background-color: #ffffff65 !important;
-}
-
-.piece_flash .placed_block
-{
-    box-shadow: 0 0 12px rgba(229, 231, 236, 0.322);
 }
 
 #texture_preview_name
