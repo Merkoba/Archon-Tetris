@@ -14,13 +14,13 @@
         <script src="js/libs/separator.js?version=1"></script>
         <script src="js/libs/colorlib.js?version=1"></script>
 
-        <script src="js/main/base.js?version=28"></script>
+        <script src="js/main/base.js?version=29"></script>
         <script src="js/main/utils.js?version=4"></script>
-        <script src="js/main/pieces.js?version=26"></script>
+        <script src="js/main/pieces.js?version=27"></script>
         <script src="js/main/grid.js?version=1"></script>
         <script src="js/main/keyboard.js?version=11"></script>
         <script src="js/main/local_storage.js?version=1"></script>
-        <script src="js/main/options.js?version=17"></script>
+        <script src="js/main/options.js?version=18"></script>
         <script src="js/main/controls.js?version=5"></script>
         <script src="js/main/textures.js?version=1"></script>
         <script src="js/main/theme.js?version=7"></script>
@@ -118,6 +118,7 @@
                 <div class='options_category_item' id='options_category_item_audio'>Audio</div>
                 <div class='options_category_item' id='options_category_item_tweaks'>Tweaks</div>
                 <div class='options_category_item' id='options_category_item_goal'>Goal</div>
+                <div class='options_category_item' id='options_category_item_other'>Other</div>
                 <div id="options_reset_button" class='action'>Reset</div>
             </div>
             <div id='options_content'>
@@ -216,6 +217,18 @@
                         <div class='options_label'>Piece Picker</div>
                         <input type='checkbox' id='option_piece_picker' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
                     </div>
+                    <div class='options_item'>
+                        <div class='options_label'>Line Clears To Level Up</div>
+                        <input type='number' min="1" id='option_level_goal' class='options_widget options_number' data-options-widget-type='number'>
+                    </div>
+                    <div class='options_item'>
+                        <div class='options_label'>Line Clears To Earn POW</div>
+                        <input type='number' min="1" id='option_pow_goal' class='options_widget options_number' data-options-widget-type='number'>
+                    </div>
+                    <div class='options_item'>
+                        <div class='options_label'>Pieces Before Big Piece</div>
+                        <input type='number' min="1" id='option_big_piece_goal' class='options_widget options_number' data-options-widget-type='number'>
+                    </div>
                 </div>
                 <div id='options_category_goal' class='options_category'>
                     <div class='options_item'>
@@ -230,6 +243,12 @@
                     <div class='options_item' id='options_item_goal'>
                         <div class='options_label'>Goal</div>
                         <input type='number' min="1" id='option_goal' class='options_widget options_number_big' data-options-widget-type='text'>
+                    </div>
+                </div>
+                <div id='options_category_other' class='options_category'>
+                    <div class='options_item'>
+                        <div class='options_label'>Warn Before Closing</div>
+                        <input type='checkbox' id='option_warn_before_closing' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
                     </div>
                 </div>
             </div>

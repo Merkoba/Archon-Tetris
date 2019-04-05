@@ -145,6 +145,26 @@ Tetris.get_options = function()
         Tetris.options.piece_picker = true
     }
 
+    if(Tetris.options.level_goal === undefined)
+    {
+        Tetris.options.level_goal = 5
+    }
+
+    if(Tetris.options.pow_goal === undefined)
+    {
+        Tetris.options.pow_goal = 50
+    }
+
+    if(Tetris.options.big_piece_goal === undefined)
+    {
+        Tetris.options.big_piece_goal = 50
+    }
+
+    if(Tetris.options.warn_before_closing === undefined)
+    {
+        Tetris.options.warn_before_closing = false
+    }
+
     if(changed)
     {
         Tetris.save_options()
@@ -688,5 +708,50 @@ Tetris.option_big_pieces_action = function(val)
 Tetris.option_piece_picker_action = function(val)
 {
     Tetris.options.piece_picker = val
+    return true
+}
+
+Tetris.option_level_goal_action = function(val)
+{
+    let value = parseInt(val)
+
+    if(value < 1)
+    {
+        return false
+    }
+
+    Tetris.options.level_goal = value
+    return true
+}
+
+Tetris.option_pow_goal_action = function(val)
+{
+    let value = parseInt(val)
+
+    if(value < 1)
+    {
+        return false
+    }
+
+    Tetris.options.pow_goal = value
+    return true
+}
+
+Tetris.option_big_piece_goal_action = function(val)
+{
+    let value = parseInt(val)
+
+    if(value < 1)
+    {
+        return false
+    }
+
+    Tetris.options.big_piece_goal = value
+    return true
+}
+
+Tetris.option_warn_before_closing_action = function(val)
+{
+    Tetris.options.warn_before_closing = val
     return true
 }

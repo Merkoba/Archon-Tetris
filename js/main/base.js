@@ -2,8 +2,6 @@ const Tetris = {}
 
 Tetris.debug = false
 Tetris.ls_first_time = "ls_first_time"
-Tetris.level_charge_goal = 5
-Tetris.pow_charge_goal = 50
 
 Tetris.init = function()
 {
@@ -21,6 +19,7 @@ Tetris.init = function()
     Tetris.setup_theme()
     Tetris.start_hide_intro_timeout()
     Tetris.start_visibility_listeners()
+    Tetris.start_unload_events()
     Tetris.on_intro = true
     Tetris.first_game_started = false
     Tetris.current_texture_preview = 0
@@ -719,7 +718,7 @@ Tetris.charge_level = function(num_cleared)
 {
     Tetris.level_charge += num_cleared
 
-    let num_levels = Tetris.level_charge / Tetris.level_charge_goal
+    let num_levels = Tetris.level_charge / Tetris.options.level_goal
     let num_levels_split = num_levels.toString().split(".")
     let whole, decimals
 
@@ -742,7 +741,7 @@ Tetris.charge_level = function(num_cleared)
         
         if(decimals)
         {
-            Tetris.level_charge = (decimals / 100) * Tetris.level_charge_goal
+            Tetris.level_charge = (decimals / 100) * Tetris.options.level_goal
         }
         
         else
@@ -766,7 +765,7 @@ Tetris.charge_pow = function(num_cleared)
 {
     Tetris.pow_charge += num_cleared
 
-    let num_pows = Tetris.pow_charge / Tetris.pow_charge_goal
+    let num_pows = Tetris.pow_charge / Tetris.options.pow_goal
     let num_pows_split = num_pows.toString().split(".")
     let whole, decimals
 
@@ -791,7 +790,7 @@ Tetris.charge_pow = function(num_cleared)
         
         if(decimals)
         {
-            Tetris.pow_charge = (decimals / 100) * Tetris.pow_charge_goal
+            Tetris.pow_charge = (decimals / 100) * Tetris.options.pow_goal
         }
         
         else
@@ -911,4 +910,15 @@ Tetris.set_speed_text = function()
     let percentage = (Tetris.initial_descent_delay - delay) / ((Tetris.initial_descent_delay - Tetris.options.min_descent_delay) / 100)
     let s = `Speed: ${Tetris.round(percentage, 0)}%`
     $("#speed_text").text(s)
+}
+
+Tetris.start_unload_events = function()
+{
+    window.onbeforeunload = function(e)
+    {
+        if(Tetris.options.warn_before_closing && Tetris.first_game_started)
+        {
+            return "Are you sure?"
+        }
+    }
 }
