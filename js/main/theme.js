@@ -172,9 +172,9 @@ Tetris.prepare_theme_inputs = function()
     })
 }
 
-Tetris.reset_theme = function()
+Tetris.reset_theme = function(force=false)
 {
-    if(confirm("Are you sure you want to reset the theme to default?"))
+    if(force || confirm("Are you sure you want to reset the theme to default?"))
     {
         Tetris.remove_local_storage(Tetris.ls_theme)
         Tetris.get_theme()

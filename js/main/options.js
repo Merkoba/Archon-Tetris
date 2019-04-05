@@ -1,9 +1,9 @@
 Tetris.ls_options = "ls_options_version_1"
 Tetris.previous_block_textures = []
 
-Tetris.reset_options = function()
+Tetris.reset_options = function(force=false)
 {
-    if(confirm("Are you sure you want to reset options to default?"))
+    if(force || confirm("Are you sure you want to reset options to default?"))
     {
         Tetris.remove_local_storage(Tetris.ls_options)
         Tetris.get_options()

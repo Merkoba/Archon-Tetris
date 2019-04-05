@@ -172,9 +172,9 @@ Tetris.prepare_control_inputs = function()
     })
 }
 
-Tetris.reset_controls = function()
+Tetris.reset_controls = function(force=false)
 {
-    if(confirm("Are you sure you want to reset controls to default?"))
+    if(force || confirm("Are you sure you want to reset controls to default?"))
     {
         Tetris.remove_local_storage(Tetris.ls_controls)
         Tetris.get_controls()

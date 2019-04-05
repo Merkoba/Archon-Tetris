@@ -603,6 +603,11 @@ Tetris.setup_click_events = function()
         Tetris.msg_game_over.show()
     })
 
+    $("#menu_reset").click(function()
+    {
+        Tetris.reset_all()
+    })
+
     $("#game_over_play_again").click(function()
     {
         Tetris.start_game()
@@ -928,5 +933,15 @@ Tetris.start_unload_events = function()
         {
             return "Are you sure?"
         }
+    }
+}
+
+Tetris.reset_all = function()
+{
+    if(confirm("Reset Options, Controls, and Theme?"))
+    {
+        Tetris.reset_options(true)
+        Tetris.reset_controls(true)
+        Tetris.reset_theme(true)
     }
 }
