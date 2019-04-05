@@ -763,6 +763,11 @@ Tetris.charge_level = function(num_cleared)
 
 Tetris.charge_pow = function(num_cleared)
 {
+    if(!Tetris.options.pow)
+    {
+        return false
+    }
+    
     Tetris.pow_charge += num_cleared
 
     let num_pows = Tetris.pow_charge / Tetris.options.pow_goal

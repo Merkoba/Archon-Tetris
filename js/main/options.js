@@ -28,21 +28,21 @@ Tetris.get_options = function()
         Tetris.options = {}
     }
 
-    if(Tetris.options.enable_ghost === undefined)
+    if(Tetris.options.ghost === undefined)
     {
-        Tetris.options.enable_ghost = true
+        Tetris.options.ghost = true
         changed = true
     }
 
-    if(Tetris.options.enable_music === undefined)
+    if(Tetris.options.music === undefined)
     {
-        Tetris.options.enable_music = true
+        Tetris.options.music = true
         changed = true
     }
 
-    if(Tetris.options.enable_sound_effects === undefined)
+    if(Tetris.options.sound_effects === undefined)
     {
-        Tetris.options.enable_sound_effects = true
+        Tetris.options.sound_effects = true
         changed = true
     }
 
@@ -170,6 +170,11 @@ Tetris.get_options = function()
         Tetris.options.piece_picker_list = "normal_and_big"
     }
 
+    if(Tetris.options.pow === undefined)
+    {
+        Tetris.options.pow = true
+    }
+
     if(changed)
     {
         Tetris.save_options()
@@ -193,6 +198,7 @@ Tetris.call_initial_option_actions = function()
     Tetris.option_block_shape_action(Tetris.options.block_shape)
     Tetris.option_big_pieces_action(Tetris.options.big_pieces)
     Tetris.option_piece_picker_action(Tetris.options.piece_picker)
+    Tetris.option_pow_action(Tetris.options.pow)
 }
 
 Tetris.prepare_options_widgets = function()
@@ -486,11 +492,11 @@ Tetris.set_previous_block_texture = function()
     $("#option_block_texture").change()
 }
 
-Tetris.option_enable_ghost_action = function(val)
+Tetris.option_ghost_action = function(val)
 {
-    Tetris.options.enable_ghost = val
+    Tetris.options.ghost = val
 
-    if(Tetris.options.enable_ghost)
+    if(Tetris.options.ghost)
     {
         Tetris.show_ghost()
     }
@@ -503,15 +509,15 @@ Tetris.option_enable_ghost_action = function(val)
     return true
 }
 
-Tetris.option_enable_music_action = function(val)
+Tetris.option_music_action = function(val)
 {
-    Tetris.options.enable_music = val
+    Tetris.options.music = val
     return true
 }
 
-Tetris.option_enable_sound_effects_action = function(val)
+Tetris.option_sound_effects_action = function(val)
 {
-    Tetris.options.enable_sound_effects = val
+    Tetris.options.sound_effects = val
     return true
 }
 
@@ -788,5 +794,22 @@ Tetris.option_warn_before_closing_action = function(val)
 Tetris.option_piece_picker_list_action = function(val)
 {
     Tetris.options.piece_picker_list = val
+    return true
+}
+
+Tetris.option_pow_action = function(val)
+{
+    Tetris.options.pow = val
+
+    if(Tetris.options.pow)
+    {
+        $("#options_item_pow_goal").css("display", "block")
+    }
+    
+    else
+    {
+        $("#options_item_pow_goal").css("display", "none")
+    }
+
     return true
 }
