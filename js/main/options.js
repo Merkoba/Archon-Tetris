@@ -185,6 +185,11 @@ Tetris.get_options = function()
         Tetris.options.piece_picker_queue = 4
     }
 
+    if(Tetris.options.hold === undefined)
+    {
+        Tetris.options.hold = true
+    }
+
     if(changed)
     {
         Tetris.save_options()
@@ -209,6 +214,7 @@ Tetris.call_initial_option_actions = function()
     Tetris.option_big_pieces_action(Tetris.options.big_pieces)
     Tetris.option_piece_picker_action(Tetris.options.piece_picker)
     Tetris.option_pow_action(Tetris.options.pow)
+    Tetris.option_hold_action(Tetris.options.hold)
 }
 
 Tetris.prepare_options_widgets = function()
@@ -851,5 +857,22 @@ Tetris.option_piece_picker_queue_action = function(val)
     }
 
     Tetris.options.piece_picker_queue = value
+    return true
+}
+
+Tetris.option_hold_action = function(val)
+{
+    Tetris.options.hold = val
+
+    if(Tetris.options.hold)
+    {
+        $("#sidebar_left").css("display", "flex")
+    }
+    
+    else
+    {
+        $("#sidebar_left").css("display", "none")
+    }
+
     return true
 }

@@ -2308,7 +2308,7 @@ Tetris.get_node_clusters = function(nodes)
 
 Tetris.do_hold_piece = function()
 {
-    if(!Tetris.piece_active || Tetris.piece_held)
+    if(!Tetris.options.hold || !Tetris.piece_active || Tetris.piece_held)
     {
         return false
     }
