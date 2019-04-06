@@ -417,7 +417,8 @@ Tetris.start_windows = function()
     {
         enable_titlebar: true,
         center_titlebar: true,
-        window_inner_x_class: "!titlebar_inner_x"
+        window_inner_x_class: "!titlebar_inner_x",
+        titlebar_class: "!unselectable"
     }
 
     Tetris.msg_menu = Msg.factory
