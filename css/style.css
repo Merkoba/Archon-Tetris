@@ -735,3 +735,8 @@ option
     text-decoration: underline;
     cursor: pointer;
 }
+
+.no_cursor
+{
+    cursor: none !important;
+}

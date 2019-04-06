@@ -20,6 +20,7 @@ Tetris.init = function()
     Tetris.start_hide_intro_timeout()
     Tetris.start_visibility_listeners()
     Tetris.start_unload_events()
+    Tetris.start_cursor_events()
     Tetris.on_intro = true
     Tetris.first_game_started = false
     Tetris.current_texture_preview = 0
@@ -395,6 +396,7 @@ Tetris.start_windows = function()
         before_show: function()
         {
             Tetris.pause_game()
+            Tetris.show_mouse_cursor()
         },
         after_show: function()
         {
@@ -406,6 +408,7 @@ Tetris.start_windows = function()
             {
                 Tetris.modal_open = false
                 Tetris.unpause_game()
+                Tetris.start_hide_mouse_cursor_timeout()
             }
         }
     }
@@ -959,4 +962,36 @@ Tetris.reset_all = function()
         Tetris.reset_theme(true)
         Tetris.check_initial_options()
     }
+}
+
+Tetris.start_cursor_events = function()
+{
+    window.onmousemove = function()
+    {
+        Tetris.show_mouse_cursor()
+        
+        if(!Tetris.modal_open)
+        {
+            Tetris.start_hide_mouse_cursor_timeout()
+        }
+    }
+}
+
+Tetris.show_mouse_cursor = function()
+{
+    clearTimeout(Tetris.hide_cursor_timeout)
+    $("body").removeClass("no_cursor")
+}
+
+Tetris.hide_mouse_cursor = function()
+{
+    $("body").addClass("no_cursor")
+}
+
+Tetris.start_hide_mouse_cursor_timeout = function()
+{
+    Tetris.hide_cursor_timeout = setTimeout(function()
+    {
+        Tetris.hide_mouse_cursor()
+    }, 1000)
 }
