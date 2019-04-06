@@ -175,14 +175,12 @@ Tetris.nice_time = function(date1, date2)
     return nt
 }
 
-Tetris.get_full_decimal = function(n)
+Tetris.get_full_decimal = function(s)
 {
-    let s = n.toString()
-
-    if(!s.startsWith("0") && s.length === 1)
+    if(s.startsWith("0") || s.length > 1)
     {
-        return parseInt(`${s}0`)
+        return parseInt(s.substring(0, 2))
     }
 
-    return n
+    return parseInt(`${s}0`)
 }

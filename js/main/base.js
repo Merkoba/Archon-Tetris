@@ -746,7 +746,7 @@ Tetris.charge_level = function(num_cleared)
     if(num_levels_split.length > 1)
     {
         whole = parseInt(num_levels_split[0])
-        decimals = Tetris.get_full_decimal(parseInt(num_levels_split[1]))
+        decimals = Tetris.get_full_decimal(num_levels_split[1])
     }
 
     else
@@ -798,7 +798,7 @@ Tetris.charge_pow = function(num_cleared)
     if(num_pows_split.length > 1)
     {
         whole = parseInt(num_pows_split[0])
-        decimals = Tetris.get_full_decimal(parseInt(num_pows_split[1]))
+        decimals = Tetris.get_full_decimal(num_pows_split[1])
     }
 
     else
