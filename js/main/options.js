@@ -347,8 +347,11 @@ Tetris.on_options_close = function()
         return false
     }
 
-    let restart_required = false
+    Tetris.check_initial_options()
+}
 
+Tetris.check_initial_options = function()
+{
     if
     (
         Tetris.original_number_of_rows !== Tetris.options.number_of_rows ||
@@ -357,12 +360,7 @@ Tetris.on_options_close = function()
         Tetris.original_seed !== Tetris.options.seed
     )
     {
-        restart_required = true
-    }
-
-    if(restart_required)
-    {
-        if(confirm("To apply these settings the game must be restarted. Restart now?"))
+        if(confirm("To apply these options the game must be restarted. Restart now?"))
         {
             Tetris.start_game()
         }

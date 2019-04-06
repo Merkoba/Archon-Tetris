@@ -956,5 +956,6 @@ Tetris.reset_all = function()
         Tetris.reset_options(true)
         Tetris.reset_controls(true)
         Tetris.reset_theme(true)
+        Tetris.check_initial_options()
     }
 }
