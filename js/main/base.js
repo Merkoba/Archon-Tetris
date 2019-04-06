@@ -99,6 +99,7 @@ Tetris.start_game = function(initial=false)
     Tetris.placed_id = 1
     Tetris.placed_block_id = 1
     Tetris.placed_element_data = {}
+    Tetris.hold_piece = false
     
     $("#paused").css("display", "none")
     $("#queued_left").text("")

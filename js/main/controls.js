@@ -76,12 +76,6 @@ Tetris.get_controls = function()
         changed = true
     }
 
-    if(Tetris.controls.restart_game === undefined)
-    {
-        Tetris.controls.restart_game = "Backspace"
-        changed = true
-    }
-
     if(Tetris.controls.piece_picker_next === undefined)
     {
         Tetris.controls.piece_picker_next = "ArrowRight"
@@ -97,6 +91,12 @@ Tetris.get_controls = function()
     if(Tetris.controls.piece_picker_select === undefined)
     {
         Tetris.controls.piece_picker_select = "Enter"
+        changed = true
+    }
+
+    if(Tetris.controls.hold === undefined)
+    {
+        Tetris.controls.hold = "Backspace"
         changed = true
     }
 

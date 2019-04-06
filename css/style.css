@@ -68,10 +68,10 @@ body *
     height: fit-content;
     grid-template-rows: 0fr 0fr 0fr;
     grid-template-areas:
-        "... topbar ... ..."
-        "main main main sidebar"
-            "main main main ..."
-            "main main main ...";
+        "... ... topbar ... ..."
+        "sidebar_left main main main sidebar_right"
+            "... main main main ..."
+            "... main main main ...";
     justify-items: center;
     height: 100%;
 }
@@ -94,14 +94,24 @@ body *
     transition: background-color 200ms;
 }
 
-#sidebar
+#sidebar_left
 {
-    margin-left: 0.5rem;
-    grid-area: sidebar;
+    margin-right: 0.5rem;
+    grid-area: sidebar_left;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+}
+
+#sidebar_right
+{
+    margin-left: 0.5rem;
+    grid-area: sidebar_right;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 #topbar
@@ -185,7 +195,7 @@ body *
     margin-bottom: 0.8rem;
 }
 
-.preview, #active_piece
+.preview, #active_piece, #hold_piece
 {
     width: 100px;
     height: 100px;

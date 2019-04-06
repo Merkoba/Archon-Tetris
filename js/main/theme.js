@@ -271,7 +271,7 @@ Tetris.apply_theme = function()
             box-shadow: 0 0 8px ${flash} !important;
         }
 
-        .preview
+        .preview, #hold_piece
         {
             box-shadow: inset 0 0 2px ${text};
         }

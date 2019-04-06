@@ -671,7 +671,7 @@ Tetris.get_random_big_piece = function()
     return name
 }
 
-Tetris.place_next_piece = function(piece_name=false)
+Tetris.place_next_piece = function(piece_name=false, held=false)
 {
     if(!Tetris.game_started)
     {
@@ -687,7 +687,12 @@ Tetris.place_next_piece = function(piece_name=false)
 
     let piece
 
-    if(Tetris.debug_queue.length > 0)
+    if(piece_name)
+    {
+        piece = Tetris.pieces[piece_name]
+    }
+
+    else if(Tetris.debug_queue.length > 0)
     {
         piece = Tetris.pieces[Tetris.debug_queue.shift()]
     }
@@ -714,7 +719,7 @@ Tetris.place_next_piece = function(piece_name=false)
         piece = Tetris.pieces[Tetris.get_random_big_piece()]
     }
 
-    else if(!piece_name)
+    else
     {
         if(Tetris.previews.length > 0)
         {
@@ -725,11 +730,6 @@ Tetris.place_next_piece = function(piece_name=false)
         {
             piece = Tetris.pieces[Tetris.get_random_piece()]
         }
-    }
-
-    else
-    {
-        piece = Tetris.pieces[piece_name]
     }
 
     // piece = Tetris.pieces["stick"]
@@ -761,6 +761,7 @@ Tetris.place_next_piece = function(piece_name=false)
     Tetris.piece_active = true
     Tetris.piece_getting_locked = false
     Tetris.doing_soft_drop = false
+    Tetris.piece_held = held
 
     Tetris.update_piece_nodes()
     Tetris.check_piece_bag()
@@ -1061,7 +1062,7 @@ Tetris.move_down = function(from="generic")
             Tetris.add_score(2)
         }
         
-        else
+        else if(from !== "hold")
         {
             Tetris.add_score(1)
         }
@@ -2174,6 +2175,36 @@ Tetris.get_exposed_nodes = function(nodes)
     return exposed
 }
 
+Tetris.get_top_y = function(nodes)
+{
+    let top = 0
+
+    for(let node of nodes)
+    {
+        if(node[1] > top)
+        {
+            top = node[1]
+        }
+    }
+
+    return top
+}
+
+Tetris.get_left_x = function(nodes)
+{
+    let left = Tetris.num_horizontal_blocks
+
+    for(let node of nodes)
+    {
+        if(node[0] < left)
+        {
+            left = node[0]
+        }
+    }
+
+    return left
+}
+
 Tetris.get_adjacent_nodes = function(nodes)
 {
     let adjacents = {}
@@ -2273,4 +2304,68 @@ Tetris.get_node_clusters = function(nodes)
     }
 
     return cluster_arrays
+}
+
+Tetris.do_hold_piece = function()
+{
+    if(!Tetris.piece_active || Tetris.piece_held)
+    {
+        return false
+    }
+
+    let element = Tetris.current_piece.element_preview.clone()
+    let top_y = Tetris.get_top_y(Tetris.current_nodes)
+    let left_x = Tetris.get_left_x(Tetris.current_nodes)
+
+    Tetris.current_element.remove()
+    $("#hold_piece_element").html(element)
+    let name = Tetris.hold_piece.name
+    Tetris.hold_piece = Tetris.current_piece
+
+    if(Tetris.hold_piece)
+    {
+        Tetris.place_next_piece(name, true)
+    }
+    
+    else
+    {
+        Tetris.place_next_piece(false, true)
+    }
+    
+    for(let i=0; i<Tetris.grid.length * 2; i++)
+    {
+        let top_y_2 = Tetris.get_top_y(Tetris.current_nodes)
+
+        if(top_y_2 <= top_y)
+        {
+            break
+        }
+
+        if(Tetris.move_down("hold"))
+        {
+            break
+        }
+    }
+    
+    for(let i=0; i<Tetris.num_horizontal_blocks; i++)
+    {
+        let left_x_2 = Tetris.get_left_x(Tetris.current_nodes)
+
+        if(left_x_2 === left_x)
+        {
+            break
+        }
+
+        else if(left_x_2 > left_x)
+        {
+            Tetris.move_sideways("left", false)
+        }
+
+        else if(left_x_2 < left_x)
+        {
+            Tetris.move_sideways("right", false)
+        }
+    }
+
+    Tetris.play_sound("hold")
 }

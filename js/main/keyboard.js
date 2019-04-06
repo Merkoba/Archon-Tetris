@@ -102,6 +102,13 @@ Tetris.start_key_detection = function()
                     e.preventDefault()
                     return false
                 }
+
+                else if(e.key === Tetris.controls.hold)
+                {
+                    Tetris.do_hold_piece()
+                    e.preventDefault()
+                    return false
+                }
             }
         }
 
@@ -110,16 +117,6 @@ Tetris.start_key_detection = function()
             if(e.key === "Enter")
             {
                 Tetris.conditional_start_game()
-            }
-        }
-
-        if(!Tetris.modal_open)
-        {
-            if(e.key === Tetris.controls.restart_game)
-            {
-                Tetris.conditional_start_game()
-                e.preventDefault()
-                return false
             }
         }
 

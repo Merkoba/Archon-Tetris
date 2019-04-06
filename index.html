@@ -5,7 +5,7 @@
         <title>Archon Tetris</title>
         <link rel='shortcut icon' href='img/favicon.png?version=1' type='image/x-icon'>
 
-        <link rel="stylesheet" type="text/css" href="css/style.css?version=27">
+        <link rel="stylesheet" type="text/css" href="css/style.css?version=28">
 
         <script src="js/libs/jquery.min.js?version=1"></script>
         <script src="js/libs/seedrandom.min.js?version=1"></script>
@@ -14,16 +14,16 @@
         <script src="js/libs/separator.js?version=1"></script>
         <script src="js/libs/colorlib.js?version=1"></script>
 
-        <script src="js/main/base.js?version=36"></script>
+        <script src="js/main/base.js?version=37"></script>
         <script src="js/main/utils.js?version=4"></script>
-        <script src="js/main/pieces.js?version=30"></script>
+        <script src="js/main/pieces.js?version=31"></script>
         <script src="js/main/grid.js?version=1"></script>
-        <script src="js/main/keyboard.js?version=11"></script>
+        <script src="js/main/keyboard.js?version=12"></script>
         <script src="js/main/local_storage.js?version=1"></script>
         <script src="js/main/options.js?version=22"></script>
-        <script src="js/main/controls.js?version=6"></script>
+        <script src="js/main/controls.js?version=7"></script>
         <script src="js/main/textures.js?version=1"></script>
-        <script src="js/main/theme.js?version=10"></script>
+        <script src="js/main/theme.js?version=11"></script>
 
         <script>
             $(function()
@@ -56,7 +56,13 @@
                     <div id='countdown' class='game_box unselectable'>3</div>
                     <div id='paused' class='game_box unselectable'>Paused</div>
                 </div>
-                <div id='sidebar'>
+                <div id='sidebar_left'>
+                    <div id='hold_piece'>
+                        <div id='hold_piece_element'></div>
+                    </div>
+                    <div id='hold_piece_info' class='unselectable'>Hold</div>
+                </div>
+                <div id='sidebar_right'>
                     <div id='active_piece'>
                         <div id='active_piece_element'></div>
                         <div id='queued_left'></div>
@@ -98,6 +104,7 @@
         <audio preload id='sound_locked' src='audio/locked.mp3?version=2'></audio>
         <audio preload id='sound_woosh' src='audio/woosh.mp3?version=4'></audio>
         <audio preload id='sound_pow_loaded' src='audio/pow_loaded.mp3?version=4'></audio>
+        <audio preload id='sound_hold' src='audio/hold.mp3?version=2'></audio>
     </body>
 
     <script id='template_menu' type='text/x-handlebars-template' class='template'>
@@ -311,8 +318,8 @@
                 <input type='text' id='control_activate_pow' data-category='game' class='controls_input'>
             </div>
             <div class='controls_item'>
-                <div class='controls_label'>Restart Game</div>
-                <input type='text' id='control_restart_game' data-category='game' class='controls_input'>
+                <div class='controls_label'>Hold</div>
+                <input type='text' id='control_hold' data-category='game' class='controls_input'>
             </div>
             <div class='controls_item'>
                 <div class='controls_label'>Piece Picker: Next</div>
