@@ -1,5 +1,5 @@
 ## Tetris clone with some original gimmicks
-![](https://i.imgur.com/sx7NOxw.jpg)
+![](https://i.imgur.com/Y58DfBP.jpg)
 
 ## Game ends when part of a placed piece is above the top
 ![](https://i.imgur.com/oVqs0Ze.jpg)
@@ -13,4 +13,7 @@
 ## Every 50 pieces placed a big piece appears
 ![](https://i.imgur.com/rm0AyS2.jpg)
 
-Many options, controls, and piece colors can be configured.
+## Hold ability
+![](https://i.imgur.com/mPtrgdv.jpg)
+
+Many options, controls, and colors can be configured.
