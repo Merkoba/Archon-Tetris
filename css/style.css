@@ -362,7 +362,7 @@ body *
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    height: 26rem;
+    height: 30rem;
     overflow: hidden;
 }
 
@@ -379,7 +379,7 @@ body *
 #options_content
 {
     height: 100%;
-    width: 24rem;
+    width: 26rem;
     overflow: auto;
     display: flex;
     align-items: center;

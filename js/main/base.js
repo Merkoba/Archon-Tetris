@@ -448,9 +448,9 @@ Tetris.start_windows = function()
             titlebar,
             {
                 id: "options",
-                window_height: "30rem",
-                window_min_height: "30rem",
-                window_max_height: "30rem",
+                window_height: "35rem",
+                window_min_height: "35rem",
+                window_max_height: "35rem",
                 after_close: function()
                 {
                     Tetris.on_options_close()
