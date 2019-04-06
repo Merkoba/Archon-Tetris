@@ -115,6 +115,12 @@ Tetris.get_theme = function()
         changed = true
     }
 
+    if(Tetris.theme.background_transparency === undefined)
+    {
+        Tetris.theme.background_transparency = "big"
+        changed = true
+    }
+
     if(changed)
     {
         Tetris.save_theme()
@@ -144,6 +150,7 @@ Tetris.fill_theme_inputs = function()
     $("#theme_grid_transparency").val(Tetris.theme.grid_transparency)
     $("#theme_grid_lines_contrast").val(Tetris.theme.grid_lines_contrast)
     $("#theme_ghost_transparency").val(Tetris.theme.ghost_transparency)
+    $("#theme_background_transparency").val(Tetris.theme.background_transparency)
 }
 
 Tetris.prepare_theme_inputs = function()
@@ -184,6 +191,13 @@ Tetris.prepare_theme_inputs = function()
         Tetris.apply_theme()
         Tetris.save_theme()
     })
+
+    $("#theme_background_transparency").on("change", function()
+    {
+        Tetris.theme.background_transparency = $(this).find('option:selected').val()
+        Tetris.apply_theme()
+        Tetris.save_theme()
+    })
 }
 
 Tetris.reset_theme = function(force=false)
@@ -206,9 +220,32 @@ Tetris.apply_theme = function()
     let block = Tetris.colorlib.get_lighter_or_darker(grid, Tetris.theme.grid_lines_contrast / 100)
     let block_2 = Tetris.colorlib.rgb_to_rgba(block, opacity)
     let flash = Tetris.colorlib.get_lighter_or_darker(grid, 0.8)
+    let flash_2 = Tetris.colorlib.rgb_to_rgba(flash, 0.4)
     let body = Tetris.colorlib.array_to_rgb(Tetris.colorlib.hex_to_rgb(Tetris.theme.body))
     let text = Tetris.colorlib.get_lighter_or_darker(body, 0.9)
     let ghost_transparency = (100 - Tetris.theme.ghost_transparency) / 100
+    
+    let background_transparency
+
+    if(Tetris.theme.background_transparency === "none")
+    {
+        background_transparency = 1
+    }
+
+    else if(Tetris.theme.background_transparency === "small")
+    {
+        background_transparency = 0.5
+    }
+
+    else if(Tetris.theme.background_transparency === "big")
+    {
+        background_transparency = 0.025
+    }
+
+    else if(Tetris.theme.background_transparency === "full")
+    {
+        background_transparency = 0
+    }
 
     for(let key in Tetris.theme)
     {
@@ -268,12 +305,12 @@ Tetris.apply_theme = function()
         
         .game_flash
         {
-            background-color: ${flash} !important;
+            background-color: ${flash_2} !important;
         }
         
         .game_flash .block
         {
-            box-shadow: inset 0 0 1px ${flash} !important;
+            box-shadow: inset 0 0 1px ${flash_2} !important;
         }
 
         .piece_flash .placed_block
@@ -299,6 +336,11 @@ Tetris.apply_theme = function()
         .ghost .piece_block
         {
             opacity: ${ghost_transparency};
+        }
+
+        #background
+        {
+            opacity: ${background_transparency};
         }
     </style>`
 

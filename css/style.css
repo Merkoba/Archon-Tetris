@@ -45,7 +45,6 @@ body *
     top: 0; bottom: 0;
     margin: auto;
     background-image: var(--background);
-    opacity: 0.025;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
