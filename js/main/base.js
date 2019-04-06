@@ -927,6 +927,7 @@ Tetris.start_visibility_listeners = function()
     window.addEventListener("blur", function(event) 
     {
         Tetris.stop_and_clear_move_interval()
+        Tetris.pause_game()
     }, false)
 }
 
