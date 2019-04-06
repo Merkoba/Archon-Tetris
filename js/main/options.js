@@ -5,10 +5,11 @@ Tetris.reset_options = function(force=false)
 {
     if(force || confirm("Are you sure you want to reset options to default?"))
     {
+        let original_options = Tetris.options
         Tetris.remove_local_storage(Tetris.ls_options)
         Tetris.get_options()
         Tetris.prepare_options_widgets()
-        Tetris.call_options_actions()
+        Tetris.call_options_actions(original_options)
     }
 }
 
@@ -457,11 +458,14 @@ Tetris.setup_options_window = function()
     })
 }
 
-Tetris.call_options_actions = function()
+Tetris.call_options_actions = function(original_options)
 {
     for(let key in Tetris.options)
     {
-        Tetris[`option_${key}_action`](Tetris.options[key])
+        if(Tetris.options[key] !== original_options[key])
+        {
+            Tetris[`option_${key}_action`](Tetris.options[key])
+        }
     }
 }
 
