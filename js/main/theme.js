@@ -249,7 +249,7 @@ Tetris.apply_theme = function()
 
     for(let key in Tetris.theme)
     {
-        if(!Tetris.pieces_list.includes(key))
+        if(!Tetris.pieces_list.includes(key) && key !== "independent")
         {
             continue 
         }
