@@ -147,11 +147,6 @@ body *
     border-radius: var(--block-shape)
 }
 
-.ghost .piece_block
-{
-    opacity: 0.3;
-}
-
 #score
 {
     margin-bottom: 0.8rem;

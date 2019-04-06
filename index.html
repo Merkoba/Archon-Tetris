@@ -5,7 +5,7 @@
         <title>Archon Tetris</title>
         <link rel='shortcut icon' href='img/favicon.png?version=1' type='image/x-icon'>
 
-        <link rel="stylesheet" type="text/css" href="css/style.css?version=28">
+        <link rel="stylesheet" type="text/css" href="css/style.css?version=29">
 
         <script src="js/libs/jquery.min.js?version=1"></script>
         <script src="js/libs/seedrandom.min.js?version=1"></script>
@@ -23,7 +23,7 @@
         <script src="js/main/options.js?version=24"></script>
         <script src="js/main/controls.js?version=7"></script>
         <script src="js/main/textures.js?version=1"></script>
-        <script src="js/main/theme.js?version=11"></script>
+        <script src="js/main/theme.js?version=12"></script>
 
         <script>
             $(function()
@@ -446,6 +446,22 @@
             <div class='theme_item'>
                 <div class='theme_label'>Gradient</div>
                 <select id='theme_gradient'>
+                    <option value='0'>None</option>
+                    <option value='10'>10%</option>
+                    <option value='20'>20%</option>
+                    <option value='30'>30%</option>
+                    <option value='40'>40%</option>
+                    <option value='50'>50%</option>
+                    <option value='60'>60%</option>
+                    <option value='70'>70%</option>
+                    <option value='80'>80%</option>
+                    <option value='90'>90%</option>
+                    <option value='100'>100%</option>
+                </select>
+            </div>
+            <div class='theme_item'>
+                <div class='theme_label'>Ghost Transparency</div>
+                <select id='theme_ghost_transparency'>
                     <option value='0'>None</option>
                     <option value='10'>10%</option>
                     <option value='20'>20%</option>

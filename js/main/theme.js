@@ -109,6 +109,12 @@ Tetris.get_theme = function()
         changed = true
     }
 
+    if(Tetris.theme.ghost_transparency === undefined)
+    {
+        Tetris.theme.ghost_transparency = 70
+        changed = true
+    }
+
     if(changed)
     {
         Tetris.save_theme()
@@ -137,6 +143,7 @@ Tetris.fill_theme_inputs = function()
     $("#theme_gradient").val(Tetris.theme.gradient)
     $("#theme_grid_transparency").val(Tetris.theme.grid_transparency)
     $("#theme_grid_lines_contrast").val(Tetris.theme.grid_lines_contrast)
+    $("#theme_ghost_transparency").val(Tetris.theme.ghost_transparency)
 }
 
 Tetris.prepare_theme_inputs = function()
@@ -170,6 +177,13 @@ Tetris.prepare_theme_inputs = function()
         Tetris.apply_theme()
         Tetris.save_theme()
     })
+
+    $("#theme_ghost_transparency").on("change", function()
+    {
+        Tetris.theme.ghost_transparency = parseInt($(this).find('option:selected').val())
+        Tetris.apply_theme()
+        Tetris.save_theme()
+    })
 }
 
 Tetris.reset_theme = function(force=false)
@@ -194,10 +208,11 @@ Tetris.apply_theme = function()
     let flash = Tetris.colorlib.get_lighter_or_darker(grid, 0.8)
     let body = Tetris.colorlib.array_to_rgb(Tetris.colorlib.hex_to_rgb(Tetris.theme.body))
     let text = Tetris.colorlib.get_lighter_or_darker(body, 0.9)
+    let ghost_transparency = (100 - Tetris.theme.ghost_transparency) / 100
 
     for(let key in Tetris.theme)
     {
-        if(key === "grid" || key === "gradient" || key === "grid_transparency" || key === "body" || key === "grid_lines_contrast")
+        if(!Tetris.pieces_list.includes(key))
         {
             continue 
         }
@@ -279,6 +294,11 @@ Tetris.apply_theme = function()
         #active_piece
         {
             box-shadow: inset 0 0 30px ${text};
+        }
+
+        .ghost .piece_block
+        {
+            opacity: ${ghost_transparency};
         }
     </style>`
 
