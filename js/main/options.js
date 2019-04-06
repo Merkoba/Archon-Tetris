@@ -341,6 +341,11 @@ Tetris.show_options = function()
 
 Tetris.on_options_close = function()
 {
+    if(Tetris.on_intro)
+    {
+        return false
+    }
+
     let restart_required = false
 
     if
