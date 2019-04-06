@@ -379,7 +379,7 @@ body *
 #options_content
 {
     height: 100%;
-    width: 22rem;
+    width: 24rem;
     overflow: auto;
     display: flex;
     align-items: center;
