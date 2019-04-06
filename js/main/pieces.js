@@ -1812,6 +1812,7 @@ Tetris.remove_blocks_from_piece = function(id, list)
             data2.top = data.top
             data2.left = data.left
             clone.attr("id", id2)
+            clone.removeClass("piece_flash")
             Tetris.game.append(clone)
         }
 
