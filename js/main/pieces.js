@@ -985,7 +985,7 @@ Tetris.do_on_piece_placed = function(from)
     {
         Tetris.friend_piece_charge += 1
 
-        if(Tetris.friend_piece_charge >= Tetris.options.friend_piece_goal)
+        if(Tetris.friend_piece_charge > Tetris.options.friend_piece_goal)
         {
             Tetris.friend_piece_charge = 0
             Tetris.remove_friend()
