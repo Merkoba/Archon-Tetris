@@ -627,7 +627,7 @@ Tetris.get_random_big_piece = function()
         {
             min: 1,
             max: Tetris.big_pieces_list.length,
-            seed: 2
+            seed: Tetris.random_2
         }
     )
 
@@ -978,6 +978,17 @@ Tetris.do_on_piece_placed = function(from)
         {
             Tetris.big_piece_next = true
             Tetris.big_piece_charge = 0
+        }
+    }
+
+    if(Tetris.friend_active)
+    {
+        Tetris.friend_piece_charge += 1
+
+        if(Tetris.friend_piece_charge >= Tetris.options.friend_piece_goal)
+        {
+            Tetris.friend_piece_charge = 0
+            Tetris.remove_friend()
         }
     }
 
@@ -1375,6 +1386,7 @@ Tetris.check_lines_cleared = function()
         Tetris.calculate_clear_score(num_cleared)
         Tetris.charge_level(num_cleared)
         Tetris.charge_pow(num_cleared)
+        Tetris.charge_friend(num_cleared)
         Tetris.charge_combo()
         Tetris.lines_cleared += num_cleared
 
@@ -2036,7 +2048,7 @@ Tetris.get_descent_delay = function()
         delay = Tetris.options.min_descent_delay
     }
 
-    return delay
+    return delay * Tetris.speed_multiplier
 }
 
 Tetris.start_descent_timeout = function()

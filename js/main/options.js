@@ -191,6 +191,21 @@ Tetris.get_options = function()
         Tetris.options.hold = true
     }
 
+    if(Tetris.options.friends === undefined)
+    {
+        Tetris.options.friends = true
+    }
+
+    if(Tetris.options.friend_goal === undefined)
+    {
+        Tetris.options.friend_goal = 25
+    }
+
+    if(Tetris.options.friend_piece_goal === undefined)
+    {
+        Tetris.options.friend_piece_goal = 10
+    }
+
     if(changed)
     {
         Tetris.save_options()
@@ -881,5 +896,49 @@ Tetris.option_hold_action = function(val)
         $("#sidebar_left").css("display", "none")
     }
 
+    return true
+}
+
+Tetris.option_friends_action = function(val)
+{
+    Tetris.options.friends = val
+
+    if(Tetris.options.friends)
+    {
+        $("#options_item_friend_goal").css("display", "block")
+        $("#options_item_friend_piece_goal").css("display", "block")
+    }
+    
+    else
+    {
+        $("#options_item_friend_goal").css("display", "none")
+        $("#options_item_friend_piece_goal").css("display", "none")
+    }
+    return true
+}
+
+Tetris.option_friend_goal_action = function(val)
+{
+    let value = parseInt(val)
+
+    if(value < 1)
+    {
+        return false
+    }
+
+    Tetris.options.friend_goal = value
+    return true
+}
+
+Tetris.option_friend_piece_goal_action = function(val)
+{
+    let value = parseInt(val)
+
+    if(value < 1)
+    {
+        return false
+    }
+
+    Tetris.options.friend_piece_goal = value
     return true
 }

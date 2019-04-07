@@ -323,7 +323,7 @@ Tetris.apply_theme = function()
             box-shadow: 0 0 8px ${flash} !important;
         }
 
-        .preview, #hold_piece
+        .preview, #hold_piece, #friend_element
         {
             box-shadow: inset 0 0 2px ${text};
         }

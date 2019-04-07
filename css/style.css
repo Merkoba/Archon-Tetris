@@ -195,7 +195,7 @@ body *
     margin-bottom: 0.8rem;
 }
 
-.preview, #active_piece, #hold_piece
+.preview, #active_piece, #hold_piece, #friend_element
 {
     width: 100px;
     height: 100px;
@@ -745,4 +745,18 @@ option
 .no_cursor
 {
     cursor: none !important;
+}
+
+#friend_element
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.friend
+{
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
 }

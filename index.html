@@ -5,7 +5,7 @@
         <title>Archon Tetris</title>
         <link rel='shortcut icon' href='img/favicon.png?version=1' type='image/x-icon'>
 
-        <link rel="stylesheet" type="text/css" href="css/style.css?version=38">
+        <link rel="stylesheet" type="text/css" href="css/style.css?version=39">
 
         <script src="js/libs/jquery.min.js?version=1"></script>
         <script src="js/libs/seedrandom.min.js?version=1"></script>
@@ -13,18 +13,19 @@
         <script src="js/libs/msg.min.js?version=1"></script>
         <script src="js/libs/separator.js?version=1"></script>
         <script src="js/libs/colorlib.js?version=1"></script>
-
-        <script src="js/main/base.js?version=43"></script>
-        <script src="js/main/utils.js?version=5"></script>
-        <script src="js/main/pieces.js?version=33"></script>
+        
+        <script src="js/main/base.js?version=44"></script>
+        <script src="js/main/utils.js?version=6"></script>
+        <script src="js/main/pieces.js?version=34"></script>
         <script src="js/main/grid.js?version=1"></script>
         <script src="js/main/keyboard.js?version=12"></script>
         <script src="js/main/local_storage.js?version=1"></script>
-        <script src="js/main/options.js?version=26"></script>
+        <script src="js/main/options.js?version=27"></script>
         <script src="js/main/controls.js?version=7"></script>
         <script src="js/main/textures.js?version=1"></script>
-        <script src="js/main/theme.js?version=14"></script>
-
+        <script src="js/main/theme.js?version=15"></script>
+        <script src="js/main/friends.js?version=1"></script>
+        
         <script>
             $(function()
             {
@@ -58,9 +59,12 @@
                 </div>
                 <div id='sidebar_left'>
                     <div id='hold_piece'>
-                        <div id='hold_piece_element'></div>
+                        <div id='hold_piece_element'>Hold</div>
                     </div>
-                    <div id='hold_piece_info' class='unselectable'>Hold</div>
+                    <div id='friend'>
+                        <div id='friend_element'></div>
+                        <div id='friend_info'></div>
+                    </div>
                 </div>
                 <div id='sidebar_right'>
                     <div id='active_piece'>
@@ -260,6 +264,18 @@
                     <div class='options_item'>
                         <div class='options_label'>Hold</div>
                         <input type='checkbox' id='option_hold' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+                    </div>
+                    <div class='options_item'>
+                        <div class='options_label'>Friends</div>
+                        <input type='checkbox' id='option_friends' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+                    </div>
+                    <div class='options_item' id='options_item_friend_goal'>
+                        <div class='options_label'>Line Clears<br>To Change Friend</div>
+                        <input type='number' min="1" id='option_friend_goal' class='options_widget options_number' data-options-widget-type='number'>
+                    </div>
+                    <div class='options_item' id='options_item_friend_piece_goal'>
+                        <div class='options_label'>Pieces Placed<br>To Remove Friend</div>
+                        <input type='number' min="1" id='option_friend_piece_goal' class='options_widget options_number' data-options-widget-type='number'>
                     </div>
                 </div>
                 <div id='options_category_goal' class='options_category'>

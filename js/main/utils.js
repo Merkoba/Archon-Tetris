@@ -10,26 +10,21 @@ Tetris.get_random_int = function(args={})
         min: 0,
         max: 1,
         exclude: false,
-        seed: 1
+        seed: false
     }
 
     args = Object.assign(def_args, args)
 
     let num
 
-    if(args.seed === 1)
+    if(!args.seed)
     {
         num = Math.floor(Tetris.random() * (args.max - args.min + 1) + args.min)
     }
     
-    else if(args.seed === 2)
-    {
-        num = Math.floor(Tetris.random_2() * (args.max - args.min + 1) + args.min)
-    }
-
     else
     {
-        return false
+        num = Math.floor(args.seed() * (args.max - args.min + 1) + args.min)
     }
 
     if(args.exclude)

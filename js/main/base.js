@@ -51,6 +51,7 @@ Tetris.init_variables = function()
     Tetris.seed = Tetris.options.seed || Date.now().toString().slice(-3)
     Tetris.random = new Math.seedrandom(Tetris.seed)
     Tetris.random_2 = new Math.seedrandom(Tetris.seed)
+    Tetris.random_3 = new Math.seedrandom(Tetris.seed)
     console.info(`Using seed: ${Tetris.seed}`)
 
     Tetris.original_number_of_rows = Tetris.options.number_of_rows
@@ -96,15 +97,21 @@ Tetris.start_game = function(initial=false)
     Tetris.time_paused = 0
     Tetris.pieces_placed = 0
     Tetris.big_piece_charge = 0
+    Tetris.friend_charge = 0
+    Tetris.friend_piece_charge = 0
     Tetris.current_piece_picker_wheel_item = 0
     Tetris.placed_id = 1
     Tetris.placed_block_id = 1
     Tetris.placed_element_data = {}
     Tetris.hold_piece = false
+    Tetris.speed_multiplier = 1
+    Tetris.score_multiplier = 1
     
+    $("#hold_piece_element").html("Hold")
     $("#paused").css("display", "none")
     $("#queued_left").text("")
     $("#menu_game_over").css("display", "none")
+    $("#friend").css("display", "none")
     
     Tetris.setup_previews()
     Tetris.set_score_text()
@@ -288,7 +295,8 @@ Tetris.set_score_text = function()
 
 Tetris.add_score = function(n)
 {
-    Tetris.score += n
+    let score = Math.round(n * Tetris.score_multiplier)
+    Tetris.score += score
     Tetris.set_score_text()
     
     if(n > 10)
@@ -739,42 +747,51 @@ Tetris.play_sound = function(name)
     }
 }
 
-Tetris.charge_level = function(num_cleared)
-{
-    Tetris.level_charge += num_cleared
 
-    let num_levels = Tetris.level_charge / Tetris.options.level_goal
-    let num_levels_split = num_levels.toString().split(".")
+Tetris.charge = function(type, num_cleared, callback)
+{
+    Tetris[`${type}_charge`] += num_cleared
+
+    let num = Tetris[`${type}_charge`] / Tetris.options[`${type}_goal`]
+    let num_split = num.toString().split(".")
     let whole, decimals
 
-    if(num_levels_split.length > 1)
+    if(num_split.length > 1)
     {
-        whole = parseInt(num_levels_split[0])
-        decimals = Tetris.get_full_decimal(num_levels_split[1])
+        whole = parseInt(num_split[0])
+        decimals = Tetris.get_full_decimal(num_split[1])
     }
 
     else
     {
-        whole = num_levels
+        whole = num
     }
 
     if(whole >= 1)
     {
-        Tetris.level += whole
-        Tetris.set_level_text()
-        console.info(`Level up: ${Tetris.level}`)
+        Tetris[type] += whole
         
         if(decimals)
         {
-            Tetris.level_charge = (decimals / 100) * Tetris.options.level_goal
+            Tetris[`${type}_charge`] = (decimals / 100) * Tetris.options[`${type}_goal`]
         }
         
         else
         {
-            Tetris.level_charge = 0
+            Tetris[`${type}_charge`] = 0
         }
 
+        return callback(whole)
+    }
+}
+
+Tetris.charge_level = function(num_cleared)
+{
+    Tetris.charge("level", num_cleared, function(whole)
+    {
+        Tetris.set_level_text()
         Tetris.set_speed_text()
+        console.info(`Level up: ${Tetris.level}`)
 
         if(Tetris.options.goal_type === "level")
         {
@@ -783,7 +800,7 @@ Tetris.charge_level = function(num_cleared)
                 Tetris.on_game_over("Level Goal Met")
             }
         }
-    }
+    })
 }
 
 Tetris.charge_pow = function(num_cleared)
@@ -793,41 +810,26 @@ Tetris.charge_pow = function(num_cleared)
         return false
     }
 
-    Tetris.pow_charge += num_cleared
-
-    let num_pows = Tetris.pow_charge / Tetris.options.pow_goal
-    let num_pows_split = num_pows.toString().split(".")
-    let whole, decimals
-
-    if(num_pows_split.length > 1)
+    Tetris.charge("pow", num_cleared, function(whole)
     {
-        whole = parseInt(num_pows_split[0])
-        decimals = Tetris.get_full_decimal(num_pows_split[1])
-    }
-
-    else
-    {
-        whole = num_pows
-    }
-
-    if(whole >= 1)
-    {
-        Tetris.pow += whole
         Tetris.pows_earned += whole
         Tetris.set_pow_text()
         Tetris.play_sound("pow_loaded")
         console.info("POW earned")
-        
-        if(decimals)
-        {
-            Tetris.pow_charge = (decimals / 100) * Tetris.options.pow_goal
-        }
-        
-        else
-        {
-            Tetris.pow_charge = 0
-        }
+    })
+}
+
+Tetris.charge_friend = function(num_cleared)
+{
+    if(!Tetris.options.friends || Tetris.friend_active)
+    {
+        return false
     }
+
+    Tetris.charge("friend", num_cleared, function(whole)
+    {
+        Tetris.select_random_friend()
+    })
 }
 
 Tetris.set_pow_text = function()
@@ -995,4 +997,85 @@ Tetris.start_hide_mouse_cursor_timeout = function()
     {
         Tetris.hide_mouse_cursor()
     }, 1000)
+}
+
+Tetris.select_random_friend = function()
+{
+    let n = Tetris.get_random_int
+    (
+        {
+            min: 0,
+            max: Tetris.friends.length - 1,
+            seed: Tetris.random_3
+        }
+    )
+
+    let friend = Tetris.friends[n]
+    let image = $(`<img class='friend' src='img/friends/${friend.file_name}.jpg'>`)
+    $("#friend_element").html(image)
+    $("#friend").css("display", "block")
+    Tetris.set_friend_power(friend)
+    Tetris.friend_active = true
+    Tetris.set_speed_text()
+}
+
+Tetris.set_friend_power = function(friend)
+{
+    let name = friend.file_name
+    let seed = new Math.seedrandom(name)
+
+    let n = Tetris.get_random_int
+    (
+        {
+            min: 0,
+            max: Tetris.friend_powers.length - 1,
+            seed: seed
+        }
+    )
+
+    let power = Tetris.friend_powers[n]
+
+    Tetris.speed_multiplier = 1
+    Tetris.score_multiplier = 1
+
+    if(power.name.startsWith("speed"))
+    {
+        let n = power.name.match(/\d+/)[0] 
+
+        if(power.name.endsWith("_d"))
+        {
+            Tetris.speed_multiplier = n
+        }
+        
+        else
+        {
+            Tetris.speed_multiplier = 1 / n
+        }
+    }
+
+    else if(power.name.startsWith("score"))
+    {
+        let n = power.name.match(/\d+/)[0] 
+
+        if(power.name.endsWith("_d"))
+        {
+            Tetris.score_multiplier = 1 / n
+        }
+        
+        else
+        {
+            Tetris.score_multiplier = n
+        }
+    }
+
+    $("#friend_info").text(power.description)
+}
+
+Tetris.remove_friend = function()
+{
+    $("#friend").css("display", "none")
+    Tetris.speed_multiplier = 1
+    Tetris.score_multiplier = 1
+    Tetris.set_speed_text()
+    Tetris.friend_active = false
 }
