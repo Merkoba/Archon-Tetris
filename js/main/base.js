@@ -99,6 +99,9 @@ Tetris.start_game = function(initial=false)
     Tetris.big_piece_charge = 0
     Tetris.friend_charge = 0
     Tetris.friend_piece_charge = 0
+    Tetris.friend_active = false
+    Tetris.current_friend = false
+    Tetris.current_friend_power = false
     Tetris.current_piece_picker_wheel_item = 0
     Tetris.placed_id = 1
     Tetris.placed_block_id = 1
@@ -113,6 +116,7 @@ Tetris.start_game = function(initial=false)
     $("#menu_game_over").css("display", "none")
     $("#friend").css("visibility", "hidden")
     
+    Tetris.remove_friend()
     Tetris.setup_previews()
     Tetris.set_score_text()
     Tetris.set_level_text()
@@ -829,6 +833,9 @@ Tetris.charge_friend = function(num_cleared)
     Tetris.charge("friend", num_cleared, function(whole)
     {
         Tetris.select_random_friend()
+        console.log(1)
+        Tetris.play_sound("friend")
+        console.info(`Your friend ${Tetris.current_friend.name} appeared: ${Tetris.current_friend_power.description}`)
     })
 }
 
@@ -1016,6 +1023,7 @@ Tetris.select_random_friend = function()
     $("#friend").css("visibility", "visible")
     Tetris.set_friend_power(friend)
     Tetris.friend_active = true
+    Tetris.current_friend = friend
     Tetris.set_speed_text()
 }
 
@@ -1069,6 +1077,7 @@ Tetris.set_friend_power = function(friend)
     }
 
     $("#friend_info").text(power.description)
+    Tetris.current_friend_power = power
 }
 
 Tetris.remove_friend = function()
