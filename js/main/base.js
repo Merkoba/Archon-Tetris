@@ -111,7 +111,7 @@ Tetris.start_game = function(initial=false)
     $("#paused").css("display", "none")
     $("#queued_left").text("")
     $("#menu_game_over").css("display", "none")
-    $("#friend").css("display", "none")
+    $("#friend").css("visibility", "hidden")
     
     Tetris.setup_previews()
     Tetris.set_score_text()
@@ -1013,7 +1013,7 @@ Tetris.select_random_friend = function()
     let friend = Tetris.friends[n]
     let image = $(`<img class='friend' src='img/friends/${friend.file_name}.jpg' title='${friend.name}'}>`)
     $("#friend_element").html(image)
-    $("#friend").css("display", "block")
+    $("#friend").css("visibility", "visible")
     Tetris.set_friend_power(friend)
     Tetris.friend_active = true
     Tetris.set_speed_text()
@@ -1073,7 +1073,7 @@ Tetris.set_friend_power = function(friend)
 
 Tetris.remove_friend = function()
 {
-    $("#friend").css("display", "none")
+    $("#friend").css("visibility", "hidden")
     Tetris.speed_multiplier = 1
     Tetris.score_multiplier = 1
     Tetris.set_speed_text()

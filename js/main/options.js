@@ -888,12 +888,22 @@ Tetris.option_hold_action = function(val)
 
     if(Tetris.options.hold)
     {
-        $("#sidebar_left").css("display", "flex")
+        $("#hold_piece").css("display", "flex")
     }
     
     else
     {
+        $("#hold_piece").css("display", "none")
+    }
+    
+    if(!Tetris.options.hold && !Tetris.options.friends)
+    {
         $("#sidebar_left").css("display", "none")
+    }
+    
+    else
+    {
+        $("#sidebar_left").css("display", "flex")
     }
 
     return true
@@ -914,6 +924,17 @@ Tetris.option_friends_action = function(val)
         $("#options_item_friend_goal").css("display", "none")
         $("#options_item_friend_piece_goal").css("display", "none")
     }
+
+    if(!Tetris.options.hold && !Tetris.options.friends)
+    {
+        $("#sidebar_left").css("display", "none")
+    }
+    
+    else
+    {
+        $("#sidebar_left").css("display", "flex")
+    }
+
     return true
 }
 
