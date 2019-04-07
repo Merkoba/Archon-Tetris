@@ -1011,7 +1011,7 @@ Tetris.select_random_friend = function()
     )
 
     let friend = Tetris.friends[n]
-    let image = $(`<img class='friend' src='img/friends/${friend.file_name}.jpg'>`)
+    let image = $(`<img class='friend' src='img/friends/${friend.file_name}.jpg' title='${friend.name}'}>`)
     $("#friend_element").html(image)
     $("#friend").css("display", "block")
     Tetris.set_friend_power(friend)
