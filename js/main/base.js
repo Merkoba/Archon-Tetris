@@ -833,7 +833,6 @@ Tetris.charge_friend = function(num_cleared)
     Tetris.charge("friend", num_cleared, function(whole)
     {
         Tetris.select_random_friend()
-        console.log(1)
         Tetris.play_sound("friend")
         console.info(`Your friend ${Tetris.current_friend.name} appeared: ${Tetris.current_friend_power.description}`)
     })

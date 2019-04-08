@@ -915,7 +915,10 @@ Tetris.on_piece_placed = function(from)
 
     if(from === "hard_drop")
     {
-        Tetris.do_on_piece_placed(from)
+        Tetris.lock_timeout = setTimeout(function()
+        {
+            Tetris.do_on_piece_placed(from)
+        }, Tetris.options.hard_piece_lock_delay)
     }
 
     else
@@ -923,7 +926,7 @@ Tetris.on_piece_placed = function(from)
         Tetris.lock_timeout = setTimeout(function()
         {
             Tetris.do_on_piece_placed(from)
-        }, 500)
+        }, Tetris.options.piece_lock_delay)
     }
 }
 

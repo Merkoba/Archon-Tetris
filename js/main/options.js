@@ -206,6 +206,16 @@ Tetris.get_options = function()
         Tetris.options.friend_piece_goal = 10
     }
 
+    if(Tetris.options.piece_lock_delay === undefined)
+    {
+        Tetris.options.piece_lock_delay = 500
+    }
+
+    if(Tetris.options.hard_piece_lock_delay === undefined)
+    {
+        Tetris.options.hard_piece_lock_delay = 0
+    }
+
     if(changed)
     {
         Tetris.save_options()
@@ -961,5 +971,31 @@ Tetris.option_friend_piece_goal_action = function(val)
     }
 
     Tetris.options.friend_piece_goal = value
+    return true
+}
+
+Tetris.option_piece_lock_delay_action = function(val)
+{
+    let value = parseInt(val)
+
+    if(value < 0)
+    {
+        return false
+    }
+
+    Tetris.options.piece_lock_delay = value
+    return true
+}
+
+Tetris.option_hard_piece_lock_delay_action = function(val)
+{
+    let value = parseInt(val)
+
+    if(value < 0)
+    {
+        return false
+    }
+
+    Tetris.options.hard_piece_lock_delay = value
     return true
 }

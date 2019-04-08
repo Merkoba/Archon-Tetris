@@ -5,7 +5,7 @@
         <title>Archon Tetris</title>
         <link rel='shortcut icon' href='img/favicon.png?version=1' type='image/x-icon'>
 
-        <link rel="stylesheet" type="text/css" href="css/style.css?version=40">
+        <link rel="stylesheet" type="text/css" href="css/style.css?version=41">
 
         <script src="js/libs/jquery.min.js?version=1"></script>
         <script src="js/libs/seedrandom.min.js?version=1"></script>
@@ -14,13 +14,13 @@
         <script src="js/libs/separator.js?version=1"></script>
         <script src="js/libs/colorlib.js?version=1"></script>
         
-        <script src="js/main/base.js?version=47"></script>
+        <script src="js/main/base.js?version=48"></script>
         <script src="js/main/utils.js?version=6"></script>
-        <script src="js/main/pieces.js?version=35"></script>
+        <script src="js/main/pieces.js?version=36"></script>
         <script src="js/main/grid.js?version=1"></script>
         <script src="js/main/keyboard.js?version=12"></script>
         <script src="js/main/local_storage.js?version=1"></script>
-        <script src="js/main/options.js?version=28"></script>
+        <script src="js/main/options.js?version=29"></script>
         <script src="js/main/controls.js?version=7"></script>
         <script src="js/main/textures.js?version=1"></script>
         <script src="js/main/theme.js?version=15"></script>
@@ -135,6 +135,7 @@
                 <div class='options_category_item' id='options_category_item_friends'>Friends</div>
                 <div class='options_category_item' id='options_category_item_descent'>Descent</div>
                 <div class='options_category_item' id='options_category_item_goal'>Goal</div>
+                <div class='options_category_item' id='options_category_item_lock'>Lock</div>
                 <div class='options_category_item' id='options_category_item_other'>Other</div>
                 <div id="options_reset_button" class='action'>Reset</div>
             </div>
@@ -288,6 +289,16 @@
                     <div class='options_item' id='options_item_goal'>
                         <div class='options_label'>Goal</div>
                         <input type='number' min="1" id='option_goal' class='options_widget options_number_big' data-options-widget-type='text'>
+                    </div>
+                </div>
+                <div id='options_category_lock' class='options_category'>
+                    <div class='options_item'>
+                        <div class='options_label' title='This is in milliseconds. Lower === Faster'>Piece Lock Delay</div>
+                        <input type='number' min="0" id='option_piece_lock_delay' class='options_widget options_number' data-options-widget-type='number'>
+                    </div>
+                    <div class='options_item'>
+                        <div class='options_label' title='This is in milliseconds. Lower === Faster'>Piece Lock Delay<br>On Hard Drop</div>
+                        <input type='number' min="0" id='option_hard_piece_lock_delay' class='options_widget options_number' data-options-widget-type='number'>
                     </div>
                 </div>
                 <div id='options_category_other' class='options_category'>
