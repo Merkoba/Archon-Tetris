@@ -129,7 +129,11 @@
             <div id='options_sidebar' class='unselectable'>
                 <div class='options_category_item options_category_item_selected' id='options_category_item_visual'>Visual</div>
                 <div class='options_category_item' id='options_category_item_audio'>Audio</div>
-                <div class='options_category_item' id='options_category_item_tweaks'>Tweaks</div>
+                <div class='options_category_item' id='options_category_item_piece_picker'>Picker</div>
+                <div class='options_category_item' id='options_category_item_big_pieces'>Big</div>
+                <div class='options_category_item' id='options_category_item_pow'>POW</div>
+                <div class='options_category_item' id='options_category_item_friends'>Friends</div>
+                <div class='options_category_item' id='options_category_item_descent'>Descent</div>
                 <div class='options_category_item' id='options_category_item_goal'>Goal</div>
                 <div class='options_category_item' id='options_category_item_other'>Other</div>
                 <div id="options_reset_button" class='action'>Reset</div>
@@ -201,27 +205,7 @@
                         <input type='checkbox' id='option_sound_effects' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
                     </div>
                 </div>
-                <div id='options_category_tweaks' class='options_category'>
-                    <div class='options_item'>
-                        <div class='options_label'>Seed</div>
-                        <input type='text' id='option_seed' class='options_widget options_text' data-options-widget-type='text' placeholder="Empty == Random">
-                    </div>
-                    <div class='options_item'>
-                        <div class='options_label' title='This is in milliseconds. Higher == Speed increases faster as levels increase'>Descent Multiplier</div>
-                        <input type='number' min="1" id='option_descent_multiplier' class='options_widget options_number' data-options-widget-type='number'>
-                    </div>
-                    <div class='options_item'>
-                        <div class='options_label' title='This is in milliseconds. Lower == Faster'>Minimum Descent Delay</div>
-                        <input type='number' min="10" id='option_min_descent_delay' class='options_widget options_number' data-options-widget-type='number'>
-                    </div>
-                    <div class='options_item'>
-                        <div class='options_label' title='This is in milliseconds. Lower == Faster'>Soft Drop Delay</div>
-                        <input type='number' min="0" id='option_soft_drop_delay' class='options_widget options_number' data-options-widget-type='number'>
-                    </div>
-                    <div class='options_item'>
-                        <div class='options_label' title='This makes all pieces touching a cleared line to separate into independent blocks'>Independence</div>
-                        <input type='checkbox' id='option_independence' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
-                    </div>
+                <div id='options_category_piece_picker' class='options_category'>
                     <div class='options_item'>
                         <div class='options_label'>Piece Picker</div>
                         <input type='checkbox' id='option_piece_picker' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
@@ -242,6 +226,8 @@
                         <div class='options_label'>Amount Of<br>Picked Piece To Place</div>
                         <input type='number' min="1" id='option_piece_picker_queue' class='options_widget options_number' data-options-widget-type='number'>
                     </div>
+                </div>
+                <div id='options_category_big_pieces' class='options_category'>
                     <div class='options_item'>
                         <div class='options_label'>Big Pieces</div>
                         <input type='checkbox' id='option_big_pieces' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
@@ -250,6 +236,8 @@
                         <div class='options_label'>Pieces Before<br>Big Piece</div>
                         <input type='number' min="1" id='option_big_piece_goal' class='options_widget options_number' data-options-widget-type='number'>
                     </div>
+                </div>
+                <div id='options_category_pow' class='options_category'>
                     <div class='options_item'>
                         <div class='options_label'>POW</div>
                         <input type='checkbox' id='option_pow' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
@@ -258,14 +246,8 @@
                         <div class='options_label'>Line Clears<br>To Earn POW</div>
                         <input type='number' min="1" id='option_pow_goal' class='options_widget options_number' data-options-widget-type='number'>
                     </div>
-                    <div class='options_item'>
-                        <div class='options_label'>Line Clears<br>To Level Up</div>
-                        <input type='number' min="1" id='option_level_goal' class='options_widget options_number' data-options-widget-type='number'>
-                    </div>
-                    <div class='options_item'>
-                        <div class='options_label'>Hold</div>
-                        <input type='checkbox' id='option_hold' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
-                    </div>
+                </div>
+                <div id='options_category_friends' class='options_category'>
                     <div class='options_item'>
                         <div class='options_label'>Friends</div>
                         <input type='checkbox' id='option_friends' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
@@ -277,6 +259,20 @@
                     <div class='options_item' id='options_item_friend_piece_goal'>
                         <div class='options_label'>Pieces Placed<br>To Remove Friend</div>
                         <input type='number' min="1" id='option_friend_piece_goal' class='options_widget options_number' data-options-widget-type='number'>
+                    </div>
+                </div>
+                <div id='options_category_descent' class='options_category'>
+                    <div class='options_item'>
+                        <div class='options_label' title='This is in milliseconds. Higher == Speed increases faster as levels increase'>Descent Multiplier</div>
+                        <input type='number' min="1" id='option_descent_multiplier' class='options_widget options_number' data-options-widget-type='number'>
+                    </div>
+                    <div class='options_item'>
+                        <div class='options_label' title='This is in milliseconds. Lower == Faster'>Minimum Descent Delay</div>
+                        <input type='number' min="10" id='option_min_descent_delay' class='options_widget options_number' data-options-widget-type='number'>
+                    </div>
+                    <div class='options_item'>
+                        <div class='options_label' title='This is in milliseconds. Lower == Faster'>Soft Drop Delay</div>
+                        <input type='number' min="0" id='option_soft_drop_delay' class='options_widget options_number' data-options-widget-type='number'>
                     </div>
                 </div>
                 <div id='options_category_goal' class='options_category'>
@@ -295,6 +291,22 @@
                     </div>
                 </div>
                 <div id='options_category_other' class='options_category'>
+                    <div class='options_item'>
+                        <div class='options_label'>Seed</div>
+                        <input type='text' id='option_seed' class='options_widget options_text' data-options-widget-type='text' placeholder="Empty == Random">
+                    </div>
+                    <div class='options_item'>
+                        <div class='options_label' title='This makes all pieces touching a cleared line to separate into independent blocks'>Independence</div>
+                        <input type='checkbox' id='option_independence' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+                    </div>
+                    <div class='options_item'>
+                        <div class='options_label'>Line Clears<br>To Level Up</div>
+                        <input type='number' min="1" id='option_level_goal' class='options_widget options_number' data-options-widget-type='number'>
+                    </div>
+                    <div class='options_item'>
+                        <div class='options_label'>Hold</div>
+                        <input type='checkbox' id='option_hold' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+                    </div>
                     <div class='options_item'>
                         <div class='options_label'>Warn Before Closing</div>
                         <input type='checkbox' id='option_warn_before_closing' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
