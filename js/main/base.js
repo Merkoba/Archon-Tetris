@@ -1028,28 +1028,16 @@ Tetris.select_random_friend = function()
 
 Tetris.set_friend_power = function(friend)
 {
-    let name = friend.file_name
-    let seed = new Math.seedrandom(name)
-
-    let n = Tetris.get_random_int
-    (
-        {
-            min: 0,
-            max: Tetris.friend_powers.length - 1,
-            seed: seed
-        }
-    )
-
-    let power = Tetris.friend_powers[n]
+    let power = Tetris.friend_powers[friend.power]
 
     Tetris.speed_multiplier = 1
     Tetris.score_multiplier = 1
 
-    if(power.name.startsWith("speed"))
+    if(friend.power.startsWith("speed"))
     {
-        let n = power.name.match(/\d+/)[0] 
+        let n = friend.power.match(/\d+/)[0] 
 
-        if(power.name.endsWith("_d"))
+        if(friend.power.endsWith("_d"))
         {
             Tetris.speed_multiplier = n
         }
@@ -1060,11 +1048,11 @@ Tetris.set_friend_power = function(friend)
         }
     }
 
-    else if(power.name.startsWith("score"))
+    else if(friend.power.startsWith("score"))
     {
-        let n = power.name.match(/\d+/)[0] 
+        let n = friend.power.match(/\d+/)[0] 
 
-        if(power.name.endsWith("_d"))
+        if(friend.power.endsWith("_d"))
         {
             Tetris.score_multiplier = 1 / n
         }
@@ -1073,6 +1061,12 @@ Tetris.set_friend_power = function(friend)
         {
             Tetris.score_multiplier = n
         }
+    }
+
+    else if(friend.power === "free_pow")
+    {
+        Tetris.pow += 1
+        Tetris.set_pow_text()
     }
 
     $("#friend_info").text(power.description)
