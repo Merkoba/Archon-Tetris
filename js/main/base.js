@@ -795,7 +795,7 @@ Tetris.charge_level = function(num_cleared)
     {
         Tetris.set_level_text()
         Tetris.set_speed_text()
-        console.info(`Level up: ${Tetris.level}`)
+        console.info(`Level Up: ${Tetris.level}`)
 
         if(Tetris.options.goal_type === "level")
         {
@@ -819,7 +819,7 @@ Tetris.charge_pow = function(num_cleared)
         Tetris.pows_earned += whole
         Tetris.set_pow_text()
         Tetris.play_sound("pow_loaded")
-        console.info("POW earned")
+        console.info(`POW Earned x ${whole}`)
     })
 }
 
@@ -834,7 +834,7 @@ Tetris.charge_friend = function(num_cleared)
     {
         Tetris.select_random_friend()
         Tetris.play_sound("friend")
-        console.info(`Your friend ${Tetris.current_friend.name} appeared: ${Tetris.current_friend_power.description}`)
+        console.info(`Your Friend ${Tetris.current_friend.name} Appeared: ${Tetris.current_friend_power.description}`)
     })
 }
 
@@ -1066,6 +1066,7 @@ Tetris.set_friend_power = function(friend)
     else if(friend.power === "free_pow")
     {
         Tetris.pow += 1
+        Tetris.pows_earned += 1
         Tetris.set_pow_text()
     }
 
