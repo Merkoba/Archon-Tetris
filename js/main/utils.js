@@ -10,22 +10,12 @@ Tetris.get_random_int = function(args={})
         min: 0,
         max: 1,
         exclude: false,
-        seed: false
+        seed: Tetris.random
     }
 
     args = Object.assign(def_args, args)
 
-    let num
-
-    if(!args.seed)
-    {
-        num = Math.floor(Tetris.random() * (args.max - args.min + 1) + args.min)
-    }
-    
-    else
-    {
-        num = Math.floor(args.seed() * (args.max - args.min + 1) + args.min)
-    }
+    let num = Math.floor(args.seed() * (args.max - args.min + 1) + args.min)
 
     if(args.exclude)
     {
