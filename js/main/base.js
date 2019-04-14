@@ -751,7 +751,6 @@ Tetris.play_sound = function(name)
     }
 }
 
-
 Tetris.charge = function(type, num_cleared, callback)
 {
     Tetris[`${type}_charge`] += num_cleared
