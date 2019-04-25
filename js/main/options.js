@@ -104,121 +104,145 @@ Tetris.get_options = function()
     if(Tetris.options.descent_multiplier === undefined)
     {
         Tetris.options.descent_multiplier = 20
+        changed = true
     }
 
     if(Tetris.options.min_descent_delay === undefined)
     {
         Tetris.options.min_descent_delay = 80
+        changed = true
     }
 
     if(Tetris.options.soft_drop_delay === undefined)
     {
         Tetris.options.soft_drop_delay = 10
+        changed = true
     }
 
     if(Tetris.options.block_texture === undefined)
     {
         Tetris.options.block_texture = "none.png"
+        changed = true
     }
 
     if(Tetris.options.block_texture_url === undefined)
     {
         Tetris.options.block_texture_url = ""
+        changed = true
     }
 
     if(Tetris.options.block_shape === undefined)
     {
         Tetris.options.block_shape = "rounded"
+        changed = true
     }
 
     if(Tetris.options.independence === undefined)
     {
         Tetris.options.independence = true
+        changed = true
     }
 
     if(Tetris.options.big_pieces === undefined)
     {
         Tetris.options.big_pieces = true
+        changed = true
     }
 
     if(Tetris.options.piece_picker === undefined)
     {
         Tetris.options.piece_picker = true
+        changed = true
     }
 
     if(Tetris.options.level_goal === undefined)
     {
         Tetris.options.level_goal = 5
+        changed = true
     }
 
     if(Tetris.options.pow_goal === undefined)
     {
         Tetris.options.pow_goal = 50
+        changed = true
     }
 
     if(Tetris.options.big_piece_goal === undefined)
     {
         Tetris.options.big_piece_goal = 50
+        changed = true
     }
 
     if(Tetris.options.warn_before_closing === undefined)
     {
         Tetris.options.warn_before_closing = false
+        changed = true
     }
 
     if(Tetris.options.piece_picker_list === undefined)
     {
         Tetris.options.piece_picker_list = "normal_and_big"
+        changed = true
     }
 
     if(Tetris.options.pow === undefined)
     {
         Tetris.options.pow = true
+        changed = true
     }
 
     if(Tetris.options.piece_picker_goal === undefined)
     {
         Tetris.options.piece_picker_goal = 5
+        changed = true
     }
 
     if(Tetris.options.piece_picker_queue === undefined)
     {
         Tetris.options.piece_picker_queue = 4
+        changed = true
     }
 
     if(Tetris.options.hold === undefined)
     {
         Tetris.options.hold = true
+        changed = true
     }
 
     if(Tetris.options.friends === undefined)
     {
         Tetris.options.friends = true
+        changed = true
     }
 
     if(Tetris.options.friend_goal === undefined)
     {
         Tetris.options.friend_goal = 25
+        changed = true
     }
 
     if(Tetris.options.friend_piece_goal === undefined)
     {
         Tetris.options.friend_piece_goal = 10
+        changed = true
     }
 
     if(Tetris.options.piece_lock_delay === undefined)
     {
         Tetris.options.piece_lock_delay = 500
+        changed = true
     }
 
     if(Tetris.options.hard_piece_lock_delay === undefined)
     {
         Tetris.options.hard_piece_lock_delay = 0
+        changed = true
     }
 
     if(Tetris.options.active_piece === undefined)
     {
         Tetris.options.active_piece = true
+        changed = true
     }
 
     if(changed)
