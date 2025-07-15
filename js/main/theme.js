@@ -195,15 +195,12 @@ Tetris.apply_theme = function() {
   if (Tetris.theme.background_transparency === `none`) {
     background_transparency = 1
   }
-
   else if (Tetris.theme.background_transparency === `small`) {
     background_transparency = 0.5
   }
-
   else if (Tetris.theme.background_transparency === `big`) {
     background_transparency = 0.025
   }
-
   else if (Tetris.theme.background_transparency === `full`) {
     background_transparency = 0
   }
@@ -221,7 +218,6 @@ Tetris.apply_theme = function() {
     if (Tetris.theme.gradient === 0) {
       background = `var(--texture), ${color}`
     }
-
     else {
       background = `var(--texture), linear-gradient(${color} ${100 - Tetris.theme.gradient}%, ${color_2} 100%)`
     }

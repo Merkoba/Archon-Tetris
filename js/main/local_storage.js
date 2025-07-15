@@ -12,7 +12,6 @@ Tetris.get_local_storage = function(ls_name) {
       obj = null
     }
   }
-
   else {
     obj = null
   }
