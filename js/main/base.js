@@ -5,6 +5,7 @@ Tetris.ls_first_time = `ls_first_time`
 
 Tetris.init = function() {
   Tetris.game_started = false
+  Tetris.woosh_count = 5
 
   Tetris.create_pieces()
   Tetris.compile_templates()
@@ -610,10 +611,22 @@ Tetris.set_seed_text = function() {
 }
 
 Tetris.play_sound = function(name) {
+  if (name === `woosh`) {
+    Tetris.woosh_count += 1
+
+    if (Tetris.woosh_count < 5) {
+      return
+    }
+  }
+
   if (Tetris.options.sound_effects) {
     $(`#sound_${name}`)[0].pause()
     $(`#sound_${name}`)[0].currentTime = 0
     $(`#sound_${name}`)[0].play()
+  }
+
+  if (name === `woosh`) {
+    Tetris.woosh_count = 0
   }
 }
 
