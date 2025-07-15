@@ -662,3 +662,7 @@ option {
   max-height: 90%;
   object-fit: contain;
 }
+
+input[type="text"], input[type="number"], select {
+    font-size: 1rem;
+}
