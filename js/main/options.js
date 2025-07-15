@@ -276,7 +276,7 @@ Tetris.start_options_widget_listeners = function() {
       })
     }
     else if ((type === `number`) || (type === `text`)) {
-      $(this).blur(function() {
+      $(this).change(function() {
         let option = Tetris.options[id]
         let val = $(`#option_${id}`).val()
 
