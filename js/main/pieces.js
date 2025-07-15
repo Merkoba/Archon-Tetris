@@ -475,7 +475,7 @@ Tetris.create_pieces = function() {
         let map_x = map[map_n][0]
         let map_y = map[map_n][1]
 
-        if (map_x === px && map_y === py) {
+        if ((map_x === px) && (map_y === py)) {
           let piece_block_element = $(`<div class='piece_block piece_type_${key}'></div>`)
           piece_block_element.css(`width`, `${Tetris.block_size}px`)
           piece_block_element.css(`height`, `${Tetris.block_size}px`)
@@ -534,8 +534,7 @@ Tetris.get_random_piece = function(bag = false) {
     let names = []
 
     for (let i = 0; i < 7; i++) {
-      let n = Tetris.get_random_int
-      (
+      let n = Tetris.get_random_int(
         {
           min: 1,
           max: Tetris.pieces_list.length,
@@ -550,8 +549,7 @@ Tetris.get_random_piece = function(bag = false) {
     return names
   }
 
-  let n = Tetris.get_random_int
-  (
+  let n = Tetris.get_random_int(
     {
       min: 1,
       max: Tetris.pieces_list.length,
@@ -590,8 +588,7 @@ Tetris.get_piece_name = function(n) {
 }
 
 Tetris.get_random_big_piece = function() {
-  let n = Tetris.get_random_int
-  (
+  let n = Tetris.get_random_int(
     {
       min: 1,
       max: Tetris.big_pieces_list.length,
@@ -860,7 +857,7 @@ Tetris.do_on_piece_placed = function(from) {
 
   let num_cleared = Tetris.check_lines_cleared()
 
-  if (num_cleared === 0 && from !== `hard_drop`) {
+  if ((num_cleared === 0) && (from !== `hard_drop`)) {
     Tetris.play_sound(`locked`)
   }
 
@@ -931,7 +928,7 @@ Tetris.move_down = function(from = `generic`) {
         finish_after_move = true
       }
     }
-    else if (y2 > 0 && y2 < Tetris.grid.length) {
+    else if ((y2 > 0) && (y2 < Tetris.grid.length)) {
       let node = Tetris.grid[y2][x]
 
       if (node.used) {
@@ -939,7 +936,7 @@ Tetris.move_down = function(from = `generic`) {
       }
     }
 
-    if (y3 >= 0 && y3 < Tetris.grid.length) {
+    if ((y3 >= 0) && (y3 < Tetris.grid.length)) {
       let node = Tetris.grid[y3][x]
 
       if (node.used) {
@@ -1210,10 +1207,10 @@ Tetris.check_lines_cleared = function() {
     Tetris.lines_cleared += num_cleared
 
     if (num_cleared === 1) {
-      console.info(`1 line cleared`)
+      Tetris.info(`1 line cleared`)
     }
     else {
-      console.info(`${num_cleared} lines cleared`)
+      Tetris.info(`${num_cleared} lines cleared`)
     }
 
     if (num_cleared >= Tetris.options.piece_picker_goal) {
@@ -1533,7 +1530,7 @@ Tetris.remove_blocks_from_piece = function(id, list) {
     for (let i = 0; i < data.nodes.length; i++) {
       let node = data.nodes[i]
 
-      if (node[0] === x && node[1] === y) {
+      if ((node[0] === x) && (node[1] === y)) {
         data.nodes.splice(i, 1)
         break
       }

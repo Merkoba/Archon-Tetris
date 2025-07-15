@@ -33,22 +33,22 @@ Tetris.init = function() {
 
 Tetris.init_variables = function() {
   Tetris.game = $(`#game`)
-    
+
   Tetris.block_size = Tetris.options.block_size
   Tetris.num_horizontal_blocks = Tetris.options.number_of_columns
   Tetris.num_vertical_blocks = Tetris.options.number_of_rows
-    
+
   Tetris.game_width = Tetris.num_horizontal_blocks * Tetris.block_size
   Tetris.game_height = Tetris.num_vertical_blocks * Tetris.block_size
-    
+
   Tetris.game.css(`width`, `${Tetris.game_width}px`)
   Tetris.game.css(`height`, `${Tetris.game_height}px`)
-    
+
   Tetris.seed = Tetris.options.seed || Date.now().toString().slice(-3)
   Tetris.random = new Math.seedrandom(Tetris.seed)
   Tetris.random_2 = new Math.seedrandom(Tetris.seed)
   Tetris.random_3 = new Math.seedrandom(Tetris.seed)
-  console.info(`Using seed: ${Tetris.seed}`)
+  Tetris.info(`Using seed: ${Tetris.seed}`)
 
   Tetris.original_number_of_rows = Tetris.options.number_of_rows
   Tetris.original_number_of_columns = Tetris.options.number_of_columns
@@ -61,7 +61,7 @@ Tetris.start_game = function(initial = false) {
   Tetris.piece_active = false
   Tetris.current_piece = undefined
   Tetris.game_paused = false
-    
+
   Tetris.stop_descent_timeout()
   Tetris.stop_soft_drop_timeout()
   Tetris.stop_time_check_interval()
@@ -69,7 +69,7 @@ Tetris.start_game = function(initial = false) {
   Tetris.init_variables()
   Tetris.create_grid()
   Tetris.create_pieces()
-    
+
   Tetris.score = 0
   Tetris.level = 0
   Tetris.combo = 0
@@ -104,13 +104,13 @@ Tetris.start_game = function(initial = false) {
   Tetris.hold_piece = false
   Tetris.speed_multiplier = 1
   Tetris.score_multiplier = 1
-    
+
   $(`#hold_piece_element`).html(`Hold`)
   $(`#paused`).css(`display`, `none`)
   $(`#queued_left`).text(``)
   $(`#menu_game_over`).css(`display`, `none`)
   $(`#friend`).css(`visibility`, `hidden`)
-    
+
   Tetris.remove_friend()
   Tetris.setup_previews()
   Tetris.set_score_text()
@@ -119,7 +119,7 @@ Tetris.start_game = function(initial = false) {
   Tetris.set_seed_text()
   Tetris.set_pow_text()
   Tetris.close_all_windows()
-    
+
   if (!initial) {
     Tetris.make_game_start()
   }
@@ -153,24 +153,23 @@ Tetris.stop_countdown = function() {
 
 Tetris.start_countdown = function() {
   let n = 3
-    
+
   $(`#countdown`).text(n)
   $(`#countdown`).css(`display`, `block`)
 
   Tetris.play_sound(`countdown`)
-    
+
   Tetris.countdown_interval = setInterval(function() {
     if (Tetris.game_paused) {
       return false
     }
-        
+
     n -= 1
-        
+
     if (n === 0) {
       Tetris.do_start_game()
       Tetris.play_sound(`game_started`)
     }
-
     else {
       $(`#countdown`).text(n)
       Tetris.play_sound(`countdown`)
@@ -181,7 +180,7 @@ Tetris.start_countdown = function() {
 }
 
 Tetris.on_game_over = function(title = `Game Over`) {
-  console.info(`Game Over`)
+  Tetris.info(`Game Over`)
   Tetris.game_over_date = Date.now()
   Tetris.game_started = false
   Tetris.piece_active = false
@@ -193,7 +192,7 @@ Tetris.on_game_over = function(title = `Game Over`) {
 
   let time = Tetris.game_over_date - Tetris.time_paused
   let nice_time = Tetris.nice_time(time, Tetris.game_started_date)
-    
+
   $(`#game_over_level`).text(`Level: ${Tetris.format_number(Tetris.level)}`)
   $(`#game_over_score`).text(`Score: ${Tetris.format_number(Tetris.score)}`)
   $(`#game_over_time`).text(`Time: ${nice_time}`)
@@ -237,12 +236,12 @@ Tetris.unpause_game = function() {
   if ((!Tetris.game_started && !Tetris.on_countdown) || !Tetris.game_paused) {
     return false
   }
-    
+
   Tetris.game_paused = false
   Tetris.piece_active = true
-    
+
   Tetris.start_music()
-    
+
   if (Tetris.game_started) {
     if (Tetris.start_descent_after_unpause) {
       Tetris.start_descent_timeout()
@@ -258,7 +257,6 @@ Tetris.toggle_pause_game = function() {
   if (Tetris.game_paused) {
     Tetris.unpause_game()
   }
-
   else {
     Tetris.pause_game()
   }
@@ -266,16 +264,16 @@ Tetris.toggle_pause_game = function() {
 
 Tetris.set_score_text = function() {
   let s = `${Tetris.score}`
-  $(`#score_text`).text(Tetris.format_number(s))   
+  $(`#score_text`).text(Tetris.format_number(s))
 }
 
 Tetris.add_score = function(n) {
   let score = Math.round(n * Tetris.score_multiplier)
   Tetris.score += score
   Tetris.set_score_text()
-    
+
   if (n > 10) {
-    console.info(`Scored increased by: ${n}`)
+    Tetris.info(`Scored increased by: ${n}`)
   }
 
   if (Tetris.options.goal_type === `score`) {
@@ -298,7 +296,6 @@ Tetris.charge_combo = function() {
       Tetris.max_combo = Tetris.combo
     }
   }
-
   else {
     Tetris.combo_charged = true
   }
@@ -322,7 +319,7 @@ Tetris.hide_intro = function() {
   Tetris.msg_menu.show()
 
   $(`#intro`).css(`opacity`, 0)
-    
+
   setTimeout(function() {
     $(`#intro`).css(`display`, `none`)
   }, 1000)
@@ -355,7 +352,7 @@ Tetris.setup_audio = function() {
 }
 
 Tetris.start_windows = function() {
-  let common = 
+  let common =
     {
       before_show() {
         Tetris.pause_game()
@@ -381,10 +378,9 @@ Tetris.start_windows = function() {
       titlebar_class: `!unselectable`,
     }
 
-  Tetris.msg_menu = Msg.factory
-  (
+  Tetris.msg_menu = Msg.factory(
     {
-             
+
       ...common,
       id: `menu`,
       before_close() {
@@ -394,11 +390,10 @@ Tetris.start_windows = function() {
       },
     },
   )
-        
-  Tetris.msg_options = Msg.factory
-  (
+
+  Tetris.msg_options = Msg.factory(
     {
-            
+
       ...common,
       ...titlebar,
       id: `options`,
@@ -412,14 +407,13 @@ Tetris.start_windows = function() {
     },
   )
 
-  Tetris.msg_help = Msg.factory
-  (
+  Tetris.msg_help = Msg.factory(
     {
-             
+
       ...titlebar,
       ...common,
       id: `help`,
-      after_close() {   
+      after_close() {
         if (Tetris.on_first_time_help) {
           Tetris.on_first_time_help = false
           Tetris.hide_intro()
@@ -430,40 +424,36 @@ Tetris.start_windows = function() {
     },
   )
 
-  Tetris.msg_game_over = Msg.factory
-  (
+  Tetris.msg_game_over = Msg.factory(
     {
-            
+
       ...titlebar,
       ...common,
       id: `game_over`,
     },
   )
 
-  Tetris.msg_controls = Msg.factory
-  (
+  Tetris.msg_controls = Msg.factory(
     {
-            
+
       ...titlebar,
       ...common,
       id: `controls`,
     },
   )
 
-  Tetris.msg_texture_preview = Msg.factory
-  (
+  Tetris.msg_texture_preview = Msg.factory(
     {
-            
+
       ...titlebar,
       ...common,
       id: `texture_preview`,
     },
   )
 
-  Tetris.msg_theme = Msg.factory
-  (
+  Tetris.msg_theme = Msg.factory(
     {
-            
+
       ...titlebar,
       ...common,
       id: `theme`,
@@ -513,7 +503,7 @@ Tetris.setup_click_events = function() {
   $(`#menu_help`).click(function() {
     Tetris.show_help()
   })
-    
+
   $(`#menu_theme`).click(function() {
     Tetris.show_theme()
   })
@@ -638,18 +628,16 @@ Tetris.charge = function(type, num_cleared, callback) {
     whole = parseInt(num_split[0])
     decimals = Tetris.get_full_decimal(num_split[1])
   }
-
   else {
     whole = num
   }
 
   if (whole >= 1) {
     Tetris[type] += whole
-        
+
     if (decimals) {
       Tetris[`${type}_charge`] = (decimals / 100) * Tetris.options[`${type}_goal`]
     }
-        
     else {
       Tetris[`${type}_charge`] = 0
     }
@@ -662,7 +650,7 @@ Tetris.charge_level = function(num_cleared) {
   Tetris.charge(`level`, num_cleared, function(whole) {
     Tetris.set_level_text()
     Tetris.set_speed_text()
-    console.info(`Level Up: ${Tetris.level}`)
+    Tetris.info(`Level Up: ${Tetris.level}`)
 
     if (Tetris.options.goal_type === `level`) {
       if (Tetris.level >= Tetris.options.goal) {
@@ -681,7 +669,7 @@ Tetris.charge_pow = function(num_cleared) {
     Tetris.pows_earned += whole
     Tetris.set_pow_text()
     Tetris.play_sound(`pow_loaded`)
-    console.info(`POW Earned x ${whole}`)
+    Tetris.info(`POW Earned x ${whole}`)
   })
 }
 
@@ -693,7 +681,7 @@ Tetris.charge_friend = function(num_cleared) {
   Tetris.charge(`friend`, num_cleared, function(whole) {
     Tetris.select_random_friend()
     Tetris.play_sound(`friend`)
-    console.info(`Your Friend ${Tetris.current_friend.name} Appeared: ${Tetris.current_friend_power.description}`)
+    Tetris.info(`Your Friend ${Tetris.current_friend.name} Appeared: ${Tetris.current_friend_power.description}`)
   })
 }
 
@@ -703,7 +691,7 @@ Tetris.set_pow_text = function() {
 }
 
 Tetris.activate_pow = function() {
-  if (Tetris.pow === 0 || Tetris.clearing_lines) {
+  if ((Tetris.pow === 0) || Tetris.clearing_lines) {
     Tetris.play_sound(`tone_1`)
     return false
   }
@@ -730,7 +718,7 @@ Tetris.check_first_time = function() {
     Tetris.show_help()
     return true
   }
-    
+
   Tetris.on_first_time_help = false
   return false
 }
@@ -740,7 +728,7 @@ Tetris.start_time_check_interval = function() {
     if (Tetris.options.goal_type === `minutes`) {
       let time = Date.now() - Tetris.game_started_date - Tetris.time_paused
       let minutes = Tetris.round(time / 60 / 1000, 3)
-            
+
       if (minutes >= Tetris.options.goal) {
         Tetris.on_game_over(`Minutes Goal Met`)
       }
@@ -766,7 +754,6 @@ Tetris.conditional_start_game = function() {
   if (Tetris.first_game_started) {
     Tetris.start_game()
   }
-
   else {
     Tetris.make_game_start()
     $(`#menu_restart`).text(`Restart`)
@@ -807,7 +794,7 @@ Tetris.reset_all = function() {
 Tetris.start_cursor_events = function() {
   window.onmousemove = function() {
     Tetris.show_mouse_cursor()
-        
+
     if (!Tetris.modal_open) {
       Tetris.start_hide_mouse_cursor_timeout()
     }
@@ -830,8 +817,7 @@ Tetris.start_hide_mouse_cursor_timeout = function() {
 }
 
 Tetris.select_random_friend = function() {
-  let n = Tetris.get_random_int
-  (
+  let n = Tetris.get_random_int(
     {
       min: 0,
       max: Tetris.friends.length - 1,
@@ -856,29 +842,25 @@ Tetris.set_friend_power = function(friend) {
   Tetris.score_multiplier = 1
 
   if (friend.power.startsWith(`speed`)) {
-    let n = friend.power.match(/\d+/)[0] 
+    let n = friend.power.match(/\d+/)[0]
 
     if (friend.power.endsWith(`_d`)) {
       Tetris.speed_multiplier = n
     }
-        
     else {
       Tetris.speed_multiplier = 1 / n
     }
   }
-
   else if (friend.power.startsWith(`score`)) {
-    let n = friend.power.match(/\d+/)[0] 
+    let n = friend.power.match(/\d+/)[0]
 
     if (friend.power.endsWith(`_d`)) {
       Tetris.score_multiplier = 1 / n
     }
-        
     else {
       Tetris.score_multiplier = n
     }
   }
-
   else if (friend.power === `free_pow`) {
     Tetris.pow += 1
     Tetris.pows_earned += 1

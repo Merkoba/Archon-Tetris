@@ -95,6 +95,8 @@ export default [
         Tetris: "readable",
         "$": "readable",
         Msg: "readable",
+        Handlebars: "readable",
+        Separator: "readable",
       }
     }
   }

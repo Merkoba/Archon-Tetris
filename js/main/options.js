@@ -210,7 +210,7 @@ Tetris.get_options = function() {
 }
 
 Tetris.setup_options = function() {
-  Tetris.get_options()   
+  Tetris.get_options()
   Tetris.prepare_options_widgets()
   Tetris.start_options_widget_listeners()
   Tetris.call_initial_option_actions()
@@ -249,8 +249,7 @@ Tetris.prepare_options_widgets = function() {
     if (type === `checkbox`) {
       $(this).prop(`checked`, option)
     }
-
-    else if (type === `number` || type === `text` || type === `select`) {
+    else if ((type === `number`) || (type === `text`) || (type === `select`)) {
       $(this).val(option)
     }
   })
@@ -260,25 +259,23 @@ Tetris.start_options_widget_listeners = function() {
   $(`#options_container`).find(`.options_widget`).each(function() {
     let type = $(this).data(`options-widget-type`)
     let id = $(this).attr(`id`).replace(`option_`, ``)
-        
+
     if (type === `checkbox`) {
       $(this).change(function() {
         let option = Tetris.options[id]
         let val = $(`#option_${id}`).prop(`checked`)
-                
+
         if (val !== option) {
           if (Tetris[`option_${id}_action`](val)) {
             Tetris.save_options()
           }
-
           else {
             $(`#option_${id}`).prop(`checked`, option)
           }
         }
       })
     }
-        
-    else if (type === `number` || type === `text`) {
+    else if ((type === `number`) || (type === `text`)) {
       $(this).blur(function() {
         let option = Tetris.options[id]
         let val = $(`#option_${id}`).val()
@@ -291,16 +288,14 @@ Tetris.start_options_widget_listeners = function() {
               Tetris.show_texture_preview()
             }
           }
-
           else {
             $(`#option_${id}`).val(option)
           }
         }
       })
     }
-
     else if (type === `select`) {
-      $(this).change(function() {  
+      $(this).change(function() {
         let option = Tetris.options[id]
         let val = $(this).find(`option:selected`).val()
 
@@ -312,7 +307,6 @@ Tetris.start_options_widget_listeners = function() {
               Tetris.show_texture_preview()
             }
           }
-
           else {
             $(`#option_${id}`).val(option)
           }
@@ -335,12 +329,11 @@ Tetris.on_options_close = function() {
 }
 
 Tetris.check_initial_options = function() {
-  if
-  (
-    Tetris.original_number_of_rows !== Tetris.options.number_of_rows ||
-        Tetris.original_number_of_columns !== Tetris.options.number_of_columns ||
-        Tetris.original_block_size !== Tetris.options.block_size ||
-        Tetris.original_seed !== Tetris.options.seed
+  if (
+    (Tetris.original_number_of_rows !== Tetris.options.number_of_rows) ||
+    (Tetris.original_number_of_columns !== Tetris.options.number_of_columns) ||
+    (Tetris.original_block_size !== Tetris.options.block_size) ||
+    (Tetris.original_seed !== Tetris.options.seed)
   ) {
     if (confirm(`To apply these options the game must be restarted. Restart now?`)) {
       Tetris.start_game()
@@ -354,11 +347,9 @@ Tetris.apply_block_shape = function() {
   if (Tetris.options.block_shape === `square`) {
     radius = `0%`
   }
-
   else if (Tetris.options.block_shape === `rounded`) {
-    radius = `25%`        
+    radius = `25%`
   }
-
   else if (Tetris.options.block_shape === `circle`) {
     radius = `50%`
   }
@@ -370,7 +361,6 @@ Tetris.apply_background = function() {
   if (Tetris.options.background === `none`) {
     $(`#background`).css(`display`, `none`)
   }
-
   else if (Tetris.options.background === `url`) {
     let url = Tetris.options.background_url
 
@@ -379,7 +369,6 @@ Tetris.apply_background = function() {
       $(`#background`).css(`display`, `block`)
     }
   }
-
   else {
     document.documentElement.style.setProperty(`--background`, `url(../img/bg${Tetris.options.background}.gif)`)
     $(`#background`).css(`display`, `block`)
@@ -392,7 +381,6 @@ Tetris.update_block_texture = function() {
   if (Tetris.options.block_texture === `url`) {
     texture = Tetris.options.block_texture_url
   }
-
   else {
     texture = `img/textures/${Tetris.options.block_texture}`
   }
@@ -406,12 +394,11 @@ Tetris.setup_options_window = function() {
 
     $(`#options_content`).find(`.options_category`).each(function() {
       let category2 = $(this).attr(`id`).replace(`options_category_`, ``)
-            
+
       if (category === category2) {
         $(this).css(`display`, `block`)
         $(`#options_category_item_${category2}`).addClass(`options_category_item_selected`)
       }
-
       else {
         $(this).css(`display`, `none`)
         $(`#options_category_item_${category2}`).removeClass(`options_category_item_selected`)
@@ -475,7 +462,6 @@ Tetris.option_ghost_action = function(val) {
   if (Tetris.options.ghost) {
     Tetris.show_ghost()
   }
-
   else {
     Tetris.hide_ghost()
   }
@@ -499,7 +485,6 @@ Tetris.option_background_action = function(val) {
   if (Tetris.options.background === `url`) {
     $(`#options_item_background_url`).css(`display`, `block`)
   }
-    
   else {
     $(`#options_item_background_url`).css(`display`, `none`)
   }
@@ -566,11 +551,11 @@ Tetris.option_seed_action = function(val) {
 
 Tetris.option_goal_action = function(val) {
   let value = parseInt(val)
-    
+
   if (value < 1) {
     return false
   }
-    
+
   Tetris.options.goal = value
   return true
 }
@@ -581,7 +566,6 @@ Tetris.option_goal_type_action = function(val) {
   if (Tetris.options.goal_type === `none`) {
     $(`#options_item_goal`).css(`display`, `none`)
   }
-    
   else {
     $(`#options_item_goal`).css(`display`, `block`)
   }
@@ -628,7 +612,6 @@ Tetris.option_block_texture_action = function(val) {
   if (Tetris.options.block_texture === `url`) {
     $(`#options_item_block_texture_url`).css(`display`, `block`)
   }
-    
   else {
     $(`#options_item_block_texture_url`).css(`display`, `none`)
   }
@@ -660,7 +643,6 @@ Tetris.option_big_pieces_action = function(val) {
   if (Tetris.options.big_pieces) {
     $(`#options_item_big_piece_goal`).css(`display`, `block`)
   }
-    
   else {
     $(`#options_item_big_piece_goal`).css(`display`, `none`)
   }
@@ -676,7 +658,6 @@ Tetris.option_piece_picker_action = function(val) {
     $(`#options_item_piece_picker_goal`).css(`display`, `block`)
     $(`#options_item_piece_picker_queue`).css(`display`, `block`)
   }
-    
   else {
     $(`#options_item_piece_picker_list`).css(`display`, `none`)
     $(`#options_item_piece_picker_goal`).css(`display`, `none`)
@@ -735,7 +716,6 @@ Tetris.option_pow_action = function(val) {
   if (Tetris.options.pow) {
     $(`#options_item_pow_goal`).css(`display`, `block`)
   }
-    
   else {
     $(`#options_item_pow_goal`).css(`display`, `none`)
   }
@@ -771,15 +751,13 @@ Tetris.option_hold_action = function(val) {
   if (Tetris.options.hold) {
     $(`#hold_piece`).css(`display`, `flex`)
   }
-    
   else {
     $(`#hold_piece`).css(`display`, `none`)
   }
-    
+
   if (!Tetris.options.hold && !Tetris.options.friends) {
     $(`#sidebar_left`).css(`display`, `none`)
   }
-    
   else {
     $(`#sidebar_left`).css(`display`, `flex`)
   }
@@ -794,7 +772,6 @@ Tetris.option_friends_action = function(val) {
     $(`#options_item_friend_goal`).css(`display`, `block`)
     $(`#options_item_friend_piece_goal`).css(`display`, `block`)
   }
-    
   else {
     $(`#options_item_friend_goal`).css(`display`, `none`)
     $(`#options_item_friend_piece_goal`).css(`display`, `none`)
@@ -803,7 +780,6 @@ Tetris.option_friends_action = function(val) {
   if (!Tetris.options.hold && !Tetris.options.friends) {
     $(`#sidebar_left`).css(`display`, `none`)
   }
-    
   else {
     $(`#sidebar_left`).css(`display`, `flex`)
   }
@@ -857,11 +833,10 @@ Tetris.option_hard_piece_lock_delay_action = function(val) {
 
 Tetris.option_active_piece_action = function(val) {
   Tetris.options.active_piece = val
-    
+
   if (Tetris.options.active_piece) {
     $(`#active_piece`).css(`display`, `flex`)
   }
-    
   else {
     $(`#active_piece`).css(`display`, `none`)
   }

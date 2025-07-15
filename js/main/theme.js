@@ -189,7 +189,7 @@ Tetris.apply_theme = function() {
   let body = Tetris.colorlib.array_to_rgb(Tetris.colorlib.hex_to_rgb(Tetris.theme.body))
   let text = Tetris.colorlib.get_lighter_or_darker(body, 0.9)
   let ghost_transparency = (100 - Tetris.theme.ghost_transparency) / 100
-    
+
   let background_transparency
 
   if (Tetris.theme.background_transparency === `none`) {
@@ -209,8 +209,8 @@ Tetris.apply_theme = function() {
   }
 
   for (let key in Tetris.theme) {
-    if (!Tetris.pieces_list.includes(key) && key !== `independent`) {
-      continue 
+    if (!Tetris.pieces_list.includes(key) && (key !== `independent`)) {
+      continue
     }
 
     let color = Tetris.colorlib.array_to_rgb(Tetris.colorlib.hex_to_rgb(Tetris.theme[key]))
@@ -221,12 +221,12 @@ Tetris.apply_theme = function() {
     if (Tetris.theme.gradient === 0) {
       background = `var(--texture), ${color}`
     }
-        
+
     else {
       background = `var(--texture), linear-gradient(${color} ${100 - Tetris.theme.gradient}%, ${color_2} 100%)`
     }
 
-    styles += 
+    styles +=
         `.piece_type_${key}, .piece_type_${key}_2
         {
             background: ${background};
@@ -259,12 +259,12 @@ Tetris.apply_theme = function() {
         {
             box-shadow: inset 0 0 1px ${block_2};
         }
-        
+
         .game_flash
         {
             background-color: ${flash_2} !important;
         }
-        
+
         .game_flash .block
         {
             box-shadow: inset 0 0 1px ${flash_2} !important;

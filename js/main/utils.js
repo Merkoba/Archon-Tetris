@@ -133,9 +133,14 @@ Tetris.nice_time = function(date1, date2) {
 }
 
 Tetris.get_full_decimal = function(s) {
-  if (s.startsWith(`0`) || s.length > 1) {
+  if (s.startsWith(`0`) || (s.length > 1)) {
     return parseInt(s.substring(0, 2))
   }
 
   return parseInt(`${s}0`)
+}
+
+Tetris.info = (s) => {
+  // eslint-disable-next-line no-console
+  console.info(s)
 }
