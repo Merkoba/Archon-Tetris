@@ -599,6 +599,10 @@ option {
   cursor: pointer;
 }
 
+.preview_button:hover {
+    text-decoration: underline;
+}
+
 #theme_container {
   width: 16rem;
 }
