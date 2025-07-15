@@ -1,30 +1,32 @@
+
+
 <!DOCTYPE html>
 
 <html>
     <head>
+        <meta charset="utf-8">
         <title>Archon Tetris</title>
-        <link rel='shortcut icon' href='img/favicon.png?version=1' type='image/x-icon'>
+        <link rel="shortcut icon" href="img/favicon.png?version=1" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href="css/style.css?version=41">
 
-        <link rel='stylesheet' type='text/css' href='css/style.css?version=41'>
+        <script src="js/libs/jquery.min.js?version=1"></script>
+        <script src="js/libs/seedrandom.min.js?version=1"></script>
+        <script src="js/libs/handlebars.js?version=1"></script>
+        <script src="js/libs/msg.min.js?version=1"></script>
+        <script src="js/libs/separator.js?version=1"></script>
+        <script src="js/libs/colorlib.js?version=1"></script>
 
-        <script src='js/libs/jquery.min.js?version=1'></script>
-        <script src='js/libs/seedrandom.min.js?version=1'></script>
-        <script src='js/libs/handlebars.js?version=1'></script>
-        <script src='js/libs/msg.min.js?version=1'></script>
-        <script src='js/libs/separator.js?version=1'></script>
-        <script src='js/libs/colorlib.js?version=1'></script>
-
-        <script src='js/main/base.js?version=50'></script>
-        <script src='js/main/utils.js?version=7'></script>
-        <script src='js/main/pieces.js?version=36'></script>
-        <script src='js/main/grid.js?version=1'></script>
-        <script src='js/main/keyboard.js?version=12'></script>
-        <script src='js/main/local_storage.js?version=1'></script>
-        <script src='js/main/options.js?version=31'></script>
-        <script src='js/main/controls.js?version=7'></script>
-        <script src='js/main/textures.js?version=1'></script>
-        <script src='js/main/theme.js?version=15'></script>
-        <script src='js/main/friends.js?version=2'></script>
+        <script src="js/main/base.js?version=50"></script>
+        <script src="js/main/utils.js?version=7"></script>
+        <script src="js/main/pieces.js?version=36"></script>
+        <script src="js/main/grid.js?version=1"></script>
+        <script src="js/main/keyboard.js?version=12"></script>
+        <script src="js/main/local_storage.js?version=1"></script>
+        <script src="js/main/options.js?version=31"></script>
+        <script src="js/main/controls.js?version=7"></script>
+        <script src="js/main/textures.js?version=1"></script>
+        <script src="js/main/theme.js?version=15"></script>
+        <script src="js/main/friends.js?version=2"></script>
 
         <script>
             $(function()
@@ -35,68 +37,68 @@
     </head>
 
     <body>
-        <div id='background'></div>
-        <div id='main'>
-            <div id='main_container'>
-                <div id='topbar'>
-                    <div id='score'>
-                        <div id='score_text'>0</div>
+        <div id="background"></div>
+        <div id="main">
+            <div id="main_container">
+                <div id="topbar">
+                    <div id="score">
+                        <div id="score_text">0</div>
                     </div>
 
-                    <div id='info'>
-                        <div id='level_text'>Level: 0</div>
-                        <div id='speed_text'>Speed: 0</div>
-                        <div id='pow_text'>POW: 0</div>
+                    <div id="info">
+                        <div id="level_text">Level: 0</div>
+                        <div id="speed_text">Speed: 0</div>
+                        <div id="pow_text">POW: 0</div>
                     </div>
 
-                    <div id='info2'>
-                        <div id='seed_text'>Seed: None</div>
-                        <div id='menu' class='action unselectable'>Menu</div>
-                    </div>
-                </div>
-
-                <div id='game_container'>
-                    <div id='game' width=800 height=600></div>
-                    <div id='countdown' class='game_box unselectable'>3</div>
-                    <div id='paused' class='game_box unselectable'>Paused</div>
-                </div>
-
-                <div id='sidebar_left' class='unselectable'>
-                    <div id='hold_piece'>
-                        <div id='hold_piece_element'>Hold</div>
-                    </div>
-
-                    <div id='friend'>
-                        <div id='friend_element'></div>
-                        <div id='friend_info'></div>
+                    <div id="info2">
+                        <div id="seed_text">Seed: None</div>
+                        <div id="menu" class="action unselectable">Menu</div>
                     </div>
                 </div>
 
-                <div id='sidebar_right' class='unselectable'>
-                    <div id='active_piece'>
-                        <div id='active_piece_element'></div>
-                        <div id='queued_left'></div>
-                    </div>
-
-                    <div id='previews'></div>
+                <div id="game_container">
+                    <div id="game" width=800 height=600></div>
+                    <div id="countdown" class="game_box unselectable">3</div>
+                    <div id="paused" class="game_box unselectable">Paused</div>
                 </div>
 
-                <div id='piece_picker'>
-                    <div id='piece_picker_title'></div>
+                <div id="sidebar_left" class="unselectable">
+                    <div id="hold_piece">
+                        <div id="hold_piece_element">Hold</div>
+                    </div>
 
-                    <div id='piece_picker_wheel'>
-                        <img id='piece_picker_wheel_arrow_left' class='piece_picker_wheel_arrow' src='img/arrow_left.png'>
-                        <div id='piece_picker_wheel_content'></div>
-                        <img id='piece_picker_wheel_arrow_right' class='piece_picker_wheel_arrow' src='img/arrow_right.png'>
+                    <div id="friend">
+                        <div id="friend_element"></div>
+                        <div id="friend_info"></div>
+                    </div>
+                </div>
+
+                <div id="sidebar_right" class="unselectable">
+                    <div id="active_piece">
+                        <div id="active_piece_element"></div>
+                        <div id="queued_left"></div>
+                    </div>
+
+                    <div id="previews"></div>
+                </div>
+
+                <div id="piece_picker">
+                    <div id="piece_picker_title"></div>
+
+                    <div id="piece_picker_wheel">
+                        <img id="piece_picker_wheel_arrow_left" class="piece_picker_wheel_arrow" src="img/arrow_left.png">
+                        <div id="piece_picker_wheel_content"></div>
+                        <img id="piece_picker_wheel_arrow_right" class="piece_picker_wheel_arrow" src="img/arrow_right.png">
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id='intro'>
-            <img id='intro_image' src='img/intro.jpg'>
+        <div id="intro">
+            <img id="intro_image" src="img/intro.jpg">
 
-            <div id='intro_credits'>
+            <div id="intro_credits">
                 Tetris &copy; 1985 Tetris Holding.<br>
                 Tetris logos, Tetris theme song and Tetriminos are trademarks of Tetris Holding.<br>
                 The Tetris trade dress is owned by Tetris Holding.<br>
@@ -107,557 +109,557 @@
             </div>
         </div>
 
-        <audio preload id='music' src='audio/music.mp3?version=1'></audio>
-        <audio preload id='sound_move' src='audio/move.mp3?version=1'></audio>
-        <audio preload id='sound_countdown' src='audio/countdown.mp3?version=1'></audio>
-        <audio preload id='sound_game_started' src='audio/game_started.mp3?version=1'></audio>
-        <audio preload id='sound_placed' src='audio/placed.mp3?version=1'></audio>
-        <audio preload id='sound_intro' src='audio/intro.mp3?version=1'></audio>
-        <audio preload id='sound_rotate' src='audio/rotate.mp3?version=2'></audio>
-        <audio preload id='sound_clear' src='audio/clear.mp3?version=2'></audio>
-        <audio preload id='sound_game_over' src='audio/game_over.mp3?version=2'></audio>
-        <audio preload id='sound_pow' src='audio/pow.mp3?version=2'></audio>
-        <audio preload id='sound_locked' src='audio/locked.mp3?version=2'></audio>
-        <audio preload id='sound_woosh' src='audio/woosh.mp3?version=4'></audio>
-        <audio preload id='sound_pow_loaded' src='audio/pow_loaded.mp3?version=4'></audio>
-        <audio preload id='sound_hold' src='audio/hold.mp3?version=2'></audio>
-        <audio preload id='sound_friend' src='audio/friend.mp3?version=2'></audio>
+        <audio preload id="music" src="audio/music.mp3?version=1"></audio>
+        <audio preload id="sound_move" src="audio/move.mp3?version=1"></audio>
+        <audio preload id="sound_countdown" src="audio/countdown.mp3?version=1"></audio>
+        <audio preload id="sound_game_started" src="audio/game_started.mp3?version=1"></audio>
+        <audio preload id="sound_placed" src="audio/placed.mp3?version=1"></audio>
+        <audio preload id="sound_intro" src="audio/intro.mp3?version=1"></audio>
+        <audio preload id="sound_rotate" src="audio/rotate.mp3?version=2"></audio>
+        <audio preload id="sound_clear" src="audio/clear.mp3?version=2"></audio>
+        <audio preload id="sound_game_over" src="audio/game_over.mp3?version=2"></audio>
+        <audio preload id="sound_pow" src="audio/pow.mp3?version=2"></audio>
+        <audio preload id="sound_locked" src="audio/locked.mp3?version=2"></audio>
+        <audio preload id="sound_woosh" src="audio/woosh.mp3?version=4"></audio>
+        <audio preload id="sound_pow_loaded" src="audio/pow_loaded.mp3?version=4"></audio>
+        <audio preload id="sound_hold" src="audio/hold.mp3?version=2"></audio>
+        <audio preload id="sound_friend" src="audio/friend.mp3?version=2"></audio>
     </body>
 
-    <script id='template_menu' type='text/x-handlebars-template' class='template'>
-        <div id='menu_container' class='unselectable'>
-            <div id='menu_game_over' class='menu_item action'>Game Over</div>
-            <div id='menu_restart' class='menu_item action'>Start</div>
-            <div id='menu_options' class='menu_item action'>Options</div>
-            <div id='menu_controls' class='menu_item action'>Controls</div>
-            <div id='menu_theme' class='menu_item action'>Theme</div>
-            <div id='menu_reset' class='menu_item action'>Reset</div>
-            <div id='menu_help' class='menu_item action'>Help</div>
+    <script id="template_menu" type="text/x-handlebars-template" class="template">
+        <div id="menu_container" class="unselectable">
+            <div id="menu_game_over" class="menu_item action">Game Over</div>
+            <div id="menu_restart" class="menu_item action">Start</div>
+            <div id="menu_options" class="menu_item action">Options</div>
+            <div id="menu_controls" class="menu_item action">Controls</div>
+            <div id="menu_theme" class="menu_item action">Theme</div>
+            <div id="menu_reset" class="menu_item action">Reset</div>
+            <div id="menu_help" class="menu_item action">Help</div>
         </div>
     </script>
 
-    <script id='template_options' type='text/x-handlebars-template' class='template'>
-        <div id='options_container'>
-            <div id='options_sidebar' class='unselectable'>
-                <div class='options_category_item options_category_item_selected' id='options_category_item_visual'>Visual</div>
-                <div class='options_category_item' id='options_category_item_audio'>Audio</div>
-                <div class='options_category_item' id='options_category_item_piece_picker'>Picker</div>
-                <div class='options_category_item' id='options_category_item_big_pieces'>Big</div>
-                <div class='options_category_item' id='options_category_item_pow'>POW</div>
-                <div class='options_category_item' id='options_category_item_friends'>Friends</div>
-                <div class='options_category_item' id='options_category_item_descent'>Descent</div>
-                <div class='options_category_item' id='options_category_item_goal'>Goal</div>
-                <div class='options_category_item' id='options_category_item_lock'>Lock</div>
-                <div class='options_category_item' id='options_category_item_other'>Other</div>
-                <div id='options_reset_button' class='action'>Reset</div>
+    <script id="template_options" type="text/x-handlebars-template" class="template">
+        <div id="options_container">
+            <div id="options_sidebar" class="unselectable">
+                <div class="options_category_item options_category_item_selected" id="options_category_item_visual">Visual</div>
+                <div class="options_category_item" id="options_category_item_audio">Audio</div>
+                <div class="options_category_item" id="options_category_item_piece_picker">Picker</div>
+                <div class="options_category_item" id="options_category_item_big_pieces">Big</div>
+                <div class="options_category_item" id="options_category_item_pow">POW</div>
+                <div class="options_category_item" id="options_category_item_friends">Friends</div>
+                <div class="options_category_item" id="options_category_item_descent">Descent</div>
+                <div class="options_category_item" id="options_category_item_goal">Goal</div>
+                <div class="options_category_item" id="options_category_item_lock">Lock</div>
+                <div class="options_category_item" id="options_category_item_other">Other</div>
+                <div id="options_reset_button" class="action">Reset</div>
             </div>
 
-            <div id='options_content'>
-                <div id='options_category_visual' class='options_category'>
-                    <div class='options_item'>
-                        <div class='options_label'>Ghost</div>
-                        <input type='checkbox' id='option_ghost' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+            <div id="options_content">
+                <div id="options_category_visual" class="options_category">
+                    <div class="options_item">
+                        <div class="options_label">Ghost</div>
+                        <input type="checkbox" id="option_ghost" class="options_widget options_checkbox" data-options-widget-type="checkbox">
                     </div>
 
-                    <div class='options_item'>
-                        <div class='options_label'>Current Piece<br>In Preview</div>
-                        <input type='checkbox' id='option_active_piece' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+                    <div class="options_item">
+                        <div class="options_label">Current Piece<br>In Preview</div>
+                        <input type="checkbox" id="option_active_piece" class="options_widget options_checkbox" data-options-widget-type="checkbox">
                     </div>
 
-                    <div class='options_item'>
-                        <div class='options_label'>Rows</div>
-                        <input type='number' min='10' id='option_number_of_rows' class='options_widget options_number' data-options-widget-type='number'>
+                    <div class="options_item">
+                        <div class="options_label">Rows</div>
+                        <input type="number" min="10" id="option_number_of_rows" class="options_widget options_number" data-options-widget-type="number">
                     </div>
 
-                    <div class='options_item'>
-                        <div class='options_label'>Columns</div>
-                        <input type='number' min='10' id='option_number_of_columns' class='options_widget options_number' data-options-widget-type='number'>
+                    <div class="options_item">
+                        <div class="options_label">Columns</div>
+                        <input type="number" min="10" id="option_number_of_columns" class="options_widget options_number" data-options-widget-type="number">
                     </div>
 
-                    <div class='options_item'>
-                        <div class='options_label'>Previews</div>
-                        <input type='number' min='0' id='option_number_of_previews' class='options_widget options_number' data-options-widget-type='number'>
+                    <div class="options_item">
+                        <div class="options_label">Previews</div>
+                        <input type="number" min="0" id="option_number_of_previews" class="options_widget options_number" data-options-widget-type="number">
                     </div>
 
-                    <div class='options_item'>
-                        <div class='options_label'>Block Size</div>
-                        <input type='number' min='4' id='option_block_size' class='options_widget options_number' data-options-widget-type='number'>
+                    <div class="options_item">
+                        <div class="options_label">Block Size</div>
+                        <input type="number" min="4" id="option_block_size" class="options_widget options_number" data-options-widget-type="number">
                     </div>
 
-                    <div class='options_item'>
-                        <div class='options_label'>Block Shape</div>
-                        <select id='option_block_shape' class='options_widget options_select' data-options-widget-type='select'>
-                            <option value='square'>Square</option>
-                            <option value='rounded'>Rounded</option>
-                            <option value='circle'>Circle</option>
+                    <div class="options_item">
+                        <div class="options_label">Block Shape</div>
+                        <select id="option_block_shape" class="options_widget options_select" data-options-widget-type="select">
+                            <option value="square">Square</option>
+                            <option value="rounded">Rounded</option>
+                            <option value="circle">Circle</option>
                         </select>
                     </div>
 
-                    <div class='options_item'>
-                        <div class='options_label'>Block Texture</div>
-                        <select id='option_block_texture' class='options_widget options_select' data-options-widget-type='select'></select>
+                    <div class="options_item">
+                        <div class="options_label">Block Texture</div>
+                        <select id="option_block_texture" class="options_widget options_select" data-options-widget-type="select"></select>
                     </div>
 
-                    <div class='options_item' id='options_item_block_texture_url'>
-                        <div class='options_label'>Block Texture URL</div>
-                        <input type='text' id='option_block_texture_url' class='options_widget options_text' data-options-widget-type='text'>
+                    <div class="options_item" id="options_item_block_texture_url">
+                        <div class="options_label">Block Texture URL</div>
+                        <input type="text" id="option_block_texture_url" class="options_widget options_text" data-options-widget-type="text">
                     </div>
 
-                    <div class='options_item'>
-                        <div class='options_label'>Background</div>
+                    <div class="options_item">
+                        <div class="options_label">Background</div>
 
-                        <select id='option_background' class='options_widget options_select' data-options-widget-type='select'>
-                            <option value='none'>None</option>
-                            <option value='url'>URL</option>
-                            <option value='1'>1</option>
-                            <option value='2'>2</option>
-                            <option value='3'>3</option>
-                            <option value='4'>4</option>
-                            <option value='5'>5</option>
-                            <option value='6'>6</option>
-                            <option value='7'>7</option>
+                        <select id="option_background" class="options_widget options_select" data-options-widget-type="select">
+                            <option value="none">None</option>
+                            <option value="url">URL</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
                         </select>
                     </div>
 
-                    <div class='options_item' id='options_item_background_url'>
-                        <div class='options_label'>Background URL</div>
-                        <input type='text' id='option_background_url' class='options_widget options_text' data-options-widget-type='text'>
+                    <div class="options_item" id="options_item_background_url">
+                        <div class="options_label">Background URL</div>
+                        <input type="text" id="option_background_url" class="options_widget options_text" data-options-widget-type="text">
                     </div>
                 </div>
-                <div id='options_category_audio' class='options_category'>
-                    <div class='options_item'>
-                        <div class='options_label'>Music</div>
-                        <input type='checkbox' id='option_music' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+                <div id="options_category_audio" class="options_category">
+                    <div class="options_item">
+                        <div class="options_label">Music</div>
+                        <input type="checkbox" id="option_music" class="options_widget options_checkbox" data-options-widget-type="checkbox">
                     </div>
 
-                    <div class='options_item'>
-                        <div class='options_label'>Sound Effects</div>
-                        <input type='checkbox' id='option_sound_effects' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+                    <div class="options_item">
+                        <div class="options_label">Sound Effects</div>
+                        <input type="checkbox" id="option_sound_effects" class="options_widget options_checkbox" data-options-widget-type="checkbox">
                     </div>
                 </div>
-                <div id='options_category_piece_picker' class='options_category'>
-                    <div class='options_item'>
-                        <div class='options_label'>Piece Picker</div>
-                        <input type='checkbox' id='option_piece_picker' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+                <div id="options_category_piece_picker" class="options_category">
+                    <div class="options_item">
+                        <div class="options_label">Piece Picker</div>
+                        <input type="checkbox" id="option_piece_picker" class="options_widget options_checkbox" data-options-widget-type="checkbox">
                     </div>
 
-                    <div class='options_item' id='options_item_piece_picker_list'>
-                        <div class='options_label'>Piece Picker List</div>
+                    <div class="options_item" id="options_item_piece_picker_list">
+                        <div class="options_label">Piece Picker List</div>
 
-                        <select id='option_piece_picker_list' class='options_widget options_select' data-options-widget-type='select'>
-                            <option value='normal_and_big'>Normal And Big Pieces</option>
-                            <option value='only_normal'>Only Normal Pieces</option>
-                            <option value='only_big'>Only Big Pieces</option>
+                        <select id="option_piece_picker_list" class="options_widget options_select" data-options-widget-type="select">
+                            <option value="normal_and_big">Normal And Big Pieces</option>
+                            <option value="only_normal">Only Normal Pieces</option>
+                            <option value="only_big">Only Big Pieces</option>
                         </select>
                     </div>
 
-                    <div class='options_item' id='options_item_piece_picker_goal'>
-                        <div class='options_label'>Line Clears<br>To Show Piece Picker</div>
-                        <input type='number' min='1' id='option_piece_picker_goal' class='options_widget options_number' data-options-widget-type='number'>
+                    <div class="options_item" id="options_item_piece_picker_goal">
+                        <div class="options_label">Line Clears<br>To Show Piece Picker</div>
+                        <input type="number" min="1" id="option_piece_picker_goal" class="options_widget options_number" data-options-widget-type="number">
                     </div>
 
-                    <div class='options_item' id='options_item_piece_picker_queue'>
-                        <div class='options_label'>Amount Of<br>Picked Piece To Place</div>
-                        <input type='number' min='1' id='option_piece_picker_queue' class='options_widget options_number' data-options-widget-type='number'>
+                    <div class="options_item" id="options_item_piece_picker_queue">
+                        <div class="options_label">Amount Of<br>Picked Piece To Place</div>
+                        <input type="number" min="1" id="option_piece_picker_queue" class="options_widget options_number" data-options-widget-type="number">
                     </div>
                 </div>
-                <div id='options_category_big_pieces' class='options_category'>
-                    <div class='options_item'>
-                        <div class='options_label'>Big Pieces</div>
-                        <input type='checkbox' id='option_big_pieces' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+                <div id="options_category_big_pieces" class="options_category">
+                    <div class="options_item">
+                        <div class="options_label">Big Pieces</div>
+                        <input type="checkbox" id="option_big_pieces" class="options_widget options_checkbox" data-options-widget-type="checkbox">
                     </div>
 
-                    <div class='options_item' id='options_item_big_piece_goal'>
-                        <div class='options_label'>Pieces Before<br>Big Piece</div>
-                        <input type='number' min='1' id='option_big_piece_goal' class='options_widget options_number' data-options-widget-type='number'>
+                    <div class="options_item" id="options_item_big_piece_goal">
+                        <div class="options_label">Pieces Before<br>Big Piece</div>
+                        <input type="number" min="1" id="option_big_piece_goal" class="options_widget options_number" data-options-widget-type="number">
                     </div>
                 </div>
-                <div id='options_category_pow' class='options_category'>
-                    <div class='options_item'>
-                        <div class='options_label'>POW</div>
-                        <input type='checkbox' id='option_pow' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+                <div id="options_category_pow" class="options_category">
+                    <div class="options_item">
+                        <div class="options_label">POW</div>
+                        <input type="checkbox" id="option_pow" class="options_widget options_checkbox" data-options-widget-type="checkbox">
                     </div>
 
-                    <div class='options_item' id='options_item_pow_goal'>
-                        <div class='options_label'>Line Clears<br>To Earn POW</div>
-                        <input type='number' min='1' id='option_pow_goal' class='options_widget options_number' data-options-widget-type='number'>
+                    <div class="options_item" id="options_item_pow_goal">
+                        <div class="options_label">Line Clears<br>To Earn POW</div>
+                        <input type="number" min="1" id="option_pow_goal" class="options_widget options_number" data-options-widget-type="number">
                     </div>
                 </div>
-                <div id='options_category_friends' class='options_category'>
-                    <div class='options_item'>
-                        <div class='options_label'>Friends</div>
-                        <input type='checkbox' id='option_friends' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+                <div id="options_category_friends" class="options_category">
+                    <div class="options_item">
+                        <div class="options_label">Friends</div>
+                        <input type="checkbox" id="option_friends" class="options_widget options_checkbox" data-options-widget-type="checkbox">
                     </div>
 
-                    <div class='options_item' id='options_item_friend_goal'>
-                        <div class='options_label'>Line Clears<br>To Change Friend</div>
-                        <input type='number' min='1' id='option_friend_goal' class='options_widget options_number' data-options-widget-type='number'>
+                    <div class="options_item" id="options_item_friend_goal">
+                        <div class="options_label">Line Clears<br>To Change Friend</div>
+                        <input type="number" min="1" id="option_friend_goal" class="options_widget options_number" data-options-widget-type="number">
                     </div>
 
-                    <div class='options_item' id='options_item_friend_piece_goal'>
-                        <div class='options_label'>Pieces Placed<br>To Remove Friend</div>
-                        <input type='number' min='1' id='option_friend_piece_goal' class='options_widget options_number' data-options-widget-type='number'>
-                    </div>
-                </div>
-
-                <div id='options_category_descent' class='options_category'>
-                    <div class='options_item'>
-                        <div class='options_label' title='This is in milliseconds. Higher == Speed increases faster as levels increase'>Descent Multiplier</div>
-                        <input type='number' min='1' id='option_descent_multiplier' class='options_widget options_number' data-options-widget-type='number'>
-                    </div>
-
-                    <div class='options_item'>
-                        <div class='options_label' title='This is in milliseconds. Lower == Faster'>Minimum Descent Delay</div>
-                        <input type='number' min='10' id='option_min_descent_delay' class='options_widget options_number' data-options-widget-type='number'>
-                    </div>
-
-                    <div class='options_item'>
-                        <div class='options_label' title='This is in milliseconds. Lower == Faster'>Soft Drop Delay</div>
-                        <input type='number' min='0' id='option_soft_drop_delay' class='options_widget options_number' data-options-widget-type='number'>
+                    <div class="options_item" id="options_item_friend_piece_goal">
+                        <div class="options_label">Pieces Placed<br>To Remove Friend</div>
+                        <input type="number" min="1" id="option_friend_piece_goal" class="options_widget options_number" data-options-widget-type="number">
                     </div>
                 </div>
-                <div id='options_category_goal' class='options_category'>
-                    <div class='options_item'>
-                        <div class='options_label'>Goal Type</div>
 
-                        <select id='option_goal_type' class='options_widget options_select' data-options-widget-type='select'>
-                            <option value='none' selected>None</option>
-                            <option value='score'>Score</option>
-                            <option value='level'>Level</option>
-                            <option value='minutes'>Minutes</option>
+                <div id="options_category_descent" class="options_category">
+                    <div class="options_item">
+                        <div class="options_label" title="This is in milliseconds. Higher == Speed increases faster as levels increase">Descent Multiplier</div>
+                        <input type="number" min="1" id="option_descent_multiplier" class="options_widget options_number" data-options-widget-type="number">
+                    </div>
+
+                    <div class="options_item">
+                        <div class="options_label" title="This is in milliseconds. Lower == Faster">Minimum Descent Delay</div>
+                        <input type="number" min="10" id="option_min_descent_delay" class="options_widget options_number" data-options-widget-type="number">
+                    </div>
+
+                    <div class="options_item">
+                        <div class="options_label" title="This is in milliseconds. Lower == Faster">Soft Drop Delay</div>
+                        <input type="number" min="0" id="option_soft_drop_delay" class="options_widget options_number" data-options-widget-type="number">
+                    </div>
+                </div>
+                <div id="options_category_goal" class="options_category">
+                    <div class="options_item">
+                        <div class="options_label">Goal Type</div>
+
+                        <select id="option_goal_type" class="options_widget options_select" data-options-widget-type="select">
+                            <option value="none" selected>None</option>
+                            <option value="score">Score</option>
+                            <option value="level">Level</option>
+                            <option value="minutes">Minutes</option>
                         </select>
                     </div>
 
-                    <div class='options_item' id='options_item_goal'>
-                        <div class='options_label'>Goal</div>
-                        <input type='number' min='1' id='option_goal' class='options_widget options_number_big' data-options-widget-type='text'>
+                    <div class="options_item" id="options_item_goal">
+                        <div class="options_label">Goal</div>
+                        <input type="number" min="1" id="option_goal" class="options_widget options_number_big" data-options-widget-type="text">
                     </div>
                 </div>
 
-                <div id='options_category_lock' class='options_category'>
-                    <div class='options_item'>
-                        <div class='options_label' title='This is in milliseconds. Lower === Faster'>Piece Lock Delay</div>
-                        <input type='number' min='0' id='option_piece_lock_delay' class='options_widget options_number' data-options-widget-type='number'>
+                <div id="options_category_lock" class="options_category">
+                    <div class="options_item">
+                        <div class="options_label" title="This is in milliseconds. Lower === Faster">Piece Lock Delay</div>
+                        <input type="number" min="0" id="option_piece_lock_delay" class="options_widget options_number" data-options-widget-type="number">
                     </div>
 
-                    <div class='options_item'>
-                        <div class='options_label' title='This is in milliseconds. Lower === Faster'>Piece Lock Delay<br>On Hard Drop</div>
-                        <input type='number' min='0' id='option_hard_piece_lock_delay' class='options_widget options_number' data-options-widget-type='number'>
-                    </div>
-                </div>
-
-                <div id='options_category_other' class='options_category'>
-                    <div class='options_item'>
-                        <div class='options_label'>Seed</div>
-                        <input type='text' id='option_seed' class='options_widget options_text' data-options-widget-type='text' placeholder='Empty == Random'>
-                    </div>
-
-                    <div class='options_item'>
-                        <div class='options_label' title='This makes all pieces touching a cleared line to separate into independent blocks'>Independence</div>
-                        <input type='checkbox' id='option_independence' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
-                    </div>
-
-                    <div class='options_item'>
-                        <div class='options_label'>Line Clears<br>To Level Up</div>
-                        <input type='number' min='1' id='option_level_goal' class='options_widget options_number' data-options-widget-type='number'>
-                    </div>
-
-                    <div class='options_item'>
-                        <div class='options_label'>Hold</div>
-                        <input type='checkbox' id='option_hold' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
-                    </div>
-
-                    <div class='options_item'>
-                        <div class='options_label'>Warn Before Closing</div>
-                        <input type='checkbox' id='option_warn_before_closing' class='options_widget options_checkbox' data-options-widget-type='checkbox'>
+                    <div class="options_item">
+                        <div class="options_label" title="This is in milliseconds. Lower === Faster">Piece Lock Delay<br>On Hard Drop</div>
+                        <input type="number" min="0" id="option_hard_piece_lock_delay" class="options_widget options_number" data-options-widget-type="number">
                     </div>
                 </div>
-            </div>
-        </div>
-    </script>
 
-    <script id='template_controls' type='text/x-handlebars-template' class='template'>
-        <div id='controls_container'>
-            <div class='controls_item'>
-                <div class='controls_label'>Rotate Right</div>
-                <input type='text' id='control_rotate_right' data-category='game' class='controls_input'>
-            </div>
+                <div id="options_category_other" class="options_category">
+                    <div class="options_item">
+                        <div class="options_label">Seed</div>
+                        <input type="text" id="option_seed" class="options_widget options_text" data-options-widget-type="text" placeholder="Empty == Random">
+                    </div>
 
-            <div class='controls_item'>
-                <div class='controls_label'>Rotate Left</div>
-                <input type='text' id='control_rotate_left' data-category='game' class='controls_input'>
-            </div>
+                    <div class="options_item">
+                        <div class="options_label" title="This makes all pieces touching a cleared line to separate into independent blocks">Independence</div>
+                        <input type="checkbox" id="option_independence" class="options_widget options_checkbox" data-options-widget-type="checkbox">
+                    </div>
 
-            <div class='controls_item'>
-                <div class='controls_label'>Move Right</div>
-                <input type='text' id='control_move_right' data-category='game' class='controls_input'>
-            </div>
+                    <div class="options_item">
+                        <div class="options_label">Line Clears<br>To Level Up</div>
+                        <input type="number" min="1" id="option_level_goal" class="options_widget options_number" data-options-widget-type="number">
+                    </div>
 
-            <div class='controls_item'>
-                <div class='controls_label'>Move Left</div>
-                <input type='text' id='control_move_left' data-category='game' class='controls_input'>
-            </div>
+                    <div class="options_item">
+                        <div class="options_label">Hold</div>
+                        <input type="checkbox" id="option_hold" class="options_widget options_checkbox" data-options-widget-type="checkbox">
+                    </div>
 
-            <div class='controls_item'>
-                <div class='controls_label'>Move Down</div>
-                <input type='text' id='control_move_down' data-category='game' class='controls_input'>
-            </div>
-
-            <div class='controls_item'>
-                <div class='controls_label'>Soft Drop</div>
-                <input type='text' id='control_soft_drop' data-category='game' class='controls_input'>
-            </div>
-
-            <div class='controls_item'>
-                <div class='controls_label'>Hard Drop</div>
-                <input type='text' id='control_hard_drop' data-category='game' class='controls_input'>
-            </div>
-
-            <div class='controls_item'>
-                <div class='controls_label'>Activate POW</div>
-                <input type='text' id='control_activate_pow' data-category='game' class='controls_input'>
-            </div>
-
-            <div class='controls_item'>
-                <div class='controls_label'>Hold</div>
-                <input type='text' id='control_hold' data-category='game' class='controls_input'>
-            </div>
-
-            <div class='controls_item'>
-                <div class='controls_label'>Piece Picker<br>Next</div>
-                <input type='text' id='control_piece_picker_next' data-category='piece_picker' class='controls_input'>
-            </div>
-
-            <div class='controls_item'>
-                <div class='controls_label'>Piece Picker<br>Previous</div>
-                <input type='text' id='control_piece_picker_previous' data-category='piece_picker' class='controls_input'>
-            </div>
-
-            <div class='controls_item'>
-                <div class='controls_label'>Piece Picker<br>Select</div>
-                <input type='text' id='control_piece_picker_select' data-category='piece_picker' class='controls_input'>
-            </div>
-
-            <div class='controls_item'>
-                <div class='controls_label unselectable' id='controls_reset'>Reset</div>
+                    <div class="options_item">
+                        <div class="options_label">Warn Before Closing</div>
+                        <input type="checkbox" id="option_warn_before_closing" class="options_widget options_checkbox" data-options-widget-type="checkbox">
+                    </div>
+                </div>
             </div>
         </div>
     </script>
 
-    <script id='template_help' type='text/x-handlebars-template' class='template'>
-        <div id='help_container'>
-            <div class='help_item'>
+    <script id="template_controls" type="text/x-handlebars-template" class="template">
+        <div id="controls_container">
+            <div class="controls_item">
+                <div class="controls_label">Rotate Right</div>
+                <input type="text" id="control_rotate_right" data-category="game" class="controls_input">
+            </div>
+
+            <div class="controls_item">
+                <div class="controls_label">Rotate Left</div>
+                <input type="text" id="control_rotate_left" data-category="game" class="controls_input">
+            </div>
+
+            <div class="controls_item">
+                <div class="controls_label">Move Right</div>
+                <input type="text" id="control_move_right" data-category="game" class="controls_input">
+            </div>
+
+            <div class="controls_item">
+                <div class="controls_label">Move Left</div>
+                <input type="text" id="control_move_left" data-category="game" class="controls_input">
+            </div>
+
+            <div class="controls_item">
+                <div class="controls_label">Move Down</div>
+                <input type="text" id="control_move_down" data-category="game" class="controls_input">
+            </div>
+
+            <div class="controls_item">
+                <div class="controls_label">Soft Drop</div>
+                <input type="text" id="control_soft_drop" data-category="game" class="controls_input">
+            </div>
+
+            <div class="controls_item">
+                <div class="controls_label">Hard Drop</div>
+                <input type="text" id="control_hard_drop" data-category="game" class="controls_input">
+            </div>
+
+            <div class="controls_item">
+                <div class="controls_label">Activate POW</div>
+                <input type="text" id="control_activate_pow" data-category="game" class="controls_input">
+            </div>
+
+            <div class="controls_item">
+                <div class="controls_label">Hold</div>
+                <input type="text" id="control_hold" data-category="game" class="controls_input">
+            </div>
+
+            <div class="controls_item">
+                <div class="controls_label">Piece Picker<br>Next</div>
+                <input type="text" id="control_piece_picker_next" data-category="piece_picker" class="controls_input">
+            </div>
+
+            <div class="controls_item">
+                <div class="controls_label">Piece Picker<br>Previous</div>
+                <input type="text" id="control_piece_picker_previous" data-category="piece_picker" class="controls_input">
+            </div>
+
+            <div class="controls_item">
+                <div class="controls_label">Piece Picker<br>Select</div>
+                <input type="text" id="control_piece_picker_select" data-category="piece_picker" class="controls_input">
+            </div>
+
+            <div class="controls_item">
+                <div class="controls_label unselectable" id="controls_reset">Reset</div>
+            </div>
+        </div>
+    </script>
+
+    <script id="template_help" type="text/x-handlebars-template" class="template">
+        <div id="help_container">
+            <div class="help_item">
                 Levels increase by clearing lines. As levels increase, pieces fall faster, but scoring increases.
             </div>
 
-            <div class='help_item'>
+            <div class="help_item">
                 Clearing a line separates all pieces touching the line into their own block.
             </div>
 
-            <div class='help_item'>
+            <div class="help_item">
                 Activating a POW on the current piece separates all placed pices into blocks that are independent and loose when the piece is placed. This causes them to fall.
             </div>
 
-            <div class='help_item'>
+            <div class="help_item">
                 POWs are earned by clearing lines.
             </div>
 
-            <div class='help_item'>
+            <div class="help_item">
                 Clearing a certain amount of lines activates a piece picker to choose the next type of pieces to place.
             </div>
 
-            <div class='help_item'>
+            <div class="help_item">
                 After a certain amount of pieces are placed, a big piece appears.
             </div>
 
-            <div class='help_item'>
+            <div class="help_item">
                 Friends appear after a certain amount of lines are cleared. They affect properties like speed and score or give free POWs. They disappear after some pieces are placed.
             </div>
 
-            <div class='help_item'>
+            <div class="help_item">
                 Settings are highly configurable. Check Options, Controls, and Theme.
             </div>
 
-            <div class='unselectable' id='help_buttons'>
-                <div id='help_options'>Options</div>
-                <div id='help_controls'>Controls</div>
-                <div id='help_theme'>Theme</div>
+            <div class="unselectable" id="help_buttons">
+                <div id="help_options">Options</div>
+                <div id="help_controls">Controls</div>
+                <div id="help_theme">Theme</div>
             </div>
         </div>
     </script>
 
-    <script id='template_game_over' type='text/x-handlebars-template' class='template'>
-        <div id='game_over_container'>
-            <div id='game_over_level' class='game_over_big'></div>
-            <div id='game_over_score' class='game_over_big'></div>
-            <div id='game_over_time' class='game_over_big'></div>
-            <div id='game_over_pieces_placed' class='game_over_big'></div>
-            <div id='game_over_lines_cleared' class='game_over_big'></div>
-            <div id='game_over_max_combo' class='game_over_big'></div>
-            <div id='game_over_pows_earned' class='game_over_big'></div>
-            <div id='game_over_pows_used' class='game_over_big'></div>
+    <script id="template_game_over" type="text/x-handlebars-template" class="template">
+        <div id="game_over_container">
+            <div id="game_over_level" class="game_over_big"></div>
+            <div id="game_over_score" class="game_over_big"></div>
+            <div id="game_over_time" class="game_over_big"></div>
+            <div id="game_over_pieces_placed" class="game_over_big"></div>
+            <div id="game_over_lines_cleared" class="game_over_big"></div>
+            <div id="game_over_max_combo" class="game_over_big"></div>
+            <div id="game_over_pows_earned" class="game_over_big"></div>
+            <div id="game_over_pows_used" class="game_over_big"></div>
 
-            <div id='game_over_buttons'>
-                <div id='game_over_play_again' class='game_over_button action'>Play Again</div>
+            <div id="game_over_buttons">
+                <div id="game_over_play_again" class="game_over_button action">Play Again</div>
             </div>
         </div>
     </script>
 
-    <script id='template_texture_preview' type='text/x-handlebars-template' class='template'>
-        <div id='texture_preview_container'>
-            <div id='texture_preview_name'></div>
-            <div id='texture_preview_element'></div>
+    <script id="template_texture_preview" type="text/x-handlebars-template" class="template">
+        <div id="texture_preview_container">
+            <div id="texture_preview_name"></div>
+            <div id="texture_preview_element"></div>
 
-            <div id='texture_preview_buttons' class='unselectable'>
-                <div id='texture_preview_random' class='preview_button'>Random</div>
-                <div id='texture_preview_previous' class='preview_button'>Previous</div>
+            <div id="texture_preview_buttons" class="unselectable">
+                <div id="texture_preview_random" class="preview_button">Random</div>
+                <div id="texture_preview_previous" class="preview_button">Previous</div>
             </div>
         </div>
     </script>
 
-    <script id='template_theme' type='text/x-handlebars-template' class='template'>
-        <div id='theme_container'>
-            <div class='theme_item'>
-                <div class='theme_label'>Stick</div>
-                <input type='color' class='theme_color' id='theme_color_stick'>
-                <div class='theme_element' id='theme_element_stick'></div>
+    <script id="template_theme" type="text/x-handlebars-template" class="template">
+        <div id="theme_container">
+            <div class="theme_item">
+                <div class="theme_label">Stick</div>
+                <input type="color" class="theme_color" id="theme_color_stick">
+                <div class="theme_element" id="theme_element_stick"></div>
             </div>
 
-            <div class='theme_item'>
-                <div class='theme_label'>Periscope Right</div>
-                <input type='color' class='theme_color' id='theme_color_periscope_right'>
-                <div class='theme_element' id='theme_element_periscope_right'></div>
+            <div class="theme_item">
+                <div class="theme_label">Periscope Right</div>
+                <input type="color" class="theme_color" id="theme_color_periscope_right">
+                <div class="theme_element" id="theme_element_periscope_right"></div>
             </div>
 
-            <div class='theme_item'>
-                <div class='theme_label'>Periscope Left</div>
-                <input type='color' class='theme_color' id='theme_color_periscope_left'>
-                <div class='theme_element' id='theme_element_periscope_left'></div>
+            <div class="theme_item">
+                <div class="theme_label">Periscope Left</div>
+                <input type="color" class="theme_color" id="theme_color_periscope_left">
+                <div class="theme_element" id="theme_element_periscope_left"></div>
             </div>
 
-            <div class='theme_item'>
-                <div class='theme_label'>Dog Right</div>
-                <input type='color' class='theme_color' id='theme_color_dog_right'>
-                <div class='theme_element' id='theme_element_dog_right'></div>
+            <div class="theme_item">
+                <div class="theme_label">Dog Right</div>
+                <input type="color" class="theme_color" id="theme_color_dog_right">
+                <div class="theme_element" id="theme_element_dog_right"></div>
             </div>
 
-            <div class='theme_item'>
-                <div class='theme_label'>Dog Left</div>
-                <input type='color' class='theme_color' id='theme_color_dog_left'>
-                <div class='theme_element' id='theme_element_dog_left'></div>
+            <div class="theme_item">
+                <div class="theme_label">Dog Left</div>
+                <input type="color" class="theme_color" id="theme_color_dog_left">
+                <div class="theme_element" id="theme_element_dog_left"></div>
             </div>
 
-            <div class='theme_item'>
-                <div class='theme_label'>Square</div>
-                <input type='color' class='theme_color' id='theme_color_square'>
-                <div class='theme_element' id='theme_element_square'></div>
+            <div class="theme_item">
+                <div class="theme_label">Square</div>
+                <input type="color" class="theme_color" id="theme_color_square">
+                <div class="theme_element" id="theme_element_square"></div>
             </div>
 
-            <div class='theme_item'>
-                <div class='theme_label'>Tee</div>
-                <input type='color' class='theme_color' id='theme_color_tee'>
-                <div class='theme_element' id='theme_element_tee'></div>
+            <div class="theme_item">
+                <div class="theme_label">Tee</div>
+                <input type="color" class="theme_color" id="theme_color_tee">
+                <div class="theme_element" id="theme_element_tee"></div>
             </div>
 
-            <div class='theme_item'>
-                <div class='theme_label'>Independent</div>
-                <input type='color' class='theme_color' id='theme_color_independent'>
-                <div class='theme_element' id='theme_element_independent'></div>
+            <div class="theme_item">
+                <div class="theme_label">Independent</div>
+                <input type="color" class="theme_color" id="theme_color_independent">
+                <div class="theme_element" id="theme_element_independent"></div>
             </div>
 
-            <div class='theme_item'>
-                <div class='theme_label'>Gradient</div>
+            <div class="theme_item">
+                <div class="theme_label">Gradient</div>
 
-                <select id='theme_gradient'>
-                    <option value='0'>None</option>
-                    <option value='10'>10%</option>
-                    <option value='20'>20%</option>
-                    <option value='30'>30%</option>
-                    <option value='40'>40%</option>
-                    <option value='50'>50%</option>
-                    <option value='60'>60%</option>
-                    <option value='70'>70%</option>
-                    <option value='80'>80%</option>
-                    <option value='90'>90%</option>
-                    <option value='100'>100%</option>
+                <select id="theme_gradient">
+                    <option value="0">None</option>
+                    <option value="10">10%</option>
+                    <option value="20">20%</option>
+                    <option value="30">30%</option>
+                    <option value="40">40%</option>
+                    <option value="50">50%</option>
+                    <option value="60">60%</option>
+                    <option value="70">70%</option>
+                    <option value="80">80%</option>
+                    <option value="90">90%</option>
+                    <option value="100">100%</option>
                 </select>
             </div>
 
-            <div class='theme_item'>
-                <div class='theme_label'>Ghost<br>Transparency</div>
+            <div class="theme_item">
+                <div class="theme_label">Ghost<br>Transparency</div>
 
-                <select id='theme_ghost_transparency'>
-                    <option value='0'>None</option>
-                    <option value='10'>10%</option>
-                    <option value='20'>20%</option>
-                    <option value='30'>30%</option>
-                    <option value='40'>40%</option>
-                    <option value='50'>50%</option>
-                    <option value='60'>60%</option>
-                    <option value='70'>70%</option>
-                    <option value='80'>80%</option>
-                    <option value='90'>90%</option>
+                <select id="theme_ghost_transparency">
+                    <option value="0">None</option>
+                    <option value="10">10%</option>
+                    <option value="20">20%</option>
+                    <option value="30">30%</option>
+                    <option value="40">40%</option>
+                    <option value="50">50%</option>
+                    <option value="60">60%</option>
+                    <option value="70">70%</option>
+                    <option value="80">80%</option>
+                    <option value="90">90%</option>
                 </select>
             </div>
 
-            <div class='theme_item'>
-                <div class='theme_label'>Grid</div>
-                <input type='color' class='theme_color' id='theme_color_grid'>
+            <div class="theme_item">
+                <div class="theme_label">Grid</div>
+                <input type="color" class="theme_color" id="theme_color_grid">
             </div>
 
-            <div class='theme_item'>
-                <div class='theme_label'>Grid<br>Transparency</div>
+            <div class="theme_item">
+                <div class="theme_label">Grid<br>Transparency</div>
 
-                <select id='theme_grid_transparency'>
-                    <option value='0'>None</option>
-                    <option value='10'>10%</option>
-                    <option value='20'>20%</option>
-                    <option value='30'>30%</option>
-                    <option value='40'>40%</option>
-                    <option value='50'>50%</option>
-                    <option value='60'>60%</option>
-                    <option value='70'>70%</option>
-                    <option value='80'>80%</option>
-                    <option value='90'>90%</option>
-                    <option value='100'>100%</option>
+                <select id="theme_grid_transparency">
+                    <option value="0">None</option>
+                    <option value="10">10%</option>
+                    <option value="20">20%</option>
+                    <option value="30">30%</option>
+                    <option value="40">40%</option>
+                    <option value="50">50%</option>
+                    <option value="60">60%</option>
+                    <option value="70">70%</option>
+                    <option value="80">80%</option>
+                    <option value="90">90%</option>
+                    <option value="100">100%</option>
                 </select>
             </div>
 
-            <div class='theme_item'>
-                <div class='theme_label'>Grid Lines<br>Contrast</div>
+            <div class="theme_item">
+                <div class="theme_label">Grid Lines<br>Contrast</div>
 
-                <select id='theme_grid_lines_contrast'>
-                    <option value='0'>None</option>
-                    <option value='10'>10%</option>
-                    <option value='20'>20%</option>
-                    <option value='30'>30%</option>
-                    <option value='40'>40%</option>
-                    <option value='50'>50%</option>
-                    <option value='60'>60%</option>
-                    <option value='70'>70%</option>
-                    <option value='80'>80%</option>
-                    <option value='90'>90%</option>
-                    <option value='100'>100%</option>
+                <select id="theme_grid_lines_contrast">
+                    <option value="0">None</option>
+                    <option value="10">10%</option>
+                    <option value="20">20%</option>
+                    <option value="30">30%</option>
+                    <option value="40">40%</option>
+                    <option value="50">50%</option>
+                    <option value="60">60%</option>
+                    <option value="70">70%</option>
+                    <option value="80">80%</option>
+                    <option value="90">90%</option>
+                    <option value="100">100%</option>
                 </select>
             </div>
 
-            <div class='theme_item'>
-                <div class='theme_label'>Background<br>Transparency</div>
+            <div class="theme_item">
+                <div class="theme_label">Background<br>Transparency</div>
 
-                <select id='theme_background_transparency'>
-                    <option value='none'>None</option>
-                    <option value='small'>Small</option>
-                    <option value='big'>Big</option>
+                <select id="theme_background_transparency">
+                    <option value="none">None</option>
+                    <option value="small">Small</option>
+                    <option value="big">Big</option>
                 </select>
             </div>
 
-            <div class='theme_item'>
-                <div class='theme_label'>Body</div>
-                <input type='color' class='theme_color' id='theme_color_body'>
+            <div class="theme_item">
+                <div class="theme_label">Body</div>
+                <input type="color" class="theme_color" id="theme_color_body">
             </div>
 
-            <div class='theme_item'>
-                <div id='theme_reset' class='unselectable'>Reset</div>
+            <div class="theme_item">
+                <div id="theme_reset" class="unselectable">Reset</div>
             </div>
         </div>
     </script>
